@@ -1,2 +1,2 @@
 # EnjinExportTool
-Desktop program to connect to the Enjin API and export data.
+Desktop program for connecting to the Enjin API and export data for easy migration.
