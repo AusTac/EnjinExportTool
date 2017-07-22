@@ -84,7 +84,9 @@ namespace EnjinExportTool
                     !string.IsNullOrEmpty(inif.Read("Application", "tags_api_slug")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "site_id")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "email")) &&
-                    !string.IsNullOrEmpty(inif.Read("Application", "password")))
+                    !string.IsNullOrEmpty(inif.Read("Application", "password")) &&
+                    !string.IsNullOrEmpty(inif.Read("Application", "migration_folder_path")) &&
+                    Directory.Exists(inif.Read("Application", "migration_folder_path")))
                 {
 
                     //ok to launch
@@ -93,14 +95,19 @@ namespace EnjinExportTool
                 else
                 {
 
-                    
+                    SettingsWindow SettingsWindow = new SettingsWindow();
+                    SettingsWindow.Show();
+                    this.Close();
 
                 }
 
             }
             else
             {
-                
+
+                SettingsWindow SettingsWindow = new SettingsWindow();
+                SettingsWindow.Show();
+                this.Close();
 
             }
 
@@ -129,16 +136,18 @@ namespace EnjinExportTool
 
         private async void ClearMessages()
         {
-            
-            
+
+            loaderToolbar.Visibility = Visibility.Collapsed;
             await Task.Delay(5000);
             feedback.Text = "";
             feedback.ToolTip = "";
+
         }
 
         private void DoWork(object sender, DoWorkEventArgs e)
         {
 
+            
             Thread.Sleep(1200);
             string[] processState = new string[50];
             try
@@ -1703,8 +1712,8 @@ namespace EnjinExportTool
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs update)
         {
 
-            
-            
+
+            loaderToolbar.Visibility = Visibility.Collapsed;
             beginProcess.IsEnabled = true;
             cancelProcess.IsEnabled = false;
             settingsProcess.IsEnabled = true;
@@ -1741,6 +1750,7 @@ namespace EnjinExportTool
         private void beginProcess_Click(object sender, RoutedEventArgs e)
         {
 
+            loaderToolbar.Visibility = Visibility.Visible;
             ImageSlider();
             
             progress.Value = 0;
