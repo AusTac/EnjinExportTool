@@ -21,7 +21,7 @@ Please fork if required once support has discontinued and the Enjin API has chan
 
 # Using the Tool
 
-[*WIP*] Launch the application using the debug exe located in the  bin\Debug\ folder. Enter the required fields to be able to process suucessfully.
+Launch the application using the debug exe located in the  bin\Debug\ folder. Enter the required fields to be able to process successfully (*currently wont actually do anything*).
 
 # Screenshots
 
