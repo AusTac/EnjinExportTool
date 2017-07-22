@@ -12,6 +12,6 @@ Please fork if required once support has discontinued and the Enjin API has chan
 
 # Used Libraries
 
-MahApps UI - https://github.com/MahApps/MahApps.Metro
-Material Design UI for WPF - https://github.com/ButchersBoy/MaterialDesignInXamlToolkit
-Ookii Dialogs - https://www.nuget.org/packages/Ookii.Dialogs/
+- MahApps UI - https://github.com/MahApps/MahApps.Metro
+- Material Design UI for WPF - https://github.com/ButchersBoy/MaterialDesignInXamlToolkit
+- Ookii Dialogs - https://www.nuget.org/packages/Ookii.Dialogs/
