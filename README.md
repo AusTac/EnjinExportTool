@@ -19,6 +19,9 @@ Please fork if required once support has discontinued and the Enjin API has chan
 - XAML WPF
 - Visual Studio 2013
 
+# Using the Tool
+
+[*WIP*] Launch the application using the debug exe located in the  bin\Debug\ folder. Enter the required fields to be able to process suucessfully.
 
 # Screenshots
 
