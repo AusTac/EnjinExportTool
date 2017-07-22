@@ -10,7 +10,7 @@ Please fork if required once support has discontinued and the Enjin API has chan
 
 - C#
 - XAML WPF
-- Visual Studio
+- Visual Studio 2013
 
 
 # Screenshots
