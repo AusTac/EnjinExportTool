@@ -1,0 +1,104 @@
+﻿<controls:MetroWindow  
+                      x:Name="mainWindow"  
+                      x:Class="EnjinExportTool.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                      xmlns:system="clr-namespace:System;assembly=mscorlib"
+                      BorderThickness="0"
+                      Title="Enjin Export Tool"                   
+                      MaxHeight="290" 
+                      MaxWidth="550"
+                      MinHeight="290" 
+                      MinWidth="550"
+                      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+                      Background="{DynamicResource MaterialDesignPaper}"
+                      GlowBrush="{DynamicResource AccentColorDarkBrush}"
+                      FontFamily="{StaticResource DefaultFont}"
+                      WindowStartupLocation="CenterScreen" 
+                      SaveWindowPosition="True" 
+                      ShowSystemMenuOnRightClick="False" 
+                      TitleCaps="True" 
+                      TitleCharacterCasing="Upper">
+
+    <Window.Resources>
+        <BitmapImage x:Key="Image" UriSource="assets/images/slider/slider_image_1.jpg"/>
+
+
+    </Window.Resources>
+
+    <Grid>
+
+
+
+        <Grid x:Name="mainGrid">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="280" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Image x:Name="image" Source="{StaticResource Image}" Stretch="UniformToFill" >
+            </Image>
+
+            <StackPanel x:Name="progressUI" Orientation="Vertical" VerticalAlignment="Top" Height="25" Visibility="Collapsed" Grid.Row="1" Margin="0,-100,0,0">
+                <ProgressBar x:Name="progressIntermediate" IsIndeterminate="True" Height="5" VerticalAlignment="Top" Padding="25" Margin="10,10,10,10" Foreground="#FF007816" BorderBrush="Transparent" Background="Transparent" RenderTransformOrigin="0.5,0.5" >
+                    <ProgressBar.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-180"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </ProgressBar.RenderTransform>
+                </ProgressBar>
+                <ProgressBar x:Name="progress" IsIndeterminate="False" Height="5" VerticalAlignment="Top" Padding="25" Margin="10,-15,10,10" Background="Transparent" BorderBrush="Transparent" Value="0" Foreground="#FF007816" RenderTransformOrigin="0.5,0.5" >
+
+                </ProgressBar>
+            </StackPanel>
+
+
+            <Grid MinHeight="40" Grid.Row="2" Margin="0,-100,0,0" MinWidth="540" MaxWidth="540">
+
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="1">
+                    <TextBlock x:Name="feedback" Text="" Margin="10,0,0,0" TextTrimming="WordEllipsis" HorizontalAlignment="Stretch" VerticalAlignment="Center" Foreground="{DynamicResource HeaderBackgroundOpacityMask}" />
+                </StackPanel>
+
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,5,5" HorizontalAlignment="Left" Grid.Column="1">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Image x:Name="settingsProcess" Source="assets/images/grid.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="10" Height="10" Focusable="True" MouseDown="settingsProcess_MouseDown" Cursor="Hand" Opacity="0.9" ToolTip="Change application settings"/>
+                        <Button x:Name="beginProcess" Cursor="Hand" Margin="5,0" HorizontalAlignment="Right" Click="beginProcess_Click" BorderThickness="0" BorderBrush="#FF060606" Background="#FFFF0404" Foreground="White" >
+                            <TextBlock Text="Begin Export" RenderTransformOrigin="0.5,0.5" Foreground="#FF810202" >
+                            </TextBlock>
+                        </Button>
+                        <Button x:Name="cancelProcess" Cursor="Hand" Margin="5,0" HorizontalAlignment="Right" BorderThickness="0" BorderBrush="#FF060606" Background="#FFB8B8B8" Foreground="#FFB4B0B0" Click="cancelProcess_Click" IsEnabled="False" >
+                            <TextBlock Text="cancel" RenderTransformOrigin="0.5,0.5" Padding="0,0,6,0" Foreground="#FF555454" >
+
+                            </TextBlock>
+                        </Button>
+                        <Button x:Name="closeProcess" Cursor="Hand" Margin="5,0,0,0" HorizontalAlignment="Right" BorderThickness="0" BorderBrush="#FF060606" Background="#FF7C7C7C" Foreground="White" Click="closeProcess_Click" RenderTransformOrigin="0.5,0.5" ToolTip="Close the Application">
+                            <TextBlock Text="X" RenderTransformOrigin="0.5,0.5" />
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+
+            </Grid>
+
+        </Grid>
+
+    </Grid>
+</controls:MetroWindow>
