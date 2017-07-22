@@ -39,6 +39,7 @@ namespace EnjinExportTool
                     !string.IsNullOrEmpty(inif.Read("Application", "email")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "password"))  &&
                     !string.IsNullOrEmpty(inif.Read("Application", "migration_folder_path")) &&
+                    !string.IsNullOrEmpty(inif.Read("Application", "exportType")) &&
                     Directory.Exists(inif.Read("Application", "migration_folder_path")))
                 {
 
@@ -62,6 +63,24 @@ namespace EnjinExportTool
                     {
 
                         galleryData.IsChecked = false;
+
+                    }
+
+                    if (inif.Read("Application", "exportType") == "xml")
+                    {
+                        exportType.SelectedIndex = 0;
+
+                    }
+
+                    if (inif.Read("Application", "exportType") == "json")
+                    {
+                        exportType.SelectedIndex = 1;
+
+                    }
+
+                    if (inif.Read("Application", "exportType") == "csv")
+                    {
+                        exportType.SelectedIndex = 2;
 
                     }
 
@@ -165,6 +184,24 @@ namespace EnjinExportTool
             inif.Write("Application", "password", password.Password.ToString());
             inif.Write("Application", "migration_folder_path", migrationFolder.Text.ToString());
 
+            if (exportType.SelectedIndex == 0)
+            {
+                inif.Write("Application", "exportType", "xml");
+
+            }
+
+            if (exportType.SelectedIndex == 1)
+            {
+                inif.Write("Application", "exportType", "json");
+
+            }
+
+            if (exportType.SelectedIndex == 2)
+            {
+                inif.Write("Application", "exportType", "csv");
+
+            }
+
             if (forumData.IsChecked == true)
             {
 
@@ -207,6 +244,7 @@ namespace EnjinExportTool
                     !string.IsNullOrEmpty(inif.Read("Application", "email")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "password")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "migration_folder_path")) &&
+                    !string.IsNullOrEmpty(inif.Read("Application", "exportType")) &&
                     Directory.Exists(inif.Read("Application", "migration_folder_path")))
                 {
 
@@ -301,6 +339,21 @@ namespace EnjinExportTool
 
             }
 
+
+
+        }
+
+        private void historyGoBack_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            /*
+                * 
+                * Head back to MainWindow, close this one ...
+                * 
+            */
+
+            MainWindow MainWindow = new MainWindow();
+            MainWindow.Show();
+            this.Close();
 
 
         }

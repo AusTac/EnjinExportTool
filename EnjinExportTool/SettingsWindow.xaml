@@ -8,9 +8,9 @@
                       xmlns:system="clr-namespace:System;assembly=mscorlib"
                       BorderThickness="0"
                       Title="Enjin Export Tool - Settings"                   
-                      MaxHeight="450" 
+                      MaxHeight="520" 
                       MaxWidth="550"
-                      MinHeight="450" 
+                      MinHeight="520" 
                       MinWidth="550"
                       Background="{DynamicResource MaterialDesignPaper}"
                       GlowBrush="{DynamicResource AccentColorDarkBrush}"
@@ -23,7 +23,14 @@
     <Grid>
 
         <StackPanel x:Name="progressUI" Orientation="Vertical">
-            <Label Content="Application Settings" Padding="15" Background="#FFFF0404" Foreground="#FFFDFDFD" />
+            <Label Padding="15" Background="#FFFF0404" Foreground="#FFFDFDFD">
+                <StackPanel Orientation="Horizontal" >
+                    <StackPanel Orientation="Horizontal" MouseDown="historyGoBack_MouseDown" Cursor="Hand" >
+                        <materialDesign:PackIcon x:Name="historyGoBack" Kind="ArrowLeft" BorderThickness="0" />
+                    </StackPanel>
+                    <TextBlock Text="Application Settings" Margin="5,0,0,0"/>
+                </StackPanel>
+            </Label>
             <Grid Margin="0,0,0,0">
 
                 <Grid.ColumnDefinitions>
@@ -35,7 +42,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
-
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
 
@@ -106,7 +113,7 @@
                         <StackPanel Orientation="Vertical" Margin="10,0,10,10" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2" VerticalAlignment="Top">
                             <CheckBox x:Name="forumData" VerticalAlignment="Top" ToolTip="Process Forum Data" Cursor="Hand" IsChecked="True" Content="Include Forum Data" ClickMode="Press" Margin="0,0,10,5" HorizontalAlignment="Left" />
                             <CheckBox x:Name="galleryData" VerticalAlignment="Center" ToolTip="Process Gallery Data" Cursor="Hand" IsChecked="True" Content="Include Gallery Data" ClickMode="Press" Margin="0,0,10,0" HorizontalAlignment="Left" ></CheckBox>
-
+                       
                         </StackPanel>
 
 
@@ -151,6 +158,8 @@
                 <StackPanel Orientation="Vertical" Margin="10" Grid.Column="0" Grid.Row="3">
                     <Label Content="Directory" />
                 </StackPanel>
+                
+                
                 <StackPanel Orientation="Horizontal" Margin="10" Grid.Column="1" Grid.Row="3">
 
                     <Grid>
@@ -184,6 +193,41 @@
                             </StackPanel>
                         </Button>
                         <Label Content="Export &amp; Download Folder" Grid.Column="0" Grid.Row="1" Padding="1" Margin="0,5,0,10"/>
+
+
+                    </Grid>
+
+
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Height="1" Background="LightGray" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.Row="4"/>
+
+                <StackPanel Orientation="Vertical" Margin="10" Grid.Column="0" Grid.Row="4">
+                    <Label Content="Export Type" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10" Grid.Column="1" Grid.Row="4">
+
+                    <Grid>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="30" />
+
+                        </Grid.RowDefinitions>
+
+                        <ComboBox x:Name="exportType" Cursor="Hand" ToolTip="Select Data Processing Type" Grid.Column="0" Grid.ColumnSpan="1" Margin="0,0,10,0" >
+
+                            <ComboBoxItem x:Name="exportToXml" Cursor="Hand" ToolTip="Export as XML Type" IsSelected="True" Content="XML Exporting Type"></ComboBoxItem>
+                            <ComboBoxItem x:Name="exportToJson" Cursor="Hand" ToolTip="Export as JSON Type" Content="JSON Exporting Type"></ComboBoxItem>
+                            <ComboBoxItem x:Name="exportToCsv" Cursor="Hand" ToolTip="Export as CSV Type" Content="CSV Exporting Type"></ComboBoxItem>
+                            
+                        </ComboBox>
+
+                        <Label Content="Selected Export Type" Grid.Column="0" Grid.Row="1" Padding="1" Margin="0,5,0,10"/>
 
 
                     </Grid>
