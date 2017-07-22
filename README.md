@@ -6,6 +6,13 @@ The idea is to export all the galleries, images, catergories, threads and user c
 This project will only be developed and then maintained for the duration of the required use. 
 Please fork if required once support has discontinued and the Enjin API has changes made to the access & output.
 
+# Requirements
+
+- .Net 4.5 Framework
+- Enjin API Enabled
+- Enjin Site ID
+- Enjin Admin User Login
+
 # Built With
 
 - C#
