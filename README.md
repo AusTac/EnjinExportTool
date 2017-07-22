@@ -1,4 +1,4 @@
-# EnjinExportTool
+# Enjin Export Tool
 Desktop program for connecting to the Enjin API and export data for easy migration. 
 
 This project will only be developed and then maintained for the duration of the required use. 
