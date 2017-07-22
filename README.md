@@ -1,4 +1,4 @@
-# Enjin Export Tool
+# Enjin Export Tool - 0.0.0.1 ALPHA
 Desktop program for connecting to the Enjin API and export data for easy migration.
 
 The idea is to export all the galleries, images, catergories, threads and user content from the enjin API based on site ID into the migration folder for uploading and then executing the included php script to import into wordpress for admin to then match with users in wordpress.
