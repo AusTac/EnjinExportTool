@@ -12,7 +12,6 @@
                       MaxWidth="550"
                       MinHeight="290" 
                       MinWidth="550"
-                      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
                       Background="{DynamicResource MaterialDesignPaper}"
                       GlowBrush="{DynamicResource AccentColorDarkBrush}"
                       FontFamily="{StaticResource DefaultFont}"
@@ -24,8 +23,6 @@
 
     <Window.Resources>
         <BitmapImage x:Key="Image" UriSource="assets/images/slider/slider_image_1.jpg"/>
-
-
     </Window.Resources>
 
     <Grid>
@@ -72,7 +69,7 @@
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="320" />
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
@@ -95,10 +92,16 @@
 
                 <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,5,5" HorizontalAlignment="Left" Grid.Column="1">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Image x:Name="settingsProcess" Source="assets/images/grid.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="10" Height="10" Focusable="True" MouseDown="settingsProcess_MouseDown" Cursor="Hand" Opacity="0.9" ToolTip="Change application settings"/>
+                        <materialDesign:PackIcon Kind="Settings" x:Name="settingsProcess" HorizontalAlignment="Left" VerticalAlignment="Center" Focusable="True" MouseDown="settingsProcess_MouseDown" Cursor="Hand" ToolTip="Change application settings" Margin="0,0,5,0">
+                            <materialDesign:PackIcon.Foreground>
+                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                            </materialDesign:PackIcon.Foreground>
+                        </materialDesign:PackIcon>
                         <Button x:Name="beginProcess" Cursor="Hand" Margin="5,0" HorizontalAlignment="Right" Click="beginProcess_Click" BorderThickness="0" BorderBrush="#FF060606" Background="#FFFF0404" Foreground="White" >
-                            <TextBlock Text="Begin Export" RenderTransformOrigin="0.5,0.5" Foreground="#FF810202" >
-                            </TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Flask" Margin="0,0,3,0" Foreground="{DynamicResource IdealForegroundColorBrush}" />
+                                <TextBlock Text="Begin Process" Foreground="{DynamicResource IdealForegroundColorBrush}" />
+                            </StackPanel>
                         </Button>
                         <Button x:Name="cancelProcess" Cursor="Hand" Margin="5,0" HorizontalAlignment="Right" BorderThickness="0" BorderBrush="#FF060606" Background="#FFB8B8B8" Foreground="#FFB4B0B0" Click="cancelProcess_Click" IsEnabled="False" >
                             <TextBlock Text="cancel" RenderTransformOrigin="0.5,0.5" Padding="0,0,6,0" Foreground="#FF555454" >
@@ -111,7 +114,7 @@
                     </StackPanel>
                 </StackPanel>
 
-                
+
 
             </Grid>
 

@@ -189,6 +189,8 @@ namespace EnjinExportTool
                 string password = "";
                 string session_id = "";
 
+                string migration_folder_path = "";
+
                 if (System.IO.File.Exists(ApplicationPath + @"\Settings.ini"))
                 {
                     if (!string.IsNullOrEmpty(inif.Read("Application", "base_url")) &&
@@ -196,7 +198,9 @@ namespace EnjinExportTool
                         !string.IsNullOrEmpty(inif.Read("Application", "tags_api_slug")) &&
                         !string.IsNullOrEmpty(inif.Read("Application", "site_id")) &&
                         !string.IsNullOrEmpty(inif.Read("Application", "email")) &&
-                        !string.IsNullOrEmpty(inif.Read("Application", "password")))
+                        !string.IsNullOrEmpty(inif.Read("Application", "password")) &&
+                        !string.IsNullOrEmpty(inif.Read("Application", "migration_folder_path")) &&
+                        Directory.Exists(inif.Read("Application", "migration_folder_path")))
                     {
 
                         base_enjin_url = inif.Read("Application", "base_url");
@@ -206,6 +210,7 @@ namespace EnjinExportTool
                         email = inif.Read("Application", "email");
                         password = inif.Read("Application", "password");
                         session_id = inif.Read("Application", "session_id");
+                        migration_folder_path = inif.Read("Application", "migration_folder_path");
 
                     }
                     
@@ -266,68 +271,68 @@ namespace EnjinExportTool
                         if(session_id == null || session_id == "") {
                    
                             #region new session
-                    //login to Enjin API
-                    HttpWebRequest getRequest = (HttpWebRequest)WebRequest.Create(base_enjin_url + base_api_slug);
-                    getRequest.CookieContainer = new CookieContainer();
-                    getRequest.CookieContainer.Add(cookies);
-                    getRequest.Method = WebRequestMethods.Http.Post;
-                    getRequest.UserAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.121 Safari/535.2";
-                    getRequest.AllowWriteStreamBuffering = true;
-                    getRequest.ProtocolVersion = HttpVersion.Version11;
-                    getRequest.AllowAutoRedirect = true;
-                    getRequest.ContentType = "application/json";
-                    getRequest.KeepAlive = true;
-                    cookies = response.Cookies;
-                    byte[] byteArray = Encoding.ASCII.GetBytes(loginJson.ToString());
-                    getRequest.ContentLength = loginJson.ToString().Length;
-                    Stream newStream = getRequest.GetRequestStream();
-                    newStream.Write(byteArray, 0, loginJson.ToString().Length); 
-                    newStream.Close();
+                            //login to Enjin API
+                            HttpWebRequest getRequest = (HttpWebRequest)WebRequest.Create(base_enjin_url + base_api_slug);
+                            getRequest.CookieContainer = new CookieContainer();
+                            getRequest.CookieContainer.Add(cookies);
+                            getRequest.Method = WebRequestMethods.Http.Post;
+                            getRequest.UserAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.121 Safari/535.2";
+                            getRequest.AllowWriteStreamBuffering = true;
+                            getRequest.ProtocolVersion = HttpVersion.Version11;
+                            getRequest.AllowAutoRedirect = true;
+                            getRequest.ContentType = "application/json";
+                            getRequest.KeepAlive = true;
+                            cookies = response.Cookies;
+                            byte[] byteArray = Encoding.ASCII.GetBytes(loginJson.ToString());
+                            getRequest.ContentLength = loginJson.ToString().Length;
+                            Stream newStream = getRequest.GetRequestStream();
+                            newStream.Write(byteArray, 0, loginJson.ToString().Length); 
+                            newStream.Close();
 
-                    HttpWebResponse getResponse = (HttpWebResponse)getRequest.GetResponse();
-                    using (StreamReader sr = new StreamReader(getResponse.GetResponseStream()))
-                    {
+                            HttpWebResponse getResponse = (HttpWebResponse)getRequest.GetResponse();
+                            using (StreamReader sr = new StreamReader(getResponse.GetResponseStream()))
+                            {
 
-                        processState[0] = "event";
-                        processState[1] = "New Authenticating ...";
-                        processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
-                        Thread.Sleep(1200);
+                                processState[0] = "event";
+                                processState[1] = "New Authenticating ...";
+                                processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                Thread.Sleep(1200);
 
-                        backgroundWorker.ReportProgress(10, processState);
+                                backgroundWorker.ReportProgress(10, processState);
 
-                        responseJSON = sr.ReadToEnd();
+                                responseJSON = sr.ReadToEnd();
 
-                    }
+                            }
 
-                    if (responseJSON == null || responseJSON == "")
-                    {
+                            if (responseJSON == null || responseJSON == "")
+                            {
 
-                        #region error ui
-                        processState[0] = "error";
-                        processState[1] = "Authenticating failed";
-                        processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
-                        backgroundWorker.ReportProgress(100, processState);
+                                #region error ui
+                                processState[0] = "error";
+                                processState[1] = "Authenticating failed";
+                                processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                backgroundWorker.ReportProgress(100, processState);
 
-                        backgroundWorker.CancelAsync();
-                        backgroundWorker.Dispose();
+                                backgroundWorker.CancelAsync();
+                                backgroundWorker.Dispose();
 
-                        if (backgroundWorker.CancellationPending == true)
-                        {
-                            e.Cancel = true;
-                            return;
-                        }
+                                if (backgroundWorker.CancellationPending == true)
+                                {
+                                    e.Cancel = true;
+                                    return;
+                                }
 
-                        #endregion error ui
+                                #endregion error ui
 
-                    }
-                    else
-                    {
+                            }
+                            else
+                            {
 
-                        if (backgroundWorker.CancellationPending == true)
-                        {
-                            e.Cancel = true;
-                            return;
-                        }
+                                if (backgroundWorker.CancellationPending == true)
+                                {
+                                    e.Cancel = true;
+                                    return;
+                                }
 
 
 
@@ -1177,7 +1182,7 @@ namespace EnjinExportTool
                                                                                             is_thread
                                                                                             0
                                                                                             post_content
-                                                                                            i think they updated the update so that is why the server is down again. Am i right?... im just guessing
+                                                                                            post content will be rendered here this is just sample text
                                                                                             post_time
                                                                                             1298698176
                                                                                             post_votes
@@ -1213,13 +1218,13 @@ namespace EnjinExportTool
                                                                                             category_name
                                                                                             Server
                                                                                             domain
-                                                                                            http://www.mcoblivion.com
+                                                                                            http://www.theurl.com
                                                                                             page
                                                                                             forum
                                                                                             url
-                                                                                            http://www.mcoblivion.com/forum/m/1148623/viewthread/574659/post/2735183#post_2735183
+                                                                                            http://www.theurl.com/
                                                                                             */
-                                                                                            
+
 
                                                                                             #endregion sample result
 
@@ -1368,7 +1373,7 @@ namespace EnjinExportTool
                                                                                                 post_time !=null)
                                                                                             {
 
-                                                                                                //add to model
+                                                                                                //add to model that we will do a foreach on later when writing to data file format ie: .csv or .json or even inside a php execute script
                                                                                                 if (backgroundWorker.CancellationPending == true)
                                                                                                 {
                                                                                                     e.Cancel = true;
@@ -1379,12 +1384,12 @@ namespace EnjinExportTool
                                                                                             }else{
 
                                                                                                 //report missed post item
-
+                                                                                                //show UI update error message - NON FATAL
                                                                                             }
                                                                                             }else{
 
                                                                                                 //non site id match
-
+                                                                                                //do UI update error message - NON FATAL
                                                                                             }
 
                                                                                             Console.WriteLine("------------- end post item --------------");
@@ -1403,6 +1408,7 @@ namespace EnjinExportTool
                                                                                     //error parse string to int ...
                                                                                     Console.WriteLine(error);
                                                                                     Console.WriteLine("End User Validated on Site " + communitiesNode.Name.ToString() + " but cant determine pages");
+                                                                                    //do UI update error message - NON FATAL
                                                                                 }
                                                                             
 
@@ -1414,22 +1420,13 @@ namespace EnjinExportTool
                                                                         {
 
                                                                             Console.WriteLine("End User Validated on Site " + communitiesNode.Name.ToString() + " but cant determine pages");
-
+                                                                            //do UI update error message - NON FATAL
 
                                                                         }
-
-
-
-
                                                                     }
-
                                                                 }
-
                                                             }
-                                                        }
-
-                                                        
-
+                                                        }                                                        
                                                     }
 
                                                 }
@@ -1455,7 +1452,7 @@ namespace EnjinExportTool
                                             {
 
                                                 //missed user exporting .. not good really.
-
+                                                //do UI update error message - FATAL
                                             }
 
                                             
