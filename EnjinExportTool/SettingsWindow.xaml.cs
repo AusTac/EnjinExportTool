@@ -66,6 +66,13 @@ namespace EnjinExportTool
 
                     }
 
+                    if (inif.Read("Application", "backupApiData") == "true")
+                    {
+
+                        dlData.IsChecked = true;
+
+                    }
+
                     if (inif.Read("Application", "exportType") == "xml")
                     {
                         exportType.SelectedIndex = 0;
@@ -228,6 +235,12 @@ namespace EnjinExportTool
 
             }
 
+            if (dlData.IsChecked == true)
+            {
+
+                inif.Write("Application", "backupApiData", "true");
+
+            }
 
             /*
              * 

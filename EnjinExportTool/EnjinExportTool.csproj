@@ -99,11 +99,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="INIFile.cs" />
-    <Compile Include="PostModel.cs" />
+    <Compile Include="Models\ExportModels.cs" />
     <Compile Include="SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserModel.cs" />
+    <Compile Include="Models\EnjinAPIUserModels.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

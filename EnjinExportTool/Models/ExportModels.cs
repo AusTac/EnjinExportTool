@@ -7,12 +7,60 @@ using System.Threading.Tasks;
 
 namespace EnjinExportTool
 {
-    class PostModel
+    class ExportModels
     {
 
+        //Json Response
+        //forum_id 
+        //forum_preset_id 
+        //forum_name                                                                                                
+        //News & Announcements
 
-        public class Post
+
+        public class ForumModel
         {
+
+            public string forum_id { get; set; }
+            public string forum_preset_id { get; set; }
+            public string forum_name { get; set; }
+            public string sync_time { get; set; }
+        }
+
+
+        //Json Response
+        //catergory_id
+        //category_name
+        //Server
+
+        public class CatergoryModel
+        {
+
+            public string catergory_id { get; set; }
+            public string category_name { get; set; }
+            public string sync_time { get; set; }
+
+        }
+
+
+        //Json Response
+        //thread_id
+        //thread_subject
+        //Server
+
+        public class ThreadModel
+        {
+
+            public string thread_id { get; set; }
+            public string thread_subject { get; set; }
+            public string sync_time { get; set; }
+
+        }
+
+
+
+        public class PostModel
+        {
+            
             public string preset_id { get; set; }
             public string is_thread { get; set; }
             public string post_content { get; set; }
@@ -36,29 +84,11 @@ namespace EnjinExportTool
             public string domain { get; set; }
             public string page { get; set; }
             public string url { get; set; }
+            public string sync_time { get; set; }
+
         }
-
-        public class Result
-        {
-            
-            public int page { get; set; }
-            public List<Post> posts { get; set; }
-            public int totalPosts { get; set; }
-            public int pages { get; set; }
-        }
-
-        public class RootObject
-        {
-            public Result result { get; set; }
-            public string id { get; set; }
-            public string jsonrpc { get; set; }
-        }
-
-
 
     }
-
-
 
 
 }

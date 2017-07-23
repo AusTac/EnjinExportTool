@@ -24,35 +24,7 @@ using System.Windows.Shapes;
 namespace EnjinExportTool
 {
 
-
-    public class PostItemModel
-    {
-        public string preset_id { get; set; }
-        public string is_thread { get; set; }
-        public string post_content { get; set; }
-        public string post_time { get; set; }
-        public string post_votes { get; set; }
-        public string post_id { get; set; }
-        public string total_posts { get; set; }
-        public string thread_id { get; set; }
-        public string thread_subject { get; set; }
-        public string forum_id { get; set; }
-        public string thread_user_id { get; set; }
-        public string enable_voting { get; set; }
-        public string site_id { get; set; }
-        public string name { get; set; }
-        public string forum_name { get; set; }
-        public string disable_voting { get; set; }
-        public string users_see_own_threads { get; set; }
-        public string forum_preset_id { get; set; }
-        public string category_id { get; set; }
-        public string category_name { get; set; }
-        public string domain { get; set; }
-        public string page { get; set; }
-        public string url { get; set; }
-    }
-    
-    
+     
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -192,6 +164,11 @@ namespace EnjinExportTool
 
                 string migration_folder_path = "";
                 string migration_folder_path_root = "";
+                string migration_folder_json_path = "";
+                string migration_folder_images_path = "";
+                string migration_folder_xml_path = "";
+                string migration_folder_csv_path = "";
+                string migration_folder_temp_path = "";
                 string exportType = "";
 
                 if (System.IO.File.Exists(ApplicationPath + @"\Settings.ini"))
@@ -219,10 +196,25 @@ namespace EnjinExportTool
 
                         //internal migration folder
 
-                        migration_folder_path_root = migration_folder_path + @"\EnjinExportTool\migration\" + string.Format("{0:yyyy-MM-dd}", DateTime.Now) + @"\";
+                        //base
+                        migration_folder_path_root = migration_folder_path + @"\EnjinExportTool\migration\latest\";
                         if (!Directory.Exists(migration_folder_path_root)) Directory.CreateDirectory(migration_folder_path_root);
 
+                        //json
+                        migration_folder_json_path = migration_folder_path_root + @"\data\json\";
+                        if (!Directory.Exists(migration_folder_json_path)) Directory.CreateDirectory(migration_folder_json_path);
 
+                        //xml
+                        migration_folder_xml_path = migration_folder_path_root + @"\data\xml\";
+                        if (!Directory.Exists(migration_folder_xml_path)) Directory.CreateDirectory(migration_folder_xml_path);
+
+                        //csv
+                        migration_folder_csv_path = migration_folder_path_root + @"\data\csv\";
+                        if (!Directory.Exists(migration_folder_csv_path)) Directory.CreateDirectory(migration_folder_csv_path);
+
+                        //media/images
+                        migration_folder_images_path = migration_folder_path_root + @"\media\images\";
+                        if (!Directory.Exists(migration_folder_images_path)) Directory.CreateDirectory(migration_folder_images_path);
 
 
 
@@ -238,12 +230,16 @@ namespace EnjinExportTool
                 try
                 {
 
-                    if(Directory.Exists(migration_folder_path_root)) {
-
+                    if(Directory.Exists(migration_folder_path_root) &&
+                        Directory.Exists(migration_folder_json_path) &&                        
+                        Directory.Exists(migration_folder_xml_path) &&
+                        Directory.Exists(migration_folder_csv_path) &&
+                        Directory.Exists(migration_folder_images_path))
+                    {
 
                         #region try login
-                    try
-                    {
+                        try
+                        {
 
                         if (backgroundWorker.CancellationPending == true)
                         {
@@ -804,6 +800,16 @@ namespace EnjinExportTool
                                 file.Close();
 
 
+                                if (inif.Read("Application", "backupApiData") == "true")
+                                {
+
+                                    System.IO.StreamWriter users_api_json_file = new System.IO.StreamWriter(migration_folder_json_path + "users.json");
+                                    users_api_json_file.WriteLine(_usersJson);
+                                    users_api_json_file.Close();
+
+                                }
+
+
                                 JObject results = JObject.Parse(_usersJson);
 
                                 string usersCount = results["users"].Count().ToString();
@@ -846,7 +852,7 @@ namespace EnjinExportTool
                                 {
 
                                     //int PostItemModel List
-                                    List<PostItemModel> PostItemModelList = new List<PostItemModel>();
+                                    List<EnjinExportTool.ExportModels.PostModel> PostItemModelList = new List<EnjinExportTool.ExportModels.PostModel>();
 
                                     #region foreach user
                                     foreach (var result in results["users"])
@@ -950,6 +956,16 @@ namespace EnjinExportTool
                                                         fileUserJsonPosts.WriteLine(userPostsJsonRequestJSON);
                                                         fileUserJsonPosts.Close();
 
+                                                        if (inif.Read("Application", "backupApiData") == "true")
+                                                        {                                                            
+
+                                                            System.IO.StreamWriter users_api_json_user_file = new System.IO.StreamWriter(migration_folder_json_path + prop.Name + ".json");
+                                                            users_api_json_user_file.WriteLine(userPostsJsonRequestJSON);
+                                                            users_api_json_user_file.Close();
+
+                                                        }
+
+
                                                         if (backgroundWorker.CancellationPending == true)
                                                         {
                                                             e.Cancel = true;
@@ -1048,18 +1064,18 @@ namespace EnjinExportTool
                                                                                                     #region do userPostsPageJson work
 
                                                                                                     /*
-                                                                                            {
-                                                                                                     "id":"123456789",
-                                                                                                     "jsonrpc":"2.0",
-                                                                                                     "method":"Profile.getPosts",
-                                                                                                     "params" : {
-                                                                                                         "user_id": "6468909",
-                                                                                                         "session_id" : "ii4fgcemf2ikkdemv2f8v5tuh4",
-                                                                                                         "page" : "3"
-                                                                                                     }
+                                                                                                    {
+                                                                                                             "id":"123456789",
+                                                                                                             "jsonrpc":"2.0",
+                                                                                                             "method":"Profile.getPosts",
+                                                                                                             "params" : {
+                                                                                                                 "user_id": "",
+                                                                                                                 "session_id" : "",
+                                                                                                                 "page" : "3"
+                                                                                                             }
 
-                                                                                            }
-                                                                                            */
+                                                                                                    }
+                                                                                                    */
                                                                                                     if (backgroundWorker.CancellationPending == true)
                                                                                                     {
                                                                                                         e.Cancel = true;
@@ -1102,6 +1118,15 @@ namespace EnjinExportTool
                                                                                                         userPostsPageJsonRequestJSONString = userPostsPageRequestReader.ReadToEnd();
                                                                                                         Console.WriteLine(userPostsPageJsonRequestJSONString);
                                                                                                         userPostsPageRequestReader.Close();
+
+                                                                                                        if (inif.Read("Application", "backupApiData") == "true")
+                                                                                                        {
+
+                                                                                                            System.IO.StreamWriter users_api_json_user_page_file = new System.IO.StreamWriter(migration_folder_json_path + prop.Name + "_page_" + i.ToString() + ".json");
+                                                                                                            users_api_json_user_page_file.WriteLine(userPostsPageJsonRequestJSONString);
+                                                                                                            users_api_json_user_page_file.Close();
+
+                                                                                                        }
 
                                                                                                     }
 
@@ -1420,6 +1445,39 @@ namespace EnjinExportTool
                                                                                                             return;
                                                                                                         }
 
+                                                                                                        PostItemModelList.Add(new EnjinExportTool.ExportModels.PostModel()
+                                                                                                        {
+
+                                                                                                            preset_id = preset_id,
+                                                                                                            is_thread = is_thread,
+                                                                                                            post_content = post_content,
+                                                                                                            post_time = post_time,
+                                                                                                            post_votes = post_votes,
+                                                                                                            post_id = post_id,
+                                                                                                            total_posts = total_posts,
+                                                                                                            thread_id = thread_id,
+                                                                                                            thread_subject = thread_subject,
+                                                                                                            forum_id = forum_id,
+                                                                                                            thread_user_id = thread_user_id,
+                                                                                                            enable_voting = enable_voting,
+                                                                                                            site_id = _site_id,
+                                                                                                            name = name,
+                                                                                                            forum_name = forum_name,
+                                                                                                            disable_voting = disable_voting,
+                                                                                                            users_see_own_threads = users_see_own_threads,
+                                                                                                            forum_preset_id = forum_preset_id,
+                                                                                                            category_id = category_id,
+                                                                                                            category_name = category_name,
+                                                                                                            domain = domain,
+                                                                                                            page = page,
+                                                                                                            url = url
+
+                                                                                                        });
+
+
+                                                                                                        //add to forum model after id checks
+                                                                                                        //add to catergory model after id checks
+                                                                                                        //add to thread model after id checks
 
                                                                                                     }
                                                                                                     else

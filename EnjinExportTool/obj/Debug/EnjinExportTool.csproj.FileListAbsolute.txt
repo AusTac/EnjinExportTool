@@ -36,8 +36,6 @@ I:\Extensions\Under Dev\ExternalProjects\[AusTac] Website\EnjinExportTool\EnjinE
 I:\Extensions\Under Dev\ExternalProjects\[AusTac] Website\EnjinExportTool\EnjinExport\EnjinExportTool\EnjinExportTool\bin\Debug\Ookii.Dialogs.Wpf.xml
 I:\Extensions\Under Dev\ExternalProjects\[AusTac] Website\EnjinExportTool\EnjinExport\EnjinExportTool\EnjinExportTool\obj\Debug\EnjinExportTool.csprojResolveAssemblyReference.cache
 I:\Extensions\Under Dev\ExternalProjects\EnjinExportTool\EnjinExportTool\bin\Debug\EnjinExportTool.exe.config
-I:\Extensions\Under Dev\ExternalProjects\EnjinExportTool\EnjinExportTool\obj\Debug\EnjinExportTool.exe
-I:\Extensions\Under Dev\ExternalProjects\EnjinExportTool\EnjinExportTool\obj\Debug\EnjinExportTool.pdb
 I:\Extensions\Under Dev\ExternalProjects\EnjinExportTool\EnjinExportTool\bin\Debug\EnjinExportTool.exe
 I:\Extensions\Under Dev\ExternalProjects\EnjinExportTool\EnjinExportTool\bin\Debug\EnjinExportTool.pdb
 I:\Extensions\Under Dev\ExternalProjects\EnjinExportTool\EnjinExportTool\bin\Debug\HtmlAgilityPack.dll
@@ -72,3 +70,5 @@ I:\Extensions\Under Dev\ExternalProjects\EnjinExportTool\EnjinExportTool\obj\Deb
 I:\Extensions\Under Dev\ExternalProjects\EnjinExportTool\EnjinExportTool\obj\Debug\EnjinExportTool.g.resources
 I:\Extensions\Under Dev\ExternalProjects\EnjinExportTool\EnjinExportTool\obj\Debug\EnjinExportTool.Properties.Resources.resources
 I:\Extensions\Under Dev\ExternalProjects\EnjinExportTool\EnjinExportTool\obj\Debug\EnjinExportTool.csproj.GenerateResource.Cache
+I:\Extensions\Under Dev\ExternalProjects\EnjinExportTool\EnjinExportTool\obj\Debug\EnjinExportTool.exe
+I:\Extensions\Under Dev\ExternalProjects\EnjinExportTool\EnjinExportTool\obj\Debug\EnjinExportTool.pdb

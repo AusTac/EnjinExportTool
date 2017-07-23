@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EnjinExportTool
 {
-    class UserModel
+    class EnjinAPIUserModels
     {
 
         public class JsonModel
