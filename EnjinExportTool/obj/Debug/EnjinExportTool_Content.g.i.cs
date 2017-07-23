@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/images/footershadow.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("phpscripts/wordpress.php")]
 
 

@@ -136,6 +136,9 @@ namespace EnjinExportTool
                 //string galleryProcessing = (string)arg[2];
 
 
+
+
+
                 string start_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
 
 
@@ -243,6 +246,117 @@ namespace EnjinExportTool
                         #region try login
                         try
                         {
+
+                            #region do execute script
+
+                            try
+                            {
+
+                                if (File.Exists(System.AppDomain.CurrentDomain.BaseDirectory.ToString() + @"phpscripts\wordpress.php"))
+                                {
+
+                                    string fileName = "wordpress.php";
+                                    string newfileName = "index.php";
+                                    string sourcePath = System.AppDomain.CurrentDomain.BaseDirectory.ToString() + @"phpscripts\";
+                                    string targetPath = migration_folder_path_root;
+
+                                    // Use Path class to manipulate file and directory paths.
+                                    string sourceFile = System.IO.Path.Combine(sourcePath, fileName);
+                                    string destFile = System.IO.Path.Combine(targetPath, newfileName);
+                                    System.IO.File.Copy(sourceFile, destFile, true);
+
+                                    if (File.Exists(migration_folder_path_root + "index.php"))
+                                    {
+
+                                        Thread.Sleep(3200);
+
+                                        processState[0] = "event";
+                                        processState[1] = "Validating execute script";
+                                        processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                        backgroundWorker.ReportProgress(25, processState);
+
+                                        if (backgroundWorker.CancellationPending == true)
+                                        {
+                                            e.Cancel = true;
+                                            return;
+                                        }
+
+
+                                    }
+                                    else
+                                    {
+
+                                        //Throw FATAL as we done have access to the new index.php
+                                        #region error ui
+                                        processState[0] = "error";
+                                        processState[1] = "Error validating execute script";
+                                        processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                        backgroundWorker.ReportProgress(100, processState);
+
+                                        backgroundWorker.CancelAsync();
+                                        backgroundWorker.Dispose();
+
+                                        if (backgroundWorker.CancellationPending == true)
+                                        {
+                                            e.Cancel = true;
+                                            return;
+                                        }
+
+                                        #endregion error ui
+
+                                    }
+
+                                }
+                                else
+                                {
+
+                                    Console.WriteLine("error here ---------------------------------------------->>>>>>>>>>>>>>>>>>>>>");
+                                    //Throw FATAL as we done have access to the php
+                                    #region error ui
+                                    processState[0] = "error";
+                                    processState[1] = "Error validating execute script";
+                                    processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                    backgroundWorker.ReportProgress(100, processState);
+
+                                    backgroundWorker.CancelAsync();
+                                    backgroundWorker.Dispose();
+
+                                    if (backgroundWorker.CancellationPending == true)
+                                    {
+                                        e.Cancel = true;
+                                        return;
+                                    }
+
+                                    #endregion error ui
+
+                                }
+
+                            }catch(Exception error) {
+
+                                Console.WriteLine(error);
+                                //Throw FATAL as we done have access to the php
+                                #region error ui
+                                processState[0] = "error";
+                                processState[1] = "Error validating execute script";
+                                processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                backgroundWorker.ReportProgress(100, processState);
+
+                                backgroundWorker.CancelAsync();
+                                backgroundWorker.Dispose();
+
+                                if (backgroundWorker.CancellationPending == true)
+                                {
+                                    e.Cancel = true;
+                                    return;
+                                }
+
+                                #endregion error ui
+
+
+                            }
+
+                            #endregion do execute script
+
 
                         if (backgroundWorker.CancellationPending == true)
                         {
@@ -3209,6 +3323,7 @@ namespace EnjinExportTool
                                         xmlWriter.WriteEndDocument();
                                         xmlWriter.Close();
 
+                                        
 
                                     }
 

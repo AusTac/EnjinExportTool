@@ -72,3 +72,5 @@ I:\Extensions\Under Dev\ExternalProjects\EnjinExportTool\EnjinExportTool\obj\Deb
 I:\Extensions\Under Dev\ExternalProjects\EnjinExportTool\EnjinExportTool\obj\Debug\EnjinExportTool.csproj.GenerateResource.Cache
 I:\Extensions\Under Dev\ExternalProjects\EnjinExportTool\EnjinExportTool\obj\Debug\EnjinExportTool.exe
 I:\Extensions\Under Dev\ExternalProjects\EnjinExportTool\EnjinExportTool\obj\Debug\EnjinExportTool.pdb
+I:\Extensions\Under Dev\ExternalProjects\EnjinExportTool\EnjinExportTool\bin\Debug\phpscripts\wordpress.php
+I:\Extensions\Under Dev\ExternalProjects\EnjinExportTool\EnjinExportTool\obj\Debug\EnjinExportTool_Content.g.cs
