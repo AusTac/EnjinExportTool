@@ -104,6 +104,7 @@ namespace EnjinExportTool
                 image.Source = new BitmapImage(new Uri(@"/assets/images/slider/slider_image_" + randomNumber + ".jpg", UriKind.Relative));
 
                 await Task.Delay(5500);
+
             }
         }
 
@@ -121,7 +122,8 @@ namespace EnjinExportTool
         {
 
             
-            Thread.Sleep(1200);
+            Thread.Sleep(200);
+
             string[] processState = new string[50];
             try
             {
@@ -852,9 +854,10 @@ namespace EnjinExportTool
                                 {
 
                                     //int Lists (data holders)
+                                    List<EnjinExportTool.ExportModels.UserModel> UserModelList = new List<EnjinExportTool.ExportModels.UserModel>();
                                     List<EnjinExportTool.ExportModels.PostModel> PostModelList = new List<EnjinExportTool.ExportModels.PostModel>();
                                     List<EnjinExportTool.ExportModels.ForumModel> ForumModelList = new List<EnjinExportTool.ExportModels.ForumModel>();
-                                    List<EnjinExportTool.ExportModels.CatergoryModel> CatergoryModelList = new List<EnjinExportTool.ExportModels.CatergoryModel>();
+                                    List<EnjinExportTool.ExportModels.CategoryModel> CategoryModelList = new List<EnjinExportTool.ExportModels.CategoryModel>();
                                     List<EnjinExportTool.ExportModels.ThreadModel> ThreadModelList = new List<EnjinExportTool.ExportModels.ThreadModel>();
                                     List<EnjinExportTool.ExportModels.ErrorEventModel> ErrorEventModelList = new List<EnjinExportTool.ExportModels.ErrorEventModel>();
 
@@ -908,6 +911,55 @@ namespace EnjinExportTool
                                                 {
 
                                                     #region do userPostsJson work
+
+
+                                                    #region add user model
+
+                                                    #region do UserModelList checks
+
+                                                    //add to UserModelList after id checks
+                                                    //user_id 
+                                                    //user_name
+
+                                                    if (UserModelList.Count() == 0 ||
+                                                        UserModelList.Count() == null)
+                                                    {
+                                                        //empty UserModelList, add to Model
+                                                        UserModelList.Add(new EnjinExportTool.ExportModels.UserModel()
+                                                        {
+                                                            user_id = prop.Name,
+                                                            user_name = userName,
+                                                            sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+                                                        });
+                                                    }
+                                                    else
+                                                    {
+
+                                                        //UserModelList has data, check forum id match so we can skip or add ...
+                                                        //this may get painful with large lists ...
+                                                        var matchingId = UserModelList.FirstOrDefault(_Item => (_Item.user_name == userName));
+                                                        if (matchingId != null)
+                                                        {
+                                                            //match, lets skip ...
+                                                        }
+                                                        else
+                                                        {
+
+                                                            //nothing found, lets add new forum top level category...
+                                                            UserModelList.Add(new EnjinExportTool.ExportModels.UserModel()
+                                                            {
+                                                                user_id = prop.Name,
+                                                                user_name = userName,
+                                                                sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+                                                            });
+
+                                                        }
+
+                                                    }
+
+                                                    #endregion do ForumModelList checks
+
+                                                    #endregion add user model
 
                                                     if (backgroundWorker.CancellationPending == true)
                                                     {
@@ -1474,14 +1526,171 @@ namespace EnjinExportTool
                                                                                                             category_name = category_name,
                                                                                                             domain = domain,
                                                                                                             page = page,
-                                                                                                            url = url
+                                                                                                            url = url,
+                                                                                                            sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
 
                                                                                                         });
 
+                                                                                                        if (backgroundWorker.CancellationPending == true)
+                                                                                                        {
+                                                                                                            e.Cancel = true;
+                                                                                                            return;
+                                                                                                        }
 
-                                                                                                        //add to forum model after id checks
-                                                                                                        //add to catergory model after id checks
-                                                                                                        //add to thread model after id checks
+                                                                                                        #region do ForumModelList checks
+
+                                                                                                        //add to ForumModelList after id checks
+                                                                                                        //forum_id 
+                                                                                                        //forum_preset_id 
+                                                                                                        //forum_name
+
+                                                                                                        if (ForumModelList.Count() == 0 ||
+                                                                                                            ForumModelList.Count() == null)
+                                                                                                        {
+                                                                                                            //empty ForumModelList, add to Model
+                                                                                                            ForumModelList.Add(new EnjinExportTool.ExportModels.ForumModel()
+                                                                                                            {
+                                                                                                                forum_id = forum_id,
+                                                                                                                forum_preset_id = forum_preset_id,
+                                                                                                                forum_name = forum_name,
+                                                                                                                sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+                                                                                                            });
+                                                                                                        }
+                                                                                                        else
+                                                                                                        {
+
+                                                                                                            //ForumModelList has data, check forum id match so we can skip or add ...
+                                                                                                            //this may get painful with large lists ...
+                                                                                                            var matchingId = ForumModelList.FirstOrDefault(_Item => (_Item.forum_id == forum_id));
+                                                                                                            if (matchingId != null)
+                                                                                                            {
+                                                                                                                //match, lets skip ...
+                                                                                                            }
+                                                                                                            else
+                                                                                                            {
+
+                                                                                                                //nothing found, lets add new forum top level category...
+                                                                                                                ForumModelList.Add(new EnjinExportTool.ExportModels.ForumModel()
+                                                                                                                {
+                                                                                                                    forum_id = forum_id,
+                                                                                                                    forum_preset_id = forum_preset_id,
+                                                                                                                    forum_name = forum_name,
+                                                                                                                    sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+                                                                                                                });
+
+                                                                                                            }
+
+                                                                                                        }
+
+                                                                                                        #endregion do ForumModelList checks
+
+                                                                                                        if (backgroundWorker.CancellationPending == true)
+                                                                                                        {
+                                                                                                            e.Cancel = true;
+                                                                                                            return;
+                                                                                                        }
+
+                                                                                                        #region do CategoryModel checks
+
+                                                                                                        //add to CategoryModel after id checks
+                                                                                                        //category_id
+                                                                                                        //category_name
+
+                                                                                                        if (CategoryModelList.Count() == 0 ||
+                                                                                                            CategoryModelList.Count() == null)
+                                                                                                        {
+                                                                                                            //empty CategoryModelList, add to Model
+                                                                                                            CategoryModelList.Add(new EnjinExportTool.ExportModels.CategoryModel()
+                                                                                                            {
+                                                                                                                category_id = category_id,
+                                                                                                                category_name = category_name,
+                                                                                                                sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+                                                                                                            });
+                                                                                                        }
+                                                                                                        else
+                                                                                                        {
+
+                                                                                                            //CategoryModel has data, check forum id match so we can skip or add ...
+                                                                                                            //this may get painful with large lists ...
+                                                                                                            var matchingId = CategoryModelList.FirstOrDefault(_Item => (_Item.category_id == category_id));
+                                                                                                            if (matchingId != null)
+                                                                                                            {
+                                                                                                                //match, lets skip ...
+                                                                                                            }
+                                                                                                            else
+                                                                                                            {
+
+                                                                                                                //nothing found, lets add new category...
+                                                                                                                CategoryModelList.Add(new EnjinExportTool.ExportModels.CategoryModel()
+                                                                                                                {
+                                                                                                                    category_id = category_id,
+                                                                                                                    category_name = category_name,
+                                                                                                                    sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+
+                                                                                                                });
+
+                                                                                                            }
+
+                                                                                                        }
+
+                                                                                                        #endregion do CategoryModel checks
+
+                                                                                                        if (backgroundWorker.CancellationPending == true)
+                                                                                                        {
+                                                                                                            e.Cancel = true;
+                                                                                                            return;
+                                                                                                        }
+
+                                                                                                        #region do ThreadModel checks
+
+                                                                                                        //add to ThreadModel after id checks
+                                                                                                        //thread_id
+                                                                                                        //thread_subject
+
+                                                                                                        if (ThreadModelList.Count() == 0 ||
+                                                                                                            ThreadModelList.Count() == null)
+                                                                                                        {
+                                                                                                            //empty ThreadModelList, add to Model
+                                                                                                            ThreadModelList.Add(new EnjinExportTool.ExportModels.ThreadModel()
+                                                                                                            {
+                                                                                                                thread_id = category_id,
+                                                                                                                thread_subject = thread_subject,
+                                                                                                                sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+                                                                                                            });
+                                                                                                        }
+                                                                                                        else
+                                                                                                        {
+
+                                                                                                            //ThreadModel has data, check forum id match so we can skip or add ...
+                                                                                                            //this may get painful with large lists ...
+                                                                                                            var matchingId = ThreadModelList.FirstOrDefault(_Item => (_Item.thread_id == thread_id));
+                                                                                                            if (matchingId != null)
+                                                                                                            {
+                                                                                                                //match, lets skip ...
+                                                                                                            }
+                                                                                                            else
+                                                                                                            {
+
+                                                                                                                //nothing found, lets add new category...
+                                                                                                                ThreadModelList.Add(new EnjinExportTool.ExportModels.ThreadModel()
+                                                                                                                {
+                                                                                                                    thread_id = thread_id,
+                                                                                                                    thread_subject = thread_subject,
+                                                                                                                    sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+
+                                                                                                                });
+
+                                                                                                            }
+
+                                                                                                        }
+
+                                                                                                        #endregion do ThreadModel checks
+
+                                                                                                        if (backgroundWorker.CancellationPending == true)
+                                                                                                        {
+                                                                                                            e.Cancel = true;
+                                                                                                            return;
+                                                                                                        }
 
                                                                                                     }
                                                                                                     else
@@ -1489,6 +1698,23 @@ namespace EnjinExportTool
 
                                                                                                         //report missed post item
                                                                                                         //show UI update error message - NON FATAL
+
+                                                                                                        if (backgroundWorker.CancellationPending == true)
+                                                                                                        {
+                                                                                                            e.Cancel = true;
+                                                                                                            return;
+                                                                                                        }
+
+                                                                                                        ErrorEventModelList.Add(new EnjinExportTool.ExportModels.ErrorEventModel()
+                                                                                                        {
+
+                                                                                                            id = "",
+                                                                                                            type = "post_params",
+                                                                                                            message = "Post item was not exported due to missing required data fields",
+                                                                                                            sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+
+                                                                                                        });
+
                                                                                                     }
                                                                                                 }
                                                                                                 else
@@ -1496,6 +1722,17 @@ namespace EnjinExportTool
 
                                                                                                     //non site id match
                                                                                                     //do UI update error message - NON FATAL
+
+                                                                                                    ErrorEventModelList.Add(new EnjinExportTool.ExportModels.ErrorEventModel()
+                                                                                                    {
+
+                                                                                                        id = "",
+                                                                                                        type = "site_id_mismatch",
+                                                                                                        message = "The Configured Site ID does not matched with the post items site id " + _site_id + "",
+                                                                                                        sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+
+                                                                                                    });
+
                                                                                                 }
 
                                                                                                 Console.WriteLine("------------- end post item --------------");
@@ -1515,6 +1752,9 @@ namespace EnjinExportTool
                                                                                         Console.WriteLine(error);
                                                                                         Console.WriteLine("End User Validated on Site " + communitiesNode.Name.ToString() + " but cant determine pages");
                                                                                         //do UI update error message - NON FATAL
+
+
+
                                                                                     }
 
 
@@ -1862,7 +2102,7 @@ namespace EnjinExportTool
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs update)
         {
 
-
+            progressUI.Visibility = Visibility.Collapsed;
             loaderToolbar.Visibility = Visibility.Collapsed;
             beginProcess.IsEnabled = true;
             cancelProcess.IsEnabled = false;

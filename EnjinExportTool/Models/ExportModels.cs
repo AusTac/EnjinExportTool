@@ -11,10 +11,23 @@ namespace EnjinExportTool
     {
 
         //Json Response
+        //user_id 
+        //user_name
+
+
+        public class UserModel
+        {
+
+            public string user_id { get; set; }
+            public string user_name { get; set; }
+            public string sync_time { get; set; }
+
+        }
+
+        //Json Response
         //forum_id 
         //forum_preset_id 
-        //forum_name                                                                                                
-        //News & Announcements
+        //forum_name
 
 
         public class ForumModel
@@ -29,14 +42,13 @@ namespace EnjinExportTool
 
 
         //Json Response
-        //catergory_id
+        //category_id
         //category_name
-        //Server
 
-        public class CatergoryModel
+        public class CategoryModel
         {
 
-            public string catergory_id { get; set; }
+            public string category_id { get; set; }
             public string category_name { get; set; }
             public string sync_time { get; set; }
 
@@ -46,7 +58,6 @@ namespace EnjinExportTool
         //Json Response
         //thread_id
         //thread_subject
-        //Server
 
         public class ThreadModel
         {
@@ -58,6 +69,8 @@ namespace EnjinExportTool
         }
 
 
+        //Json Response
+        //everything
 
         public class PostModel
         {
