@@ -32,7 +32,8 @@ namespace EnjinExportTool
 
         public class ForumModel
         {
-
+            
+            public string category_id { get; set; }
             public string forum_id { get; set; }
             public string forum_preset_id { get; set; }
             public string forum_name { get; set; }
@@ -62,6 +63,8 @@ namespace EnjinExportTool
         public class ThreadModel
         {
 
+            public string forum_id { get; set; }
+            public string category_id { get; set; }
             public string thread_id { get; set; }
             public string thread_subject { get; set; }
             public string sync_time { get; set; }

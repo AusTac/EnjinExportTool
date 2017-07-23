@@ -223,8 +223,8 @@
                         <ComboBox x:Name="exportType" Cursor="Hand" ToolTip="Select Data Processing Type" Grid.Column="0" Grid.ColumnSpan="1" Margin="0,0,10,0" >
 
                             <ComboBoxItem x:Name="exportToXml" Cursor="Hand" ToolTip="Export as XML Type" IsSelected="True" Content="XML Exporting Type"></ComboBoxItem>
-                            <ComboBoxItem x:Name="exportToJson" Cursor="Hand" ToolTip="Export as JSON Type" Content="JSON Exporting Type"></ComboBoxItem>
-                            <ComboBoxItem x:Name="exportToCsv" Cursor="Hand" ToolTip="Export as CSV Type" Content="CSV Exporting Type"></ComboBoxItem>
+                            <ComboBoxItem IsEnabled="False" x:Name="exportToJson" Cursor="Hand" ToolTip="Export as JSON Type" Content="JSON Exporting Type"></ComboBoxItem>
+                            <ComboBoxItem x:Name="exportToCsv" IsEnabled="False" Cursor="Hand" ToolTip="Export as CSV Type" Content="CSV Exporting Type"></ComboBoxItem>
                             
                         </ComboBox>
 

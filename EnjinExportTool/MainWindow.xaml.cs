@@ -20,6 +20,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml;
 
 namespace EnjinExportTool
 {
@@ -780,8 +781,6 @@ namespace EnjinExportTool
                         if (session_id != null)
                         {
 
-
-
                             #region do api work
 
                             if (backgroundWorker.CancellationPending == true)
@@ -1100,8 +1099,552 @@ namespace EnjinExportTool
                                                                                                         return;
                                                                                                     }
 
+                                                                                                    #region do work on first request using userPostsJsonRequestJSONArray
+                                                                                                    //already got the data to inside userPostsJsonRequestJSONArray
 
-                                                                                                    Console.WriteLine("Processing first page (" + i.ToString() + " of " + pagesCount.ToString() + ")");
+                                                                                                    int posts = 0;
+
+                                                                                                    if (backgroundWorker.CancellationPending == true)
+                                                                                                    {
+                                                                                                        e.Cancel = true;
+                                                                                                        return;
+                                                                                                    }
+
+                                                                                                    dynamic dynObj = JsonConvert.DeserializeObject(userPostsJsonRequestJSON.ToString());
+                                                                                                    dynamic dynObj2 = JsonConvert.DeserializeObject(dynObj.result.posts.ToString());
+                                                                                                    JArray jarray = JArray.Parse(dynObj2.ToString());
+
+                                                                                                    #region foreach
+
+                                                                                                    foreach (var item in jarray)
+                                                                                                    {
+
+
+                                                                                                        if (backgroundWorker.CancellationPending == true)
+                                                                                                        {
+                                                                                                            e.Cancel = true;
+                                                                                                            return;
+                                                                                                        }
+
+                                                                                                        #region result
+
+                                                                                                        /*
+                                                                                            
+                                                                                                    string preset_id = "";
+                                                                                                    string is_thread = "";
+                                                                                                    string post_content = "";
+                                                                                                    string post_time = "";
+                                                                                                    string post_votes = "";
+                                                                                                    string post_id = "";
+                                                                                                    string total_posts = "";
+                                                                                                    string thread_id = "";
+                                                                                                    string thread_subject = "";
+                                                                                                    string forum_id = "";
+                                                                                                    string thread_user_id = "";
+                                                                                                    string enable_voting = "";
+                                                                                                    string site_id = "";
+                                                                                                    string name = "";
+                                                                                                    string forum_name = "";
+                                                                                                    string disable_voting = "";
+                                                                                                    string users_see_own_threads = "";
+                                                                                                    string forum_preset_id = "";
+                                                                                                    string category_id = "";
+                                                                                                    string category_name = "";
+                                                                                                    string domain = "";
+                                                                                                    string page = "";
+                                                                                                    string url = "";
+                                                                                            
+                                                                                                    if(itemjObject.Key.ToString() == "preset_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "is_thread"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "post_content"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "post_time"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "post_votes"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "post_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "total_posts"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "thread_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "thread_subject"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "forum_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "thread_user_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "enable_voting"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "site_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "name"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "forum_name"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "disable_voting"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "users_see_own_threads"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "forum_preset_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "category_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "category_name"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "domain"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "page"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "url"){
+                                                                                                    }
+                                                                                            
+                                                                                                */
+
+                                                                                                        /* 
+                                                                                                                preset_id
+                                                                                                                1148623
+                                                                                                                is_thread
+                                                                                                                0
+                                                                                                                post_content
+                                                                                                                post content will be rendered here this is just sample text
+                                                                                                                post_time
+                                                                                                                1298698176
+                                                                                                                post_votes
+                                                                                                                0
+                                                                                                                post_id
+                                                                                                                2735183
+                                                                                                                total_posts
+                                                                                                                28
+                                                                                                                thread_id
+                                                                                                                574659
+                                                                                                                thread_subject
+                                                                                                                Server Is Offline
+                                                                                                                forum_id
+                                                                                                                316857
+                                                                                                                thread_user_id
+                                                                                                                201737
+                                                                                                                enable_voting
+                                                                                                                1
+                                                                                                                site_id
+                                                                                                                55483
+                                                                                                                name
+                                                                                                                Minecraft Oblivion
+                                                                                                                forum_name
+                                                                                                                News & Announcements
+                                                                                                                disable_voting
+                                                                                                                0
+                                                                                                                users_see_own_threads
+                                                                                                                0
+                                                                                                                forum_preset_id
+                                                                                                                1148623
+                                                                                                                category_id
+                                                                                                                132280
+                                                                                                                category_name
+                                                                                                                Server
+                                                                                                                domain
+                                                                                                                http://www.theurl.com
+                                                                                                                page
+                                                                                                                forum
+                                                                                                                url
+                                                                                                                http://www.theurl.com/
+                                                                                                        */
+
+
+                                                                                                        #endregion  result
+
+                                                                                                        string preset_id = "";
+                                                                                                        string is_thread = "";
+                                                                                                        string post_content = "";
+                                                                                                        string post_time = "";
+                                                                                                        string post_votes = "";
+                                                                                                        string post_id = "";
+                                                                                                        string total_posts = "";
+                                                                                                        string thread_id = "";
+                                                                                                        string thread_subject = "";
+                                                                                                        string forum_id = "";
+                                                                                                        string thread_user_id = "";
+                                                                                                        string enable_voting = "";
+                                                                                                        string _site_id = "";
+                                                                                                        string name = "";
+                                                                                                        string forum_name = "";
+                                                                                                        string disable_voting = "";
+                                                                                                        string users_see_own_threads = "";
+                                                                                                        string forum_preset_id = "";
+                                                                                                        string category_id = "";
+                                                                                                        string category_name = "";
+                                                                                                        string domain = "";
+                                                                                                        string page = "";
+                                                                                                        string url = "";
+
+
+                                                                                                        #region do foreach
+
+                                                                                                        JObject jObject = JObject.Parse(item.ToString());
+                                                                                                        foreach (var itemjObject in jObject)
+                                                                                                        {
+
+                                                                                                            if (backgroundWorker.CancellationPending == true)
+                                                                                                            {
+                                                                                                                e.Cancel = true;
+                                                                                                                return;
+                                                                                                            }
+
+                                                                                                            #region do foreach
+                                                                                                            if (itemjObject.Key.ToString() == "preset_id")
+                                                                                                            {
+                                                                                                                preset_id = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "is_thread")
+                                                                                                            {
+                                                                                                                is_thread = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "post_content")
+                                                                                                            {
+                                                                                                                post_content = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "post_time")
+                                                                                                            {
+                                                                                                                post_time = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "post_votes")
+                                                                                                            {
+                                                                                                                post_votes = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "post_id")
+                                                                                                            {
+                                                                                                                post_id = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "total_posts")
+                                                                                                            {
+                                                                                                                total_posts = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "thread_id")
+                                                                                                            {
+                                                                                                                thread_id = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "thread_subject")
+                                                                                                            {
+                                                                                                                thread_subject = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "forum_id")
+                                                                                                            {
+                                                                                                                forum_id = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "thread_user_id")
+                                                                                                            {
+                                                                                                                thread_user_id = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "enable_voting")
+                                                                                                            {
+                                                                                                                enable_voting = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "site_id")
+                                                                                                            {
+                                                                                                                _site_id = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "name")
+                                                                                                            {
+                                                                                                                name = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "forum_name")
+                                                                                                            {
+                                                                                                                forum_name = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "disable_voting")
+                                                                                                            {
+                                                                                                                disable_voting = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "users_see_own_threads")
+                                                                                                            {
+                                                                                                                users_see_own_threads = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "forum_preset_id")
+                                                                                                            {
+                                                                                                                forum_preset_id = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "category_id")
+                                                                                                            {
+                                                                                                                category_id = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "category_name")
+                                                                                                            {
+                                                                                                                category_name = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "domain")
+                                                                                                            {
+                                                                                                                domain = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "page")
+                                                                                                            {
+                                                                                                                page = itemjObject.Value.ToString();
+                                                                                                            }
+                                                                                                            else if (itemjObject.Key.ToString() == "url")
+                                                                                                            {
+                                                                                                                url = itemjObject.Value.ToString();
+                                                                                                            }
+
+                                                                                                            //Console.WriteLine(itemjObject.Key.ToString());
+                                                                                                            //Console.WriteLine(itemjObject.Value.ToString());
+                                                                                                            #endregion do foreach
+
+                                                                                                        }
+
+                                                                                                        #endregion foreach
+
+                                                                                                        #region validate site_id
+
+                                                                                                        //check if required values are set
+                                                                                                        if (site_id == _site_id)
+                                                                                                        {
+
+                                                                                                            #region validate params
+
+                                                                                                            if (post_content != null &&
+                                                                                                                category_name != null &&
+                                                                                                                forum_name != null &&
+                                                                                                                name != null &&
+                                                                                                                thread_subject != null &&
+                                                                                                                post_time != null)
+                                                                                                            {
+
+                                                                                                                //add to model that we will do a foreach on later when writing to data file format ie: .csv or .json or even inside a php execute script
+                                                                                                                if (backgroundWorker.CancellationPending == true)
+                                                                                                                {
+                                                                                                                    e.Cancel = true;
+                                                                                                                    return;
+                                                                                                                }
+
+                                                                                                                PostModelList.Add(new EnjinExportTool.ExportModels.PostModel()
+                                                                                                                {
+
+                                                                                                                    preset_id = preset_id,
+                                                                                                                    is_thread = is_thread,
+                                                                                                                    post_content = post_content,
+                                                                                                                    post_time = post_time,
+                                                                                                                    post_votes = post_votes,
+                                                                                                                    post_id = post_id,
+                                                                                                                    total_posts = total_posts,
+                                                                                                                    thread_id = thread_id,
+                                                                                                                    thread_subject = thread_subject,
+                                                                                                                    forum_id = forum_id,
+                                                                                                                    thread_user_id = thread_user_id,
+                                                                                                                    enable_voting = enable_voting,
+                                                                                                                    site_id = _site_id,
+                                                                                                                    name = name,
+                                                                                                                    forum_name = forum_name,
+                                                                                                                    disable_voting = disable_voting,
+                                                                                                                    users_see_own_threads = users_see_own_threads,
+                                                                                                                    forum_preset_id = forum_preset_id,
+                                                                                                                    category_id = category_id,
+                                                                                                                    category_name = category_name,
+                                                                                                                    domain = domain,
+                                                                                                                    page = page,
+                                                                                                                    url = url,
+                                                                                                                    sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+
+                                                                                                                });
+
+                                                                                                                if (backgroundWorker.CancellationPending == true)
+                                                                                                                {
+                                                                                                                    e.Cancel = true;
+                                                                                                                    return;
+                                                                                                                }
+
+                                                                                                                #region do ForumModelList checks
+
+                                                                                                                //add to ForumModelList after id checks
+                                                                                                                //forum_id 
+                                                                                                                //forum_preset_id 
+                                                                                                                //forum_name
+
+                                                                                                                if (ForumModelList.Count() == 0 ||
+                                                                                                                    ForumModelList.Count() == null)
+                                                                                                                {
+                                                                                                                    //empty ForumModelList, add to Model
+                                                                                                                    ForumModelList.Add(new EnjinExportTool.ExportModels.ForumModel()
+                                                                                                                    {
+                                                                                                                        category_id = category_id,
+                                                                                                                        forum_id = forum_id,
+                                                                                                                        forum_preset_id = forum_preset_id,
+                                                                                                                        forum_name = forum_name,
+                                                                                                                        sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+                                                                                                                    });
+                                                                                                                }
+                                                                                                                else
+                                                                                                                {
+
+                                                                                                                    //ForumModelList has data, check forum id match so we can skip or add ...
+                                                                                                                    //this may get painful with large lists ...
+                                                                                                                    var matchingId = ForumModelList.FirstOrDefault(_Item => (_Item.forum_id == forum_id));
+                                                                                                                    if (matchingId != null)
+                                                                                                                    {
+                                                                                                                        //match, lets skip ...
+                                                                                                                    }
+                                                                                                                    else
+                                                                                                                    {
+
+                                                                                                                        //nothing found, lets add new forum top level category...
+                                                                                                                        ForumModelList.Add(new EnjinExportTool.ExportModels.ForumModel()
+                                                                                                                        {
+                                                                                                                            category_id = category_id,
+                                                                                                                            forum_id = forum_id,
+                                                                                                                            forum_preset_id = forum_preset_id,
+                                                                                                                            forum_name = forum_name,
+                                                                                                                            sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+                                                                                                                        });
+
+                                                                                                                    }
+
+                                                                                                                }
+
+                                                                                                                #endregion do ForumModelList checks
+
+                                                                                                                if (backgroundWorker.CancellationPending == true)
+                                                                                                                {
+                                                                                                                    e.Cancel = true;
+                                                                                                                    return;
+                                                                                                                }
+
+                                                                                                                #region do CategoryModel checks
+
+                                                                                                                //add to CategoryModel after id checks
+                                                                                                                //category_id
+                                                                                                                //category_name
+
+                                                                                                                if (CategoryModelList.Count() == 0 ||
+                                                                                                                    CategoryModelList.Count() == null)
+                                                                                                                {
+                                                                                                                    //empty CategoryModelList, add to Model
+                                                                                                                    CategoryModelList.Add(new EnjinExportTool.ExportModels.CategoryModel()
+                                                                                                                    {
+                                                                                                                        category_id = category_id,
+                                                                                                                        category_name = category_name,
+                                                                                                                        sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+                                                                                                                    });
+                                                                                                                }
+                                                                                                                else
+                                                                                                                {
+
+                                                                                                                    //CategoryModel has data, check forum id match so we can skip or add ...
+                                                                                                                    //this may get painful with large lists ...
+                                                                                                                    var matchingId = CategoryModelList.FirstOrDefault(_Item => (_Item.category_id == category_id));
+                                                                                                                    if (matchingId != null)
+                                                                                                                    {
+                                                                                                                        //match, lets skip ...
+                                                                                                                    }
+                                                                                                                    else
+                                                                                                                    {
+
+                                                                                                                        //nothing found, lets add new category...
+                                                                                                                        CategoryModelList.Add(new EnjinExportTool.ExportModels.CategoryModel()
+                                                                                                                        {
+                                                                                                                            category_id = category_id,
+                                                                                                                            category_name = category_name,
+                                                                                                                            sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+
+                                                                                                                        });
+
+                                                                                                                    }
+
+                                                                                                                }
+
+                                                                                                                #endregion do CategoryModel checks
+
+                                                                                                                if (backgroundWorker.CancellationPending == true)
+                                                                                                                {
+                                                                                                                    e.Cancel = true;
+                                                                                                                    return;
+                                                                                                                }
+
+                                                                                                                #region do ThreadModel checks
+
+                                                                                                                //add to ThreadModel after id checks
+                                                                                                                //thread_id
+                                                                                                                //thread_subject
+
+                                                                                                                if (ThreadModelList.Count() == 0 ||
+                                                                                                                    ThreadModelList.Count() == null)
+                                                                                                                {
+                                                                                                                    //empty ThreadModelList, add to Model
+                                                                                                                    ThreadModelList.Add(new EnjinExportTool.ExportModels.ThreadModel()
+                                                                                                                    {
+                                                                                                                        category_id = category_id,
+                                                                                                                        forum_id = forum_id,
+                                                                                                                        thread_id = category_id,
+                                                                                                                        thread_subject = thread_subject,
+                                                                                                                        sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+                                                                                                                    });
+                                                                                                                }
+                                                                                                                else
+                                                                                                                {
+
+                                                                                                                    //ThreadModel has data, check forum id match so we can skip or add ...
+                                                                                                                    //this may get painful with large lists ...
+                                                                                                                    var matchingId = ThreadModelList.FirstOrDefault(_Item => (_Item.thread_id == thread_id));
+                                                                                                                    if (matchingId != null)
+                                                                                                                    {
+                                                                                                                        //match, lets skip ...
+                                                                                                                    }
+                                                                                                                    else
+                                                                                                                    {
+
+                                                                                                                        //nothing found, lets add new category...
+                                                                                                                        ThreadModelList.Add(new EnjinExportTool.ExportModels.ThreadModel()
+                                                                                                                        {
+                                                                                                                            category_id = category_id,
+                                                                                                                            forum_id = forum_id,
+                                                                                                                            thread_id = thread_id,
+                                                                                                                            thread_subject = thread_subject,
+                                                                                                                            sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+
+                                                                                                                        });
+
+                                                                                                                    }
+
+                                                                                                                }
+
+                                                                                                                #endregion do ThreadModel checks
+
+                                                                                                                if (backgroundWorker.CancellationPending == true)
+                                                                                                                {
+                                                                                                                    e.Cancel = true;
+                                                                                                                    return;
+                                                                                                                }
+
+                                                                                                            }
+                                                                                                            else
+                                                                                                            {
+
+                                                                                                                //report missed post item
+                                                                                                                //show UI update error message - NON FATAL
+
+                                                                                                                if (backgroundWorker.CancellationPending == true)
+                                                                                                                {
+                                                                                                                    e.Cancel = true;
+                                                                                                                    return;
+                                                                                                                }
+
+                                                                                                                ErrorEventModelList.Add(new EnjinExportTool.ExportModels.ErrorEventModel()
+                                                                                                                {
+
+                                                                                                                    id = "",
+                                                                                                                    type = "post_params",
+                                                                                                                    message = "Post item was not exported due to missing required data fields",
+                                                                                                                    sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+
+                                                                                                                });
+
+                                                                                                            }
+
+                                                                                                            #endregion validate params
+
+                                                                                                        }
+                                                                                                        else
+                                                                                                        {
+
+                                                                                                            //non site id match
+                                                                                                            //do UI update error message - NON FATAL
+
+                                                                                                            ErrorEventModelList.Add(new EnjinExportTool.ExportModels.ErrorEventModel()
+                                                                                                            {
+
+                                                                                                                id = "",
+                                                                                                                type = "site_id_mismatch",
+                                                                                                                message = "The Configured Site ID does not matched with the post items site id " + _site_id + "",
+                                                                                                                sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+
+                                                                                                            });
+
+                                                                                                        }
+
+                                                                                                        #endregion validate site_id
+
+                                                                                                    }
+
+                                                                                                    #endregion foreach
+
+                                                                                                    #endregion do work on first request using userPostsJsonRequestJSONArray
 
                                                                                                 }
                                                                                                 else
@@ -1114,8 +1657,6 @@ namespace EnjinExportTool
                                                                                                         e.Cancel = true;
                                                                                                         return;
                                                                                                     }
-
-                                                                                                    Console.WriteLine("Processing other page (" + i.ToString() + " of " + pagesCount.ToString() + ")");
 
                                                                                                     #region do userPostsPageJson work
 
@@ -1189,12 +1730,566 @@ namespace EnjinExportTool
                                                                                                     if (userPostsPageJsonRequestJSONString == null || userPostsPageJsonRequestJSONString == "")
                                                                                                     {
 
+                                                                                                        ErrorEventModelList.Add(new EnjinExportTool.ExportModels.ErrorEventModel()
+                                                                                                        {
+
+                                                                                                            id = "",
+                                                                                                            type = "json_error",
+                                                                                                            message = "Processing Error:" + Environment.NewLine + "the parsed json was empty" + "",
+                                                                                                            sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+
+                                                                                                        });
 
                                                                                                     }
                                                                                                     else
                                                                                                     {
 
+                                                                                                        #region do work on first request using userPostsPageJsonRequestJSONString
+                                                                                                        //already got the data to inside userPostsJsonRequestJSONArray
 
+                                                                                                        int posts = 0;
+
+                                                                                                        if (backgroundWorker.CancellationPending == true)
+                                                                                                        {
+                                                                                                            e.Cancel = true;
+                                                                                                            return;
+                                                                                                        }
+
+                                                                                                        dynamic dynObj = JsonConvert.DeserializeObject(userPostsPageJsonRequestJSONString.ToString());
+                                                                                                        dynamic dynObj2 = JsonConvert.DeserializeObject(dynObj.result.posts.ToString());
+                                                                                                        JArray jarray = JArray.Parse(dynObj2.ToString());
+
+                                                                                                        #region foreach
+
+                                                                                                        foreach (var item in jarray)
+                                                                                                        {
+
+
+                                                                                                            if (backgroundWorker.CancellationPending == true)
+                                                                                                            {
+                                                                                                                e.Cancel = true;
+                                                                                                                return;
+                                                                                                            }
+
+                                                                                                            #region result
+
+                                                                                                            /*
+                                                                                            
+                                                                                                    string preset_id = "";
+                                                                                                    string is_thread = "";
+                                                                                                    string post_content = "";
+                                                                                                    string post_time = "";
+                                                                                                    string post_votes = "";
+                                                                                                    string post_id = "";
+                                                                                                    string total_posts = "";
+                                                                                                    string thread_id = "";
+                                                                                                    string thread_subject = "";
+                                                                                                    string forum_id = "";
+                                                                                                    string thread_user_id = "";
+                                                                                                    string enable_voting = "";
+                                                                                                    string site_id = "";
+                                                                                                    string name = "";
+                                                                                                    string forum_name = "";
+                                                                                                    string disable_voting = "";
+                                                                                                    string users_see_own_threads = "";
+                                                                                                    string forum_preset_id = "";
+                                                                                                    string category_id = "";
+                                                                                                    string category_name = "";
+                                                                                                    string domain = "";
+                                                                                                    string page = "";
+                                                                                                    string url = "";
+                                                                                            
+                                                                                                    if(itemjObject.Key.ToString() == "preset_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "is_thread"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "post_content"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "post_time"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "post_votes"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "post_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "total_posts"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "thread_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "thread_subject"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "forum_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "thread_user_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "enable_voting"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "site_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "name"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "forum_name"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "disable_voting"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "users_see_own_threads"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "forum_preset_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "category_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "category_name"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "domain"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "page"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "url"){
+                                                                                                    }
+                                                                                            
+                                                                                                */
+
+                                                                                                            /* 
+                                                                                                                    preset_id
+                                                                                                                    1148623
+                                                                                                                    is_thread
+                                                                                                                    0
+                                                                                                                    post_content
+                                                                                                                    post content will be rendered here this is just sample text
+                                                                                                                    post_time
+                                                                                                                    1298698176
+                                                                                                                    post_votes
+                                                                                                                    0
+                                                                                                                    post_id
+                                                                                                                    2735183
+                                                                                                                    total_posts
+                                                                                                                    28
+                                                                                                                    thread_id
+                                                                                                                    574659
+                                                                                                                    thread_subject
+                                                                                                                    Server Is Offline
+                                                                                                                    forum_id
+                                                                                                                    316857
+                                                                                                                    thread_user_id
+                                                                                                                    201737
+                                                                                                                    enable_voting
+                                                                                                                    1
+                                                                                                                    site_id
+                                                                                                                    55483
+                                                                                                                    name
+                                                                                                                    Minecraft Oblivion
+                                                                                                                    forum_name
+                                                                                                                    News & Announcements
+                                                                                                                    disable_voting
+                                                                                                                    0
+                                                                                                                    users_see_own_threads
+                                                                                                                    0
+                                                                                                                    forum_preset_id
+                                                                                                                    1148623
+                                                                                                                    category_id
+                                                                                                                    132280
+                                                                                                                    category_name
+                                                                                                                    Server
+                                                                                                                    domain
+                                                                                                                    http://www.theurl.com
+                                                                                                                    page
+                                                                                                                    forum
+                                                                                                                    url
+                                                                                                                    http://www.theurl.com/
+                                                                                                            */
+
+
+                                                                                                            #endregion  result
+
+                                                                                                            string preset_id = "";
+                                                                                                            string is_thread = "";
+                                                                                                            string post_content = "";
+                                                                                                            string post_time = "";
+                                                                                                            string post_votes = "";
+                                                                                                            string post_id = "";
+                                                                                                            string total_posts = "";
+                                                                                                            string thread_id = "";
+                                                                                                            string thread_subject = "";
+                                                                                                            string forum_id = "";
+                                                                                                            string thread_user_id = "";
+                                                                                                            string enable_voting = "";
+                                                                                                            string _site_id = "";
+                                                                                                            string name = "";
+                                                                                                            string forum_name = "";
+                                                                                                            string disable_voting = "";
+                                                                                                            string users_see_own_threads = "";
+                                                                                                            string forum_preset_id = "";
+                                                                                                            string category_id = "";
+                                                                                                            string category_name = "";
+                                                                                                            string domain = "";
+                                                                                                            string page = "";
+                                                                                                            string url = "";
+
+
+                                                                                                            #region do foreach
+
+                                                                                                            JObject jObject = JObject.Parse(item.ToString());
+                                                                                                            foreach (var itemjObject in jObject)
+                                                                                                            {
+
+                                                                                                                if (backgroundWorker.CancellationPending == true)
+                                                                                                                {
+                                                                                                                    e.Cancel = true;
+                                                                                                                    return;
+                                                                                                                }
+
+                                                                                                                #region do foreach
+                                                                                                                if (itemjObject.Key.ToString() == "preset_id")
+                                                                                                                {
+                                                                                                                    preset_id = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "is_thread")
+                                                                                                                {
+                                                                                                                    is_thread = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "post_content")
+                                                                                                                {
+                                                                                                                    post_content = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "post_time")
+                                                                                                                {
+                                                                                                                    post_time = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "post_votes")
+                                                                                                                {
+                                                                                                                    post_votes = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "post_id")
+                                                                                                                {
+                                                                                                                    post_id = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "total_posts")
+                                                                                                                {
+                                                                                                                    total_posts = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "thread_id")
+                                                                                                                {
+                                                                                                                    thread_id = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "thread_subject")
+                                                                                                                {
+                                                                                                                    thread_subject = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "forum_id")
+                                                                                                                {
+                                                                                                                    forum_id = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "thread_user_id")
+                                                                                                                {
+                                                                                                                    thread_user_id = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "enable_voting")
+                                                                                                                {
+                                                                                                                    enable_voting = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "site_id")
+                                                                                                                {
+                                                                                                                    _site_id = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "name")
+                                                                                                                {
+                                                                                                                    name = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "forum_name")
+                                                                                                                {
+                                                                                                                    forum_name = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "disable_voting")
+                                                                                                                {
+                                                                                                                    disable_voting = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "users_see_own_threads")
+                                                                                                                {
+                                                                                                                    users_see_own_threads = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "forum_preset_id")
+                                                                                                                {
+                                                                                                                    forum_preset_id = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "category_id")
+                                                                                                                {
+                                                                                                                    category_id = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "category_name")
+                                                                                                                {
+                                                                                                                    category_name = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "domain")
+                                                                                                                {
+                                                                                                                    domain = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "page")
+                                                                                                                {
+                                                                                                                    page = itemjObject.Value.ToString();
+                                                                                                                }
+                                                                                                                else if (itemjObject.Key.ToString() == "url")
+                                                                                                                {
+                                                                                                                    url = itemjObject.Value.ToString();
+                                                                                                                }
+
+                                                                                                                //Console.WriteLine(itemjObject.Key.ToString());
+                                                                                                                //Console.WriteLine(itemjObject.Value.ToString());
+                                                                                                                #endregion do foreach
+
+                                                                                                            }
+
+                                                                                                            #endregion foreach
+
+                                                                                                            #region validate site_id
+
+                                                                                                            //check if required values are set
+                                                                                                            if (site_id == _site_id)
+                                                                                                            {
+
+                                                                                                                #region validate params
+
+                                                                                                                if (post_content != null &&
+                                                                                                                    category_name != null &&
+                                                                                                                    forum_name != null &&
+                                                                                                                    name != null &&
+                                                                                                                    thread_subject != null &&
+                                                                                                                    post_time != null)
+                                                                                                                {
+
+                                                                                                                    //add to model that we will do a foreach on later when writing to data file format ie: .csv or .json or even inside a php execute script
+                                                                                                                    if (backgroundWorker.CancellationPending == true)
+                                                                                                                    {
+                                                                                                                        e.Cancel = true;
+                                                                                                                        return;
+                                                                                                                    }
+
+                                                                                                                    PostModelList.Add(new EnjinExportTool.ExportModels.PostModel()
+                                                                                                                    {
+
+                                                                                                                        preset_id = preset_id,
+                                                                                                                        is_thread = is_thread,
+                                                                                                                        post_content = post_content,
+                                                                                                                        post_time = post_time,
+                                                                                                                        post_votes = post_votes,
+                                                                                                                        post_id = post_id,
+                                                                                                                        total_posts = total_posts,
+                                                                                                                        thread_id = thread_id,
+                                                                                                                        thread_subject = thread_subject,
+                                                                                                                        forum_id = forum_id,
+                                                                                                                        thread_user_id = thread_user_id,
+                                                                                                                        enable_voting = enable_voting,
+                                                                                                                        site_id = _site_id,
+                                                                                                                        name = name,
+                                                                                                                        forum_name = forum_name,
+                                                                                                                        disable_voting = disable_voting,
+                                                                                                                        users_see_own_threads = users_see_own_threads,
+                                                                                                                        forum_preset_id = forum_preset_id,
+                                                                                                                        category_id = category_id,
+                                                                                                                        category_name = category_name,
+                                                                                                                        domain = domain,
+                                                                                                                        page = page,
+                                                                                                                        url = url,
+                                                                                                                        sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+
+                                                                                                                    });
+
+                                                                                                                    if (backgroundWorker.CancellationPending == true)
+                                                                                                                    {
+                                                                                                                        e.Cancel = true;
+                                                                                                                        return;
+                                                                                                                    }
+
+                                                                                                                    #region do ForumModelList checks
+
+                                                                                                                    //add to ForumModelList after id checks
+                                                                                                                    //forum_id 
+                                                                                                                    //forum_preset_id 
+                                                                                                                    //forum_name
+
+                                                                                                                    if (ForumModelList.Count() == 0 ||
+                                                                                                                        ForumModelList.Count() == null)
+                                                                                                                    {
+                                                                                                                        //empty ForumModelList, add to Model
+                                                                                                                        ForumModelList.Add(new EnjinExportTool.ExportModels.ForumModel()
+                                                                                                                        {
+                                                                                                                            category_id = category_id,
+                                                                                                                            forum_id = forum_id,
+                                                                                                                            forum_preset_id = forum_preset_id,
+                                                                                                                            forum_name = forum_name,
+                                                                                                                            sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+                                                                                                                        });
+                                                                                                                    }
+                                                                                                                    else
+                                                                                                                    {
+
+                                                                                                                        //ForumModelList has data, check forum id match so we can skip or add ...
+                                                                                                                        //this may get painful with large lists ...
+                                                                                                                        var matchingId = ForumModelList.FirstOrDefault(_Item => (_Item.forum_id == forum_id));
+                                                                                                                        if (matchingId != null)
+                                                                                                                        {
+                                                                                                                            //match, lets skip ...
+                                                                                                                        }
+                                                                                                                        else
+                                                                                                                        {
+
+                                                                                                                            //nothing found, lets add new forum top level category...
+                                                                                                                            ForumModelList.Add(new EnjinExportTool.ExportModels.ForumModel()
+                                                                                                                            {
+                                                                                                                                category_id = category_id,
+                                                                                                                                forum_id = forum_id,
+                                                                                                                                forum_preset_id = forum_preset_id,
+                                                                                                                                forum_name = forum_name,
+                                                                                                                                sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+                                                                                                                            });
+
+                                                                                                                        }
+
+                                                                                                                    }
+
+                                                                                                                    #endregion do ForumModelList checks
+
+                                                                                                                    if (backgroundWorker.CancellationPending == true)
+                                                                                                                    {
+                                                                                                                        e.Cancel = true;
+                                                                                                                        return;
+                                                                                                                    }
+
+                                                                                                                    #region do CategoryModel checks
+
+                                                                                                                    //add to CategoryModel after id checks
+                                                                                                                    //category_id
+                                                                                                                    //category_name
+
+                                                                                                                    if (CategoryModelList.Count() == 0 ||
+                                                                                                                        CategoryModelList.Count() == null)
+                                                                                                                    {
+                                                                                                                        //empty CategoryModelList, add to Model
+                                                                                                                        CategoryModelList.Add(new EnjinExportTool.ExportModels.CategoryModel()
+                                                                                                                        {
+                                                                                                                            category_id = category_id,
+                                                                                                                            category_name = category_name,
+                                                                                                                            sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+                                                                                                                        });
+                                                                                                                    }
+                                                                                                                    else
+                                                                                                                    {
+
+                                                                                                                        //CategoryModel has data, check forum id match so we can skip or add ...
+                                                                                                                        //this may get painful with large lists ...
+                                                                                                                        var matchingId = CategoryModelList.FirstOrDefault(_Item => (_Item.category_id == category_id));
+                                                                                                                        if (matchingId != null)
+                                                                                                                        {
+                                                                                                                            //match, lets skip ...
+                                                                                                                        }
+                                                                                                                        else
+                                                                                                                        {
+
+                                                                                                                            //nothing found, lets add new category...
+                                                                                                                            CategoryModelList.Add(new EnjinExportTool.ExportModels.CategoryModel()
+                                                                                                                            {
+                                                                                                                                category_id = category_id,
+                                                                                                                                category_name = category_name,
+                                                                                                                                sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+
+                                                                                                                            });
+
+                                                                                                                        }
+
+                                                                                                                    }
+
+                                                                                                                    #endregion do CategoryModel checks
+
+                                                                                                                    if (backgroundWorker.CancellationPending == true)
+                                                                                                                    {
+                                                                                                                        e.Cancel = true;
+                                                                                                                        return;
+                                                                                                                    }
+
+                                                                                                                    #region do ThreadModel checks
+
+                                                                                                                    //add to ThreadModel after id checks
+                                                                                                                    //thread_id
+                                                                                                                    //thread_subject
+
+                                                                                                                    if (ThreadModelList.Count() == 0 ||
+                                                                                                                        ThreadModelList.Count() == null)
+                                                                                                                    {
+                                                                                                                        //empty ThreadModelList, add to Model
+                                                                                                                        ThreadModelList.Add(new EnjinExportTool.ExportModels.ThreadModel()
+                                                                                                                        {
+                                                                                                                            category_id = category_id,
+                                                                                                                            forum_id = forum_id,
+                                                                                                                            thread_id = category_id,
+                                                                                                                            thread_subject = thread_subject,
+                                                                                                                            sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+                                                                                                                        });
+                                                                                                                    }
+                                                                                                                    else
+                                                                                                                    {
+
+                                                                                                                        //ThreadModel has data, check forum id match so we can skip or add ...
+                                                                                                                        //this may get painful with large lists ...
+                                                                                                                        var matchingId = ThreadModelList.FirstOrDefault(_Item => (_Item.thread_id == thread_id));
+                                                                                                                        if (matchingId != null)
+                                                                                                                        {
+                                                                                                                            //match, lets skip ...
+                                                                                                                        }
+                                                                                                                        else
+                                                                                                                        {
+
+                                                                                                                            //nothing found, lets add new category...
+                                                                                                                            ThreadModelList.Add(new EnjinExportTool.ExportModels.ThreadModel()
+                                                                                                                            {
+                                                                                                                                category_id = category_id,
+                                                                                                                                forum_id = forum_id,
+                                                                                                                                thread_id = thread_id,
+                                                                                                                                thread_subject = thread_subject,
+                                                                                                                                sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+
+                                                                                                                            });
+
+                                                                                                                        }
+
+                                                                                                                    }
+
+                                                                                                                    #endregion do ThreadModel checks
+
+                                                                                                                    if (backgroundWorker.CancellationPending == true)
+                                                                                                                    {
+                                                                                                                        e.Cancel = true;
+                                                                                                                        return;
+                                                                                                                    }
+
+                                                                                                                }
+                                                                                                                else
+                                                                                                                {
+
+                                                                                                                    //report missed post item
+                                                                                                                    //show UI update error message - NON FATAL
+
+                                                                                                                    if (backgroundWorker.CancellationPending == true)
+                                                                                                                    {
+                                                                                                                        e.Cancel = true;
+                                                                                                                        return;
+                                                                                                                    }
+
+                                                                                                                    ErrorEventModelList.Add(new EnjinExportTool.ExportModels.ErrorEventModel()
+                                                                                                                    {
+
+                                                                                                                        id = "",
+                                                                                                                        type = "post_params",
+                                                                                                                        message = "Post item was not exported due to missing required data fields",
+                                                                                                                        sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+
+                                                                                                                    });
+
+                                                                                                                }
+
+                                                                                                                #endregion validate params
+
+                                                                                                            }
+                                                                                                            else
+                                                                                                            {
+
+                                                                                                                //non site id match
+                                                                                                                //do UI update error message - NON FATAL
+
+                                                                                                                ErrorEventModelList.Add(new EnjinExportTool.ExportModels.ErrorEventModel()
+                                                                                                                {
+
+                                                                                                                    id = "",
+                                                                                                                    type = "site_id_mismatch",
+                                                                                                                    message = "The Configured Site ID does not matched with the post items site id " + _site_id + "",
+                                                                                                                    sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+
+                                                                                                                });
+
+                                                                                                            }
+
+                                                                                                            #endregion validate site_id
+
+                                                                                                        }
+
+                                                                                                        #endregion foreach
+
+                                                                                                        #endregion do work on first request using userPostsJsonRequestJSONArray
 
                                                                                                     }
 
@@ -1212,9 +2307,9 @@ namespace EnjinExportTool
                                                                                         else
                                                                                         {
 
-
+                                                                                            #region do work on first request using userPostsJsonRequestJSONArray
                                                                                             //already got the data to inside userPostsJsonRequestJSONArray
-                                                                                            Console.WriteLine("doing post items from request ...");
+                                                                                            
                                                                                             int posts = 0;
 
                                                                                             if (backgroundWorker.CancellationPending == true)
@@ -1224,25 +2319,22 @@ namespace EnjinExportTool
                                                                                             }
 
                                                                                             dynamic dynObj = JsonConvert.DeserializeObject(userPostsJsonRequestJSON.ToString());
-                                                                                            //Console.WriteLine("{0} {1}", dynObj.results.posts, dynObj.results.age);
-
-                                                                                            //JArray jsonObj = JArray.Parse(dynObj.results.posts.ToString());
-
                                                                                             dynamic dynObj2 = JsonConvert.DeserializeObject(dynObj.result.posts.ToString());
-                                                                                            //Console.WriteLine(dynObj2);
                                                                                             JArray jarray = JArray.Parse(dynObj2.ToString());
+
+                                                                                            #region foreach
 
                                                                                             foreach (var item in jarray)
                                                                                             {
 
-                                                                                                Console.WriteLine("------------- new post item --------------");
+                                                                                               
                                                                                                 if (backgroundWorker.CancellationPending == true)
                                                                                                 {
                                                                                                     e.Cancel = true;
                                                                                                     return;
                                                                                                 }
 
-                                                                                                #region sample result
+                                                                                                #region result
 
                                                                                                 /*
                                                                                             
@@ -1373,6 +2465,9 @@ namespace EnjinExportTool
                                                                                                 string page = "";
                                                                                                 string url = "";
 
+
+                                                                                                #region do foreach
+
                                                                                                 JObject jObject = JObject.Parse(item.ToString());
                                                                                                 foreach (var itemjObject in jObject)
                                                                                                 {
@@ -1483,9 +2578,16 @@ namespace EnjinExportTool
 
                                                                                                 }
 
+                                                                                                #endregion foreach
+
+                                                                                                #region validate site_id
+
                                                                                                 //check if required values are set
                                                                                                 if (site_id == _site_id)
                                                                                                 {
+
+                                                                                                    #region validate params
+
                                                                                                     if (post_content != null &&
                                                                                                         category_name != null &&
                                                                                                         forum_name != null &&
@@ -1550,6 +2652,7 @@ namespace EnjinExportTool
                                                                                                             //empty ForumModelList, add to Model
                                                                                                             ForumModelList.Add(new EnjinExportTool.ExportModels.ForumModel()
                                                                                                             {
+                                                                                                                category_id = category_id,
                                                                                                                 forum_id = forum_id,
                                                                                                                 forum_preset_id = forum_preset_id,
                                                                                                                 forum_name = forum_name,
@@ -1572,6 +2675,7 @@ namespace EnjinExportTool
                                                                                                                 //nothing found, lets add new forum top level category...
                                                                                                                 ForumModelList.Add(new EnjinExportTool.ExportModels.ForumModel()
                                                                                                                 {
+                                                                                                                    category_id = category_id,
                                                                                                                     forum_id = forum_id,
                                                                                                                     forum_preset_id = forum_preset_id,
                                                                                                                     forum_name = forum_name,
@@ -1653,6 +2757,8 @@ namespace EnjinExportTool
                                                                                                             //empty ThreadModelList, add to Model
                                                                                                             ThreadModelList.Add(new EnjinExportTool.ExportModels.ThreadModel()
                                                                                                             {
+                                                                                                                category_id = category_id,
+                                                                                                                forum_id = forum_id,
                                                                                                                 thread_id = category_id,
                                                                                                                 thread_subject = thread_subject,
                                                                                                                 sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
@@ -1674,6 +2780,8 @@ namespace EnjinExportTool
                                                                                                                 //nothing found, lets add new category...
                                                                                                                 ThreadModelList.Add(new EnjinExportTool.ExportModels.ThreadModel()
                                                                                                                 {
+                                                                                                                    category_id = category_id,
+                                                                                                                    forum_id = forum_id,
                                                                                                                     thread_id = thread_id,
                                                                                                                     thread_subject = thread_subject,
                                                                                                                     sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
@@ -1716,6 +2824,9 @@ namespace EnjinExportTool
                                                                                                         });
 
                                                                                                     }
+
+                                                                                                    #endregion validate params
+
                                                                                                 }
                                                                                                 else
                                                                                                 {
@@ -1735,14 +2846,18 @@ namespace EnjinExportTool
 
                                                                                                 }
 
-                                                                                                Console.WriteLine("------------- end post item --------------");
+                                                                                                #endregion validate site_id
 
                                                                                             }
 
+                                                                                            #endregion foreach
 
+                                                                                            #endregion do work on first request using userPostsJsonRequestJSONArray
 
                                                                                         }
 
+
+                                                                                        
 
                                                                                     }
                                                                                     catch (Exception error)
@@ -1753,7 +2868,15 @@ namespace EnjinExportTool
                                                                                         Console.WriteLine("End User Validated on Site " + communitiesNode.Name.ToString() + " but cant determine pages");
                                                                                         //do UI update error message - NON FATAL
 
+                                                                                        ErrorEventModelList.Add(new EnjinExportTool.ExportModels.ErrorEventModel()
+                                                                                        {
 
+                                                                                            id = "",
+                                                                                            type = "item_error",
+                                                                                            message = "Processing Error:" + Environment.NewLine + error + "",
+                                                                                            sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+
+                                                                                        });
 
                                                                                     }
 
@@ -1767,8 +2890,20 @@ namespace EnjinExportTool
 
                                                                                     Console.WriteLine("End User Validated on Site " + communitiesNode.Name.ToString() + " but cant determine pages");
                                                                                     //do UI update error message - NON FATAL
+                                                                                    ErrorEventModelList.Add(new EnjinExportTool.ExportModels.ErrorEventModel()
+                                                                                    {
+
+                                                                                        id = "",
+                                                                                        type = "item_error",
+                                                                                        message = "End User Validated on Site " + communitiesNode.Name.ToString() + " but cant determine pages",
+                                                                                        sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+
+                                                                                    });
 
                                                                                 }
+
+
+
                                                                             }
                                                                         }
                                                                     }
@@ -1785,7 +2920,15 @@ namespace EnjinExportTool
                                                             processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
                                                             backgroundWorker.ReportProgress(20, processState);
 
-                                                            Console.WriteLine(error);
+                                                            ErrorEventModelList.Add(new EnjinExportTool.ExportModels.ErrorEventModel()
+                                                            {
+
+                                                                id = "",
+                                                                type = "item_error",
+                                                                message = "Processing Error:" + Environment.NewLine + error + "",
+                                                                sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+
+                                                            });
 
 
                                                         }
@@ -1813,6 +2956,310 @@ namespace EnjinExportTool
 
                                     }
                                     #endregion foreach user
+
+
+                                    #region do model processing & checks
+
+                                    #region model valid items
+
+                                    if (UserModelList.Count() == 0 &&
+                                        PostModelList.Count() == 0 &&
+                                        ForumModelList.Count() == 0 &&
+                                        CategoryModelList.Count() == 0 &&
+                                        ThreadModelList.Count() == 0)
+                                    {
+
+                                        //All list need at least 1 count on each ...
+                                        //Update UI with error message state
+
+
+
+                                    }else
+                                    {
+                                        
+                                        XmlWriter xmlWriter = XmlWriter.Create(migration_folder_xml_path + "export.xml");
+                                        xmlWriter.WriteStartDocument();
+                                        xmlWriter.WriteStartElement("export");
+
+                                        #region do xml writes for CategoryModelList items
+
+                                        xmlWriter.WriteStartElement("categories");
+
+                                        foreach(var CategoryModelListItem in CategoryModelList) {
+
+                                            xmlWriter.WriteStartElement("category");
+                                            xmlWriter.WriteStartElement("category_id");
+                                            xmlWriter.WriteString(CategoryModelListItem.category_id);
+                                            xmlWriter.WriteEndElement();
+                                            xmlWriter.WriteStartElement("category_name");
+                                            xmlWriter.WriteString(CategoryModelListItem.category_name);
+                                            xmlWriter.WriteEndElement();
+                                            xmlWriter.WriteEndElement();
+                                        }
+
+                                        xmlWriter.WriteEndElement();
+
+                                        #endregion do xml writes for CategoryModelList items
+
+                                        #region do xml writes for ForumModelList items
+
+                                        xmlWriter.WriteStartElement("forums");
+
+                                        foreach (var ForumModelListItem in ForumModelList)
+                                        {
+
+                                            xmlWriter.WriteStartElement("forum");
+                                            xmlWriter.WriteStartElement("category_id");
+                                            xmlWriter.WriteString(ForumModelListItem.category_id);
+                                            xmlWriter.WriteEndElement();
+                                            xmlWriter.WriteStartElement("forum_id");
+                                            xmlWriter.WriteString(ForumModelListItem.forum_id);
+                                            xmlWriter.WriteEndElement();
+                                            xmlWriter.WriteStartElement("forum_name");
+                                            xmlWriter.WriteString(ForumModelListItem.forum_name);
+                                            xmlWriter.WriteEndElement();
+                                            xmlWriter.WriteEndElement();
+                                        }
+
+                                        xmlWriter.WriteEndElement();
+
+                                        #endregion do xml writes for ForumModelList items
+
+                                        #region do xml writes for ThreadModelList items
+
+                                        xmlWriter.WriteStartElement("threads");
+
+                                        foreach (var ThreadModelListItem in ThreadModelList)
+                                        {
+
+                                            xmlWriter.WriteStartElement("thread");
+                                            xmlWriter.WriteStartElement("category_id");
+                                            xmlWriter.WriteString(ThreadModelListItem.category_id);
+                                            xmlWriter.WriteEndElement();
+                                            xmlWriter.WriteStartElement("forum_id");
+                                            xmlWriter.WriteString(ThreadModelListItem.forum_id);
+                                            xmlWriter.WriteEndElement();
+                                            xmlWriter.WriteStartElement("thread_id");
+                                            xmlWriter.WriteString(ThreadModelListItem.thread_id);
+                                            xmlWriter.WriteEndElement();
+                                            xmlWriter.WriteStartElement("thread_name");
+                                            xmlWriter.WriteString(ThreadModelListItem.thread_subject);
+                                            xmlWriter.WriteEndElement();
+                                            xmlWriter.WriteEndElement();
+                                        }
+
+
+                                        xmlWriter.WriteEndElement();
+
+                                        #endregion do xml writes for ThreadModelList items
+
+                                        #region do xml writes for UserModelList items
+
+                                            xmlWriter.WriteStartElement("users");                                            
+
+                                            #region do xml writes for UserModelList > PostModelList items
+
+                                            foreach (var UserModelListItem in UserModelList)
+                                            {
+
+                                                xmlWriter.WriteStartElement("user");
+                                                xmlWriter.WriteStartElement("user_id");
+                                                xmlWriter.WriteString(UserModelListItem.user_id);
+                                                xmlWriter.WriteEndElement();
+                                                xmlWriter.WriteStartElement("user_name");
+                                                xmlWriter.WriteString(UserModelListItem.user_name);
+                                                xmlWriter.WriteEndElement();
+
+                                                //foreach posts
+                                                #region foreach
+                                                xmlWriter.WriteStartElement("posts");
+
+                                                foreach (var PostModelListItem in PostModelList)
+                                                {
+
+                                                    if (PostModelListItem.thread_user_id == UserModelListItem.user_id)
+                                                    {
+
+                                                        //users post
+                                                        xmlWriter.WriteStartElement("post");
+
+                                                        /*
+                                                        preset_id = preset_id
+                                                        is_thread = is_thread
+                                                        post_content = post_content
+                                                        post_time = post_time
+                                                        post_votes = post_votes
+                                                        post_id = post_id
+                                                        total_posts = total_posts
+                                                        thread_id = thread_id
+                                                        thread_subject = thread_subject
+                                                        forum_id = forum_id
+                                                        thread_user_id = thread_user_id
+                                                        enable_voting = enable_voting
+                                                        site_id = _site_id
+                                                        name = name
+                                                        forum_name = forum_name
+                                                        disable_voting = disable_voting
+                                                        users_see_own_threads = users_see_own_threads
+                                                        forum_preset_id = forum_preset_id
+                                                        category_id = category_id
+                                                        category_name = category_name
+                                                        domain = domain
+                                                        page = page
+                                                        url = url
+                                                        sync_time 
+                                                        */
+
+                                                        xmlWriter.WriteStartElement("preset_id");
+                                                        xmlWriter.WriteString(PostModelListItem.preset_id);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("is_thread");
+                                                        xmlWriter.WriteString(PostModelListItem.is_thread);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("post_content");
+                                                        xmlWriter.WriteString(PostModelListItem.post_content);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("post_time");
+                                                        xmlWriter.WriteString(PostModelListItem.post_time);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("post_votes");
+                                                        xmlWriter.WriteString(PostModelListItem.post_votes);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("post_id");
+                                                        xmlWriter.WriteString(PostModelListItem.post_id);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("total_posts");
+                                                        xmlWriter.WriteString(PostModelListItem.total_posts);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("thread_id");
+                                                        xmlWriter.WriteString(PostModelListItem.thread_id);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("thread_subject");
+                                                        xmlWriter.WriteString(PostModelListItem.thread_subject);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("forum_id");
+                                                        xmlWriter.WriteString(PostModelListItem.forum_id);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("thread_user_id");
+                                                        xmlWriter.WriteString(PostModelListItem.thread_user_id);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("enable_voting");
+                                                        xmlWriter.WriteString(PostModelListItem.enable_voting);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("site_id");
+                                                        xmlWriter.WriteString(PostModelListItem.site_id);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("name");
+                                                        xmlWriter.WriteString(PostModelListItem.name);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("forum_name");
+                                                        xmlWriter.WriteString(PostModelListItem.forum_name);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("disable_voting");
+                                                        xmlWriter.WriteString(PostModelListItem.disable_voting);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("users_see_own_threads");
+                                                        xmlWriter.WriteString(PostModelListItem.users_see_own_threads);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("forum_preset_id");
+                                                        xmlWriter.WriteString(PostModelListItem.forum_preset_id);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("category_id");
+                                                        xmlWriter.WriteString(PostModelListItem.category_id);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("category_name");
+                                                        xmlWriter.WriteString(PostModelListItem.category_name);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("domain");
+                                                        xmlWriter.WriteString(PostModelListItem.domain);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("page");
+                                                        xmlWriter.WriteString(PostModelListItem.page);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("url");
+                                                        xmlWriter.WriteString(PostModelListItem.url);
+                                                        xmlWriter.WriteEndElement();
+                                                        xmlWriter.WriteStartElement("sync_time");
+                                                        xmlWriter.WriteString(PostModelListItem.sync_time);
+                                                        xmlWriter.WriteEndElement();
+
+
+                                                        //end post
+                                                        xmlWriter.WriteEndElement();
+                                                        
+                                                    }
+
+                                                }
+
+                                                xmlWriter.WriteEndElement();
+                                                #endregion foreach
+
+
+                                                xmlWriter.WriteEndElement();
+                                            }
+
+                                            xmlWriter.WriteEndElement();
+
+                                            #endregion do xml writes for UserModelList > PostModelList items
+
+                                            xmlWriter.WriteEndElement();
+
+                                        #endregion do xml writes for UserModelList items
+
+                                        xmlWriter.WriteEndDocument();
+                                        xmlWriter.Close();
+
+
+                                    }
+
+                                    #endregion model valid items
+
+                                    #region do error model processing & checks
+                                    if (ErrorEventModelList.Count() == 0)
+                                    {
+
+                                       
+                                        //no errors reported ... hmmm.
+
+
+
+                                    }
+                                    else
+                                    {
+
+
+                                        XmlWriter xmlWriter = XmlWriter.Create(migration_folder_xml_path + "errors.xml");
+                                        xmlWriter.WriteStartDocument();
+                                        xmlWriter.WriteStartElement("errors");
+
+                                        #region do xml writes for ErrorEventModelList items
+
+                                        xmlWriter.WriteStartElement("error");
+
+                                        foreach (var ErrorEventModelListItem in ErrorEventModelList)
+                                        {
+
+                                            xmlWriter.WriteStartElement("report");
+                                            xmlWriter.WriteAttributeString("type", ErrorEventModelListItem.type);
+                                            xmlWriter.WriteString(ErrorEventModelListItem.message);
+                                            xmlWriter.WriteEndElement();
+
+                                        }
+
+                                        xmlWriter.WriteEndElement();
+                                        
+
+                                        xmlWriter.WriteEndDocument();
+                                        xmlWriter.Close();
+
+
+
+                                    }
+                                    #endregion do error model processing & checks
+
+                                    #endregion do model processing & checks
+
+                                    #endregion do model processing & checks
 
                                 }
                             }
