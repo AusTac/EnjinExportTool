@@ -1246,108 +1246,108 @@ namespace EnjinExportTool
 
                                                                                                 /*
                                                                                             
-                                                                                            string preset_id = "";
-                                                                                            string is_thread = "";
-                                                                                            string post_content = "";
-                                                                                            string post_time = "";
-                                                                                            string post_votes = "";
-                                                                                            string post_id = "";
-                                                                                            string total_posts = "";
-                                                                                            string thread_id = "";
-                                                                                            string thread_subject = "";
-                                                                                            string forum_id = "";
-                                                                                            string thread_user_id = "";
-                                                                                            string enable_voting = "";
-                                                                                            string site_id = "";
-                                                                                            string name = "";
-                                                                                            string forum_name = "";
-                                                                                            string disable_voting = "";
-                                                                                            string users_see_own_threads = "";
-                                                                                            string forum_preset_id = "";
-                                                                                            string category_id = "";
-                                                                                            string category_name = "";
-                                                                                            string domain = "";
-                                                                                            string page = "";
-                                                                                            string url = "";
+                                                                                                    string preset_id = "";
+                                                                                                    string is_thread = "";
+                                                                                                    string post_content = "";
+                                                                                                    string post_time = "";
+                                                                                                    string post_votes = "";
+                                                                                                    string post_id = "";
+                                                                                                    string total_posts = "";
+                                                                                                    string thread_id = "";
+                                                                                                    string thread_subject = "";
+                                                                                                    string forum_id = "";
+                                                                                                    string thread_user_id = "";
+                                                                                                    string enable_voting = "";
+                                                                                                    string site_id = "";
+                                                                                                    string name = "";
+                                                                                                    string forum_name = "";
+                                                                                                    string disable_voting = "";
+                                                                                                    string users_see_own_threads = "";
+                                                                                                    string forum_preset_id = "";
+                                                                                                    string category_id = "";
+                                                                                                    string category_name = "";
+                                                                                                    string domain = "";
+                                                                                                    string page = "";
+                                                                                                    string url = "";
                                                                                             
-                                                                                            if(itemjObject.Key.ToString() == "preset_id"){
-                                                                                            }else if(itemjObject.Key.ToString() == "is_thread"){
-                                                                                            }else if(itemjObject.Key.ToString() == "post_content"){
-                                                                                            }else if(itemjObject.Key.ToString() == "post_time"){
-                                                                                            }else if(itemjObject.Key.ToString() == "post_votes"){
-                                                                                            }else if(itemjObject.Key.ToString() == "post_id"){
-                                                                                            }else if(itemjObject.Key.ToString() == "total_posts"){
-                                                                                            }else if(itemjObject.Key.ToString() == "thread_id"){
-                                                                                            }else if(itemjObject.Key.ToString() == "thread_subject"){
-                                                                                            }else if(itemjObject.Key.ToString() == "forum_id"){
-                                                                                            }else if(itemjObject.Key.ToString() == "thread_user_id"){
-                                                                                            }else if(itemjObject.Key.ToString() == "enable_voting"){
-                                                                                            }else if(itemjObject.Key.ToString() == "site_id"){
-                                                                                            }else if(itemjObject.Key.ToString() == "name"){
-                                                                                            }else if(itemjObject.Key.ToString() == "forum_name"){
-                                                                                            }else if(itemjObject.Key.ToString() == "disable_voting"){
-                                                                                            }else if(itemjObject.Key.ToString() == "users_see_own_threads"){
-                                                                                            }else if(itemjObject.Key.ToString() == "forum_preset_id"){
-                                                                                            }else if(itemjObject.Key.ToString() == "category_id"){
-                                                                                            }else if(itemjObject.Key.ToString() == "category_name"){
-                                                                                            }else if(itemjObject.Key.ToString() == "domain"){
-                                                                                            }else if(itemjObject.Key.ToString() == "page"){
-                                                                                            }else if(itemjObject.Key.ToString() == "url"){
-                                                                                            }
+                                                                                                    if(itemjObject.Key.ToString() == "preset_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "is_thread"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "post_content"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "post_time"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "post_votes"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "post_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "total_posts"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "thread_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "thread_subject"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "forum_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "thread_user_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "enable_voting"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "site_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "name"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "forum_name"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "disable_voting"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "users_see_own_threads"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "forum_preset_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "category_id"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "category_name"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "domain"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "page"){
+                                                                                                    }else if(itemjObject.Key.ToString() == "url"){
+                                                                                                    }
                                                                                             
-                                                                                            */
+                                                                                                */
 
                                                                                                 /* 
-                                                                                                preset_id
-                                                                                                1148623
-                                                                                                is_thread
-                                                                                                0
-                                                                                                post_content
-                                                                                                post content will be rendered here this is just sample text
-                                                                                                post_time
-                                                                                                1298698176
-                                                                                                post_votes
-                                                                                                0
-                                                                                                post_id
-                                                                                                2735183
-                                                                                                total_posts
-                                                                                                28
-                                                                                                thread_id
-                                                                                                574659
-                                                                                                thread_subject
-                                                                                                Server Is Offline
-                                                                                                forum_id
-                                                                                                316857
-                                                                                                thread_user_id
-                                                                                                201737
-                                                                                                enable_voting
-                                                                                                1
-                                                                                                site_id
-                                                                                                55483
-                                                                                                name
-                                                                                                Minecraft Oblivion
-                                                                                                forum_name
-                                                                                                News & Announcements
-                                                                                                disable_voting
-                                                                                                0
-                                                                                                users_see_own_threads
-                                                                                                0
-                                                                                                forum_preset_id
-                                                                                                1148623
-                                                                                                category_id
-                                                                                                132280
-                                                                                                category_name
-                                                                                                Server
-                                                                                                domain
-                                                                                                http://www.theurl.com
-                                                                                                page
-                                                                                                forum
-                                                                                                url
-                                                                                                http://www.theurl.com/
+                                                                                                        preset_id
+                                                                                                        1148623
+                                                                                                        is_thread
+                                                                                                        0
+                                                                                                        post_content
+                                                                                                        post content will be rendered here this is just sample text
+                                                                                                        post_time
+                                                                                                        1298698176
+                                                                                                        post_votes
+                                                                                                        0
+                                                                                                        post_id
+                                                                                                        2735183
+                                                                                                        total_posts
+                                                                                                        28
+                                                                                                        thread_id
+                                                                                                        574659
+                                                                                                        thread_subject
+                                                                                                        Server Is Offline
+                                                                                                        forum_id
+                                                                                                        316857
+                                                                                                        thread_user_id
+                                                                                                        201737
+                                                                                                        enable_voting
+                                                                                                        1
+                                                                                                        site_id
+                                                                                                        55483
+                                                                                                        name
+                                                                                                        Minecraft Oblivion
+                                                                                                        forum_name
+                                                                                                        News & Announcements
+                                                                                                        disable_voting
+                                                                                                        0
+                                                                                                        users_see_own_threads
+                                                                                                        0
+                                                                                                        forum_preset_id
+                                                                                                        1148623
+                                                                                                        category_id
+                                                                                                        132280
+                                                                                                        category_name
+                                                                                                        Server
+                                                                                                        domain
+                                                                                                        http://www.theurl.com
+                                                                                                        page
+                                                                                                        forum
+                                                                                                        url
+                                                                                                        http://www.theurl.com/
                                                                                                 */
 
 
-                                                                                                #endregion sample result
+                                                                                                #endregion  result
 
                                                                                                 string preset_id = "";
                                                                                                 string is_thread = "";
@@ -1786,6 +1786,8 @@ namespace EnjinExportTool
                                                             backgroundWorker.ReportProgress(20, processState);
 
                                                             Console.WriteLine(error);
+
+
                                                         }
 
 

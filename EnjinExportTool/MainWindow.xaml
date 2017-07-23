@@ -60,6 +60,14 @@
 
             </StackPanel>
 
+            <TextBlock x:Name="feedback" Text="" Margin="0,-80,0,0" HorizontalAlignment="Stretch" TextAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+                <TextBlock.Foreground>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
+                </TextBlock.Foreground>
+                <TextBlock.BitmapEffect>
+                    <DropShadowBitmapEffect Color="Black" Direction="320" ShadowDepth="10" Opacity=".5" Softness="9" />
+                </TextBlock.BitmapEffect>
+            </TextBlock>
 
             <Grid MinHeight="40" Grid.Row="2" Margin="0,-125,0,0" MinWidth="550" MaxWidth="550">
                 <Grid.Background>
@@ -80,12 +88,6 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="1">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <ProgressBar x:Name="loaderToolbar" Style="{StaticResource MaterialDesignCircularProgressBar}" Value="55" IsIndeterminate="True" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="12 12 12 12" Foreground="{DynamicResource HighlightBrush}" Visibility="Collapsed"/>
-                        <TextBlock x:Name="feedback" Text="" Margin="2,0,0,0" TextTrimming="WordEllipsis" VerticalAlignment="Center" Visibility="Collapsed" >
-                            <TextBlock.Foreground>
-                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
-                            </TextBlock.Foreground>
-                        </TextBlock>
-
                     </StackPanel>
                 </StackPanel>
 
