@@ -24,6 +24,7 @@ namespace EnjinExportTool
             public string forum_preset_id { get; set; }
             public string forum_name { get; set; }
             public string sync_time { get; set; }
+
         }
 
 
@@ -84,6 +85,17 @@ namespace EnjinExportTool
             public string domain { get; set; }
             public string page { get; set; }
             public string url { get; set; }
+            public string sync_time { get; set; }
+
+        }
+
+
+        public class ErrorEventModel
+        {
+
+            public string id { get; set; }
+            public string type { get; set; }
+            public string message { get; set; }
             public string sync_time { get; set; }
 
         }

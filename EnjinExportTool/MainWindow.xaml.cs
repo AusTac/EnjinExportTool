@@ -851,8 +851,12 @@ namespace EnjinExportTool
                                 else
                                 {
 
-                                    //int PostItemModel List
-                                    List<EnjinExportTool.ExportModels.PostModel> PostItemModelList = new List<EnjinExportTool.ExportModels.PostModel>();
+                                    //int Lists (data holders)
+                                    List<EnjinExportTool.ExportModels.PostModel> PostModelList = new List<EnjinExportTool.ExportModels.PostModel>();
+                                    List<EnjinExportTool.ExportModels.ForumModel> ForumModelList = new List<EnjinExportTool.ExportModels.ForumModel>();
+                                    List<EnjinExportTool.ExportModels.CatergoryModel> CatergoryModelList = new List<EnjinExportTool.ExportModels.CatergoryModel>();
+                                    List<EnjinExportTool.ExportModels.ThreadModel> ThreadModelList = new List<EnjinExportTool.ExportModels.ThreadModel>();
+                                    List<EnjinExportTool.ExportModels.ErrorEventModel> ErrorEventModelList = new List<EnjinExportTool.ExportModels.ErrorEventModel>();
 
                                     #region foreach user
                                     foreach (var result in results["users"])
@@ -1445,7 +1449,7 @@ namespace EnjinExportTool
                                                                                                             return;
                                                                                                         }
 
-                                                                                                        PostItemModelList.Add(new EnjinExportTool.ExportModels.PostModel()
+                                                                                                        PostModelList.Add(new EnjinExportTool.ExportModels.PostModel()
                                                                                                         {
 
                                                                                                             preset_id = preset_id,
