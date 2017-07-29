@@ -65,6 +65,9 @@ namespace EnjinExportTool
             public bool can_modify { get; set; }           
             public string category_id { get; set; }
             public string category_name { get; set; }
+            public string thumbImagePath { get; set; }
+            public string meduimImagePath { get; set; }
+            public string originalImagePath { get; set; }
             public string sync_time { get; set; }
 
         }

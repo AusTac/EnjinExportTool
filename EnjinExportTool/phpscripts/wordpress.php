@@ -60,6 +60,11 @@ print_r($error);
 //export xml path
 $xmlToProcess = "data/xml/export.xml";
 $xmlToProcessContent = file_get_contents($xmlToProcess);
+
+//gallery xml path
+$galleryToProcess = "data/xml/galleries.xml";
+$galleryToProcessContent = file_get_contents($galleryToProcess);
+
 //wordpress db connection
 
 
@@ -197,6 +202,34 @@ try {
 	}
 	
 	echo '</table>';
+  
+  //html table
+	echo '<table class="tableGalleryCategories">
+	  <tr>
+	    <th>Gallery Name</th>
+	    <th>Gallery ID</th>
+	    <th>Sync Timestamp</th>
+	  </tr>';
+
+	$categoriesGallery = simplexml_load_file($galleryToProcess);
+	foreach($categoriesGallery->categories as $category) {
+	   
+	   
+	   foreach($category->category as $categoryItem) {
+	   		
+	   		echo '<tr>';
+	   		echo '<td>'.$categoryItem->name.'</td>';
+	   		echo '<td>'.$categoryItem->id.'</td>';
+	   		echo '<td>--</td>';
+	   		
+	   		echo '</tr>';
+	   }
+	   
+	}
+	
+	echo '</table>';
+  
+  
 
 }catch(Exception $error) {
 

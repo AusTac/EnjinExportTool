@@ -971,87 +971,35 @@ namespace EnjinExportTool
                             if (inif.Read("Application", "galleryData") == "true")
                             {
 
-                                if (galley_preset_id != null)
+                                if (inif.Read("Application", "dlOriginal") == "true" ||
+                                inif.Read("Application", "dlThumbnails") == "true" ||
+                                inif.Read("Application", "dlImages") == "true")
                                 {
 
-                                    #region do try api gallery
+                                    #region do gallery work
 
-                                    try
+                                    if (backgroundWorker.CancellationPending == true)
+                                    {
+                                        e.Cancel = true;
+                                        return;
+                                    }
+
+                                    if (galley_preset_id != null)
                                     {
 
-                                        #region do api gallery inner region
+                                        #region do try api gallery
 
-                                        if (backgroundWorker.CancellationPending == true)
-                                        {
-                                            e.Cancel = true;
-                                            return;
-                                        }
-
-
-
-                                        JObject galleryJson =
-                                        new JObject(
-                                            new JProperty("jsonrpc", "2.0"),
-                                            new JProperty("id", "123456789"),
-                                            new JProperty("method", "Gallery.getAlbums"),
-                                            new JProperty("params",
-                                                new JObject(new JProperty("session_id", session_id.ToString())))
-                                            );
-
-                                        int galleryCount = 0;
-                                        string galleryJsonRequestJSON = null;
-                                        HttpWebRequest galleryJsonRequest = (HttpWebRequest)WebRequest.Create(base_enjin_url + base_api_slug);
-                                        galleryJsonRequest.CookieContainer = new CookieContainer();
-                                        galleryJsonRequest.Method = WebRequestMethods.Http.Post;
-                                        galleryJsonRequest.UserAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.121 Safari/535.2";
-                                        galleryJsonRequest.AllowWriteStreamBuffering = true;
-                                        galleryJsonRequest.ProtocolVersion = HttpVersion.Version11;
-                                        galleryJsonRequest.AllowAutoRedirect = true;
-                                        galleryJsonRequest.ContentType = "application/json";
-                                        galleryJsonRequest.KeepAlive = true;
-                                        byte[] galleryJsonRequestArray = Encoding.ASCII.GetBytes(galleryJson.ToString());
-                                        galleryJsonRequest.ContentLength = galleryJson.ToString().Length;
-                                        Stream galleryJsonRequestStream = galleryJsonRequest.GetRequestStream(); //open connection
-                                        galleryJsonRequestStream.Write(galleryJsonRequestArray, 0, galleryJson.ToString().Length); // Send the data.
-                                        galleryJsonRequestStream.Close();
-
-                                        HttpWebResponse galleryJsonRequestResponse = (HttpWebResponse)galleryJsonRequest.GetResponse();
-                                        using (StreamReader galleryJsonRequestReader = new StreamReader(galleryJsonRequestResponse.GetResponseStream()))
+                                        try
                                         {
 
+                                            List<EnjinExportTool.ExportGalleryModels.GalleryCategoryModel> GalleryCategoryModelList = new List<EnjinExportTool.ExportGalleryModels.GalleryCategoryModel>();
+                                            List<EnjinExportTool.ExportGalleryModels.GalleryItemModel> GalleryCategoryItemModelList = new List<EnjinExportTool.ExportGalleryModels.GalleryItemModel>();
+                                            List<EnjinExportTool.ExportGalleryModels.ErrorEventModel> GalleryErrorEventModelList = new List<EnjinExportTool.ExportGalleryModels.ErrorEventModel>();
 
-                                            processState[0] = "event";
-                                            processState[1] = "Exporting Gallery API... ";
-                                            processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
-                                            processState[3] = "";
-                                            processState[4] = "";
-                                            processState[5] = "";
-                                            processState[6] = "";
-                                            processState[7] = "";
-                                            processState[8] = "";
-                                            processState[9] = "";
-                                            processState[10] = "";
-                                            backgroundWorker.ReportProgress(60, processState);
 
-                                            galleryJsonRequestJSON = galleryJsonRequestReader.ReadToEnd();
-                                            galleryJsonRequestReader.Close();
+                                            #region do api gallery inner region
 
-                                            // Write the string to a file.
-                                            System.IO.StreamWriter fileGalleryJson = new System.IO.StreamWriter(JsonFolderGalleryPath + "galleries" + ".json");
-                                            fileGalleryJson.WriteLine(galleryJsonRequestJSON);
-                                            fileGalleryJson.Close();
-
-                                            Console.WriteLine("API Gallery Response: ----------------------- " + galleryJsonRequestJSON);
-
-                                            if (inif.Read("Application", "backupApiData") == "true")
-                                            {
-
-                                                System.IO.StreamWriter gallery_api_file = new System.IO.StreamWriter(migration_folder_json_path + "galleries" + ".json");
-                                                gallery_api_file.WriteLine(galleryJsonRequestJSON);
-                                                gallery_api_file.Close();
-
-                                            }
-
+                                            
 
                                             if (backgroundWorker.CancellationPending == true)
                                             {
@@ -1060,142 +1008,126 @@ namespace EnjinExportTool
                                             }
 
 
-                                            #region do json response work
 
-                                            List<EnjinExportTool.ExportGalleryModels.GalleryCategoryModel> GalleryCategoryModelList = new List<EnjinExportTool.ExportGalleryModels.GalleryCategoryModel>();
-                                            List<EnjinExportTool.ExportGalleryModels.GalleryItemModel> GalleryCategoryItemModelList = new List<EnjinExportTool.ExportGalleryModels.GalleryItemModel>();
+                                            JObject galleryJson =
+                                            new JObject(
+                                                new JProperty("jsonrpc", "2.0"),
+                                                new JProperty("id", "123456789"),
+                                                new JProperty("method", "Gallery.getAlbums"),
+                                                new JProperty("params",
+                                                    new JObject(new JProperty("session_id", session_id.ToString())))
+                                                );
 
-                                            string galleryJsonRequestJSONData = "[" + galleryJsonRequestJSON.ToString() + "]";
-                                            JArray galleryJsonRequestJSONArray = JArray.Parse(galleryJsonRequestJSONData);
+                                            int galleryCount = 0;
+                                            string galleryJsonRequestJSON = null;
+                                            HttpWebRequest galleryJsonRequest = (HttpWebRequest)WebRequest.Create(base_enjin_url + base_api_slug);
+                                            galleryJsonRequest.CookieContainer = new CookieContainer();
+                                            galleryJsonRequest.Method = WebRequestMethods.Http.Post;
+                                            galleryJsonRequest.UserAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.121 Safari/535.2";
+                                            galleryJsonRequest.AllowWriteStreamBuffering = true;
+                                            galleryJsonRequest.ProtocolVersion = HttpVersion.Version11;
+                                            galleryJsonRequest.AllowAutoRedirect = true;
+                                            galleryJsonRequest.ContentType = "application/json";
+                                            galleryJsonRequest.KeepAlive = true;
+                                            byte[] galleryJsonRequestArray = Encoding.ASCII.GetBytes(galleryJson.ToString());
+                                            galleryJsonRequest.ContentLength = galleryJson.ToString().Length;
+                                            Stream galleryJsonRequestStream = galleryJsonRequest.GetRequestStream(); //open connection
+                                            galleryJsonRequestStream.Write(galleryJsonRequestArray, 0, galleryJson.ToString().Length); // Send the data.
+                                            galleryJsonRequestStream.Close();
 
-                                            foreach (JObject galleryJsonRequestJSONContent in galleryJsonRequestJSONArray.Children<JObject>())
+                                            if (backgroundWorker.CancellationPending == true)
                                             {
-                                                foreach (JProperty galleryJsonRequestJSONNode in galleryJsonRequestJSONContent.Properties())
+                                                e.Cancel = true;
+                                                return;
+                                            }
+
+                                            HttpWebResponse galleryJsonRequestResponse = (HttpWebResponse)galleryJsonRequest.GetResponse();
+                                            using (StreamReader galleryJsonRequestReader = new StreamReader(galleryJsonRequestResponse.GetResponseStream()))
+                                            {
+
+                                                if (backgroundWorker.CancellationPending == true)
+                                                {
+                                                    e.Cancel = true;
+                                                    return;
+                                                }
+
+                                                processState[0] = "event";
+                                                processState[1] = "Exporting Gallery API... ";
+                                                processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                                processState[3] = "";
+                                                processState[4] = "";
+                                                processState[5] = "";
+                                                processState[6] = "";
+                                                processState[7] = "";
+                                                processState[8] = "";
+                                                processState[9] = "";
+                                                processState[10] = "";
+                                                backgroundWorker.ReportProgress(60, processState);
+
+                                                galleryJsonRequestJSON = galleryJsonRequestReader.ReadToEnd();
+                                                galleryJsonRequestReader.Close();
+
+                                                // Write the string to a file.
+                                                System.IO.StreamWriter fileGalleryJson = new System.IO.StreamWriter(JsonFolderGalleryPath + "galleries" + ".json");
+                                                fileGalleryJson.WriteLine(galleryJsonRequestJSON);
+                                                fileGalleryJson.Close();
+
+                                                Console.WriteLine("API Gallery Response: ----------------------- " + galleryJsonRequestJSON);
+
+                                                if (inif.Read("Application", "backupApiData") == "true")
                                                 {
 
-                                                    foreach (JObject galleryJsonRequestJSONNodeContent in galleryJsonRequestJSONNode.Children<JObject>()["Pictures"])
+                                                    System.IO.StreamWriter gallery_api_file = new System.IO.StreamWriter(migration_folder_json_path + "galleries" + ".json");
+                                                    gallery_api_file.WriteLine(galleryJsonRequestJSON);
+                                                    gallery_api_file.Close();
+
+                                                }
+
+
+                                                if (backgroundWorker.CancellationPending == true)
+                                                {
+                                                    e.Cancel = true;
+                                                    return;
+                                                }
+
+
+                                                #region do json response work
+
+                                                
+                                                string galleryJsonRequestJSONData = "[" + galleryJsonRequestJSON.ToString() + "]";
+                                                JArray galleryJsonRequestJSONArray = JArray.Parse(galleryJsonRequestJSONData);
+
+                                                foreach (JObject galleryJsonRequestJSONContent in galleryJsonRequestJSONArray.Children<JObject>())
+                                                {
+
+                                                    if (backgroundWorker.CancellationPending == true)
                                                     {
-                                                        foreach (JProperty galleryInnerNode in galleryJsonRequestJSONNodeContent.Properties())
+                                                        e.Cancel = true;
+                                                        return;
+                                                    }
+                                                    
+                                                    foreach (JProperty galleryJsonRequestJSONNode in galleryJsonRequestJSONContent.Properties())
+                                                    {
+
+
+                                                        if (backgroundWorker.CancellationPending == true)
+                                                        {
+                                                            e.Cancel = true;
+                                                            return;
+                                                        }
+                                                        
+                                                        foreach (JObject galleryJsonRequestJSONNodeContent in galleryJsonRequestJSONNode.Children<JObject>()["Pictures"])
                                                         {
 
-                                                            //get Gallery ID
-                                                            Console.WriteLine(galleryInnerNode.Name.ToString());
 
-                                                            //get Gallery Category
-                                                            Console.WriteLine(galleryInnerNode.Value.ToString());
-
-                                                            #region add to gallery model
-
-                                                            #region do GalleryCatergoryModelList checks
-
-                                                            //add to UserModelList after id checks
-                                                            //user_id 
-                                                            //user_name
-
-                                                            if (GalleryCategoryModelList.Count() == 0 ||
-                                                                GalleryCategoryModelList.Count() == null)
+                                                            if (backgroundWorker.CancellationPending == true)
                                                             {
-                                                                //empty UserModelList, add to Model
-                                                                GalleryCategoryModelList.Add(new EnjinExportTool.ExportGalleryModels.GalleryCategoryModel()
-                                                                {
-                                                                    id = galleryInnerNode.Name.ToString(),
-                                                                    name = galleryInnerNode.Value.ToString(),
-                                                                    sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
-                                                                });
+                                                                e.Cancel = true;
+                                                                return;
                                                             }
-                                                            else
+                                                            
+                                                            foreach (JProperty galleryInnerNode in galleryJsonRequestJSONNodeContent.Properties())
                                                             {
-
-                                                                //UserModelList has data, check forum id match so we can skip or add ...
-                                                                //this may get painful with large lists ...
-                                                                var matchingId = GalleryCategoryModelList.FirstOrDefault(_Item => (_Item.id == galleryInnerNode.Name.ToString()));
-                                                                if (matchingId != null)
-                                                                {
-                                                                    //match, lets skip ...
-                                                                }
-                                                                else
-                                                                {
-
-                                                                    //nothing found, lets add new forum top level category...
-                                                                    GalleryCategoryModelList.Add(new EnjinExportTool.ExportGalleryModels.GalleryCategoryModel()
-                                                                    {
-                                                                        id = galleryInnerNode.Name.ToString(),
-                                                                        name = galleryInnerNode.Value.ToString(),
-                                                                        sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
-                                                                    });
-
-                                                                }
-
-                                                            }
-
-                                                            #endregion do GalleryCatergoryModelList checks
-
-                                                            #region add to GalleryItemModelList model
-
-                                                            JObject galleryItemJson =
-                                                            new JObject(
-                                                                new JProperty("jsonrpc", "2.0"),
-                                                                new JProperty("id", "123456789"),
-                                                                new JProperty("method", "Gallery.getAlbum"),
-                                                                new JProperty("params",
-                                                                    new JObject(new JProperty("session_id", session_id.ToString()),
-                                                                        new JProperty("preset_id", galley_preset_id.ToString()),
-                                                                        new JProperty("album_id", galleryInnerNode.Name.ToString())))
-                                                                );
-
-                                                            int galleryItemCount = 0;
-                                                            string galleryItemJsonRequestJSON = null;
-                                                            HttpWebRequest galleryItemJsonRequest = (HttpWebRequest)WebRequest.Create(base_enjin_url + base_api_slug);
-                                                            galleryItemJsonRequest.CookieContainer = new CookieContainer();
-                                                            galleryItemJsonRequest.Method = WebRequestMethods.Http.Post;
-                                                            galleryItemJsonRequest.UserAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.121 Safari/535.2";
-                                                            galleryItemJsonRequest.AllowWriteStreamBuffering = true;
-                                                            galleryItemJsonRequest.ProtocolVersion = HttpVersion.Version11;
-                                                            galleryItemJsonRequest.AllowAutoRedirect = true;
-                                                            galleryItemJsonRequest.ContentType = "application/json";
-                                                            galleryItemJsonRequest.KeepAlive = true;
-                                                            byte[] galleryItemJsonRequestArray = Encoding.ASCII.GetBytes(galleryItemJson.ToString());
-                                                            galleryItemJsonRequest.ContentLength = galleryItemJson.ToString().Length;
-                                                            Stream galleryItemJsonRequestStream = galleryItemJsonRequest.GetRequestStream(); //open connection
-                                                            galleryItemJsonRequestStream.Write(galleryItemJsonRequestArray, 0, galleryItemJson.ToString().Length); // Send the data.
-                                                            galleryItemJsonRequestStream.Close();
-
-                                                            HttpWebResponse galleryItemJsonRequestResponse = (HttpWebResponse)galleryItemJsonRequest.GetResponse();
-                                                            using (StreamReader galleryItemJsonRequestReader = new StreamReader(galleryItemJsonRequestResponse.GetResponseStream()))
-                                                            {
-
-                                                                processState[0] = "event";
-                                                                processState[1] = "Exporting " + galleryInnerNode.Value.ToString() + " Gallery";
-                                                                processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
-                                                                processState[3] = "";
-                                                                processState[4] = "";
-                                                                processState[5] = "";
-                                                                processState[6] = "";
-                                                                processState[7] = "";
-                                                                processState[8] = "";
-                                                                processState[9] = "";
-                                                                processState[10] = "";
-                                                                backgroundWorker.ReportProgress(68, processState);
-
-                                                                galleryItemJsonRequestJSON = galleryItemJsonRequestReader.ReadToEnd();
-                                                                galleryItemJsonRequestReader.Close();
-
-                                                                // Write the string to a file.
-                                                                System.IO.StreamWriter galleryItemJsonFile = new System.IO.StreamWriter(JsonFolderGalleryPath + galleryInnerNode.Name.ToString() + ".json");
-                                                                galleryItemJsonFile.WriteLine(galleryItemJsonRequestJSON);
-                                                                galleryItemJsonFile.Close();
-
-                                                                Console.WriteLine("API Gallery Item Response: ----------------------- " + galleryItemJsonRequestJSON);
-
-                                                                if (inif.Read("Application", "backupApiData") == "true")
-                                                                {
-
-                                                                    System.IO.StreamWriter gallery_item_api_file = new System.IO.StreamWriter(migration_folder_json_path + "gallery_" + galleryInnerNode.Name.ToString() + ".json");
-                                                                    gallery_item_api_file.WriteLine(galleryItemJsonRequestJSON);
-                                                                    gallery_item_api_file.Close();
-
-                                                                }
-
 
                                                                 if (backgroundWorker.CancellationPending == true)
                                                                 {
@@ -1203,284 +1135,108 @@ namespace EnjinExportTool
                                                                     return;
                                                                 }
 
+                                                                #region add to gallery model
 
-                                                                dynamic dynObj = JsonConvert.DeserializeObject(galleryItemJsonRequestJSON.ToString());
-                                                                dynamic dynObj2 = JsonConvert.DeserializeObject(dynObj.result.images.ToString());
-                                                                JArray jarray = JArray.Parse(dynObj2.ToString());
+                                                                #region do GalleryCatergoryModelList checks
 
+                                                                if (backgroundWorker.CancellationPending == true)
+                                                                {
+                                                                    e.Cancel = true;
+                                                                    return;
+                                                                }
 
-                                                                //setup folders for album
-                                                                string migration_folder_images_path_gallery = migration_folder_path_root + @"media\images\galleries\" + galleryInnerNode.Name.ToString() + @"\";
-                                                                if (!Directory.Exists(migration_folder_images_path_gallery)) Directory.CreateDirectory(migration_folder_images_path_gallery);
-
-
-                                                                #region foreach
-
-                                                                foreach (var item in jarray)
+                                                                if (GalleryCategoryModelList.Count() == 0 ||
+                                                                    GalleryCategoryModelList.Count() == null)
+                                                                {
+                                                                    //empty UserModelList, add to Model
+                                                                    GalleryCategoryModelList.Add(new EnjinExportTool.ExportGalleryModels.GalleryCategoryModel()
+                                                                    {
+                                                                        id = galleryInnerNode.Name.ToString(),
+                                                                        name = galleryInnerNode.Value.ToString(),
+                                                                        sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+                                                                    });
+                                                                }
+                                                                else
                                                                 {
 
-
-                                                                    /*
-                                                                    Json Rsponse
-                                                                
-                                                                    "image_id": "",
-				                                                    "preset_id": "",
-				                                                    "title": "",
-				                                                    "description": "",
-				                                                    "created": "",
-				                                                    "user_id": "",
-				                                                    "views": "",
-				                                                    "album_id": "",
-				                                                    "have_original": "",
-				                                                    "ordering": "",
-				                                                    "number_comments": "",
-				                                                    "comment_cid": "",
-				                                                    "url": "",
-				                                                    "url_full": "",
-				                                                    "url_original": "",
-				                                                    "can_modify": 
-                                                                 
-                                                                    */
-
-                                                                    string image_id =  "";
-                                                                    string preset_id = "";
-                                                                    string title = "";
-                                                                    string description = "";
-                                                                    string created = "";
-                                                                    string user_id = "";
-                                                                    string views = "";
-                                                                    string album_id = "";
-                                                                    string have_original = "";
-                                                                    string ordering = "";
-                                                                    string number_comments = "";
-                                                                    string comment_cid = "";
-                                                                    string url = "";
-                                                                    string url_full = "";
-                                                                    string url_original = "";
-                                                                    string can_modify = "";
-
-                                                                    string migration_folder_images_path_thumb_image = "";
-                                                                    string migration_folder_images_path_image = "";
-                                                                    string migration_folder_images_path_original = "";
-
-
-                                                                    #region do foreach
-
-                                                                    JObject jObject = JObject.Parse(item.ToString());
-                                                                    foreach (var itemjObject in jObject)
+                                                                    //UserModelList has data, check forum id match so we can skip or add ...
+                                                                    //this may get painful with large lists ...
+                                                                    var matchingId = GalleryCategoryModelList.FirstOrDefault(_Item => (_Item.id == galleryInnerNode.Name.ToString()));
+                                                                    if (matchingId != null)
+                                                                    {
+                                                                        //match, lets skip ...
+                                                                    }
+                                                                    else
                                                                     {
 
-                                                                        //Console.WriteLine(itemjObject.Value.ToString());
-
-                                                                        
-
-                                                                        if(itemjObject.Key.ToString() == "image_id"){
-                                                                                                                                                       
-                                                                            image_id = itemjObject.Value.ToString();
-
-                                                                            //setup images for album
-                                                                            migration_folder_images_path_thumb_image = migration_folder_images_path_gallery + image_id + @"\thumbnail\";
-                                                                            if (!Directory.Exists(migration_folder_images_path_thumb_image)) Directory.CreateDirectory(migration_folder_images_path_thumb_image);
-
-                                                                            //setup url_full for album
-                                                                            migration_folder_images_path_image = migration_folder_images_path_gallery + image_id + @"\image\";
-                                                                            if (!Directory.Exists(migration_folder_images_path_image)) Directory.CreateDirectory(migration_folder_images_path_image);
-
-                                                                            //setup url_full for album
-                                                                            migration_folder_images_path_original = migration_folder_images_path_gallery + image_id + @"\original\";
-                                                                            if (!Directory.Exists(migration_folder_images_path_original)) Directory.CreateDirectory(migration_folder_images_path_original);
-
-
-                                                                        };
-
-
-                                                                        if(itemjObject.Key.ToString() == "preset_id"){
-                                                                            preset_id = itemjObject.Value.ToString();
-                                                                        };
-                                                                        if(itemjObject.Key.ToString() == "title"){
-                                                                            title = itemjObject.Value.ToString();
-                                                                        };
-                                                                        if(itemjObject.Key.ToString() == "description"){
-                                                                            description = itemjObject.Value.ToString();
-                                                                        };
-                                                                        if(itemjObject.Key.ToString() == "created"){
-                                                                            created = itemjObject.Value.ToString();
-                                                                        };
-
-                                                                        //owner id
-                                                                        if(itemjObject.Key.ToString() == "user_id"){
-                                                                            user_id = itemjObject.Value.ToString();
-                                                                        };
-                                                                        if(itemjObject.Key.ToString() == "views"){
-                                                                            views = itemjObject.Value.ToString();
-                                                                        };
-                                                                        if(itemjObject.Key.ToString() == "album_id"){
-                                                                            album_id = itemjObject.Value.ToString();
-                                                                        };
-                                                                        if(itemjObject.Key.ToString() == "have_original"){
-                                                                            have_original = itemjObject.Value.ToString();
-                                                                        };
-                                                                        if(itemjObject.Key.ToString() == "ordering"){
-                                                                            ordering = itemjObject.Value.ToString();
-                                                                        };
-                                                                        if(itemjObject.Key.ToString() == "number_comments"){
-                                                                            number_comments = itemjObject.Value.ToString();
-                                                                        };
-
-                                                                        //commenst id link, if extracting comments api data
-                                                                        if(itemjObject.Key.ToString() == "comment_cid"){
-                                                                            comment_cid = itemjObject.Value.ToString();
-                                                                        };
-
-                                                                        //images
-
-                                                                        //thumb
-                                                                        if(itemjObject.Key.ToString() == "url"){
-
-                                                                            url = itemjObject.Value.ToString();
-
-                                                                        };
-
-                                                                        //meduim
-                                                                        if(itemjObject.Key.ToString() == "url_full"){
-                                                                            url_full = itemjObject.Value.ToString();
-
-                                                                        };
-
-                                                                        //original
-                                                                        if(itemjObject.Key.ToString() == "url_original"){
-                                                                            url_original = itemjObject.Value.ToString();
-                                                                        };
-
-
-                                                                        if(itemjObject.Key.ToString() == "can_modify") {
-                                                                            can_modify = itemjObject.Value.ToString();
-                                                                        }; 
-
-
+                                                                        //nothing found, lets add new forum top level category...
+                                                                        GalleryCategoryModelList.Add(new EnjinExportTool.ExportGalleryModels.GalleryCategoryModel()
+                                                                        {
+                                                                            id = galleryInnerNode.Name.ToString(),
+                                                                            name = galleryInnerNode.Value.ToString(),
+                                                                            sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+                                                                        });
 
                                                                     }
 
-                                                                    #endregion foreach
+                                                                }
 
+                                                                #endregion do GalleryCatergoryModelList checks
 
-                                                                    //do checks here, but for now it works ....
-                                                                    if (inif.Read("Application", "dlOriginal") == "true" ||
-                                                                        inif.Read("Application", "dlThumbnails") == "true" ||
-                                                                        inif.Read("Application", "dlImages") == "true")
+                                                                if (backgroundWorker.CancellationPending == true)
+                                                                {
+                                                                    e.Cancel = true;
+                                                                    return;
+                                                                }
+
+                                                                #region add to GalleryItemModelList model
+
+                                                                JObject galleryItemJson =
+                                                                new JObject(
+                                                                    new JProperty("jsonrpc", "2.0"),
+                                                                    new JProperty("id", "123456789"),
+                                                                    new JProperty("method", "Gallery.getAlbum"),
+                                                                    new JProperty("params",
+                                                                        new JObject(new JProperty("session_id", session_id.ToString()),
+                                                                            new JProperty("preset_id", galley_preset_id.ToString()),
+                                                                            new JProperty("album_id", galleryInnerNode.Name.ToString())))
+                                                                    );
+
+                                                                int galleryItemCount = 0;
+                                                                string galleryItemJsonRequestJSON = null;
+                                                                HttpWebRequest galleryItemJsonRequest = (HttpWebRequest)WebRequest.Create(base_enjin_url + base_api_slug);
+                                                                galleryItemJsonRequest.CookieContainer = new CookieContainer();
+                                                                galleryItemJsonRequest.Method = WebRequestMethods.Http.Post;
+                                                                galleryItemJsonRequest.UserAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.121 Safari/535.2";
+                                                                galleryItemJsonRequest.AllowWriteStreamBuffering = true;
+                                                                galleryItemJsonRequest.ProtocolVersion = HttpVersion.Version11;
+                                                                galleryItemJsonRequest.AllowAutoRedirect = true;
+                                                                galleryItemJsonRequest.ContentType = "application/json";
+                                                                galleryItemJsonRequest.KeepAlive = true;
+                                                                byte[] galleryItemJsonRequestArray = Encoding.ASCII.GetBytes(galleryItemJson.ToString());
+                                                                galleryItemJsonRequest.ContentLength = galleryItemJson.ToString().Length;
+                                                                Stream galleryItemJsonRequestStream = galleryItemJsonRequest.GetRequestStream(); //open connection
+                                                                galleryItemJsonRequestStream.Write(galleryItemJsonRequestArray, 0, galleryItemJson.ToString().Length); // Send the data.
+                                                                galleryItemJsonRequestStream.Close();
+
+                                                                if (backgroundWorker.CancellationPending == true)
+                                                                {
+                                                                    e.Cancel = true;
+                                                                    return;
+                                                                }
+
+                                                                HttpWebResponse galleryItemJsonRequestResponse = (HttpWebResponse)galleryItemJsonRequest.GetResponse();
+                                                                using (StreamReader galleryItemJsonRequestReader = new StreamReader(galleryItemJsonRequestResponse.GetResponseStream()))
+                                                                {
+
+                                                                    if (backgroundWorker.CancellationPending == true)
                                                                     {
-
-
-                                                                        if (inif.Read("Application", "dlThumbnails") == "true")
-                                                                        {
-
-                                                                            #region dl thumb
-                                                                            string newUrlThumb = url.ToString().Replace(@"\", "");
-                                                                            string extensionUrlThumb = System.IO.Path.GetExtension(newUrlThumb).ToString();
-                                                                            string responseThumbnailFile = migration_folder_images_path_thumb_image.ToString() + image_id.ToString() + extensionUrlThumb.ToString();
-
-                                                                            using (WebClient client = new WebClient())
-                                                                            {
-
-                                                                                #region event ui
-                                                                                processState[0] = "event";
-                                                                                processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
-                                                                                processState[3] = "";
-                                                                                processState[4] = "";
-                                                                                processState[5] = "";
-                                                                                processState[6] = "";
-                                                                                processState[7] = "";
-                                                                                processState[8] = "";
-                                                                                processState[9] = "";
-                                                                                processState[10] = "Downloading " + image_id.ToString() + extensionUrlThumb + " (Thumbnail)";
-                                                                                backgroundWorker.ReportProgress(68, processState);
-
-                                                                                #endregion event ui
-
-                                                                                client.DownloadFile(newUrlThumb.ToString(), responseThumbnailFile.ToString());
-                                                                                Thread.Sleep(850);
-
-                                                                            }
-
-                                                                            #endregion dl thumb
-
-                                                                        }
-
-                                                                        if (inif.Read("Application", "dlImages") == "true")
-                                                                        {
-
-                                                                            #region dl med
-                                                                            string newUrlMed = url_full.ToString().Replace(@"\", "");
-                                                                            string extensionUrlMed = System.IO.Path.GetExtension(newUrlMed).ToString();
-                                                                            string responseMedFile = migration_folder_images_path_image.ToString() + image_id.ToString() + extensionUrlMed.ToString();
-
-                                                                            using (WebClient client = new WebClient())
-                                                                            {
-
-                                                                                #region event ui
-                                                                                processState[0] = "event";
-                                                                                processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
-                                                                                processState[3] = "";
-                                                                                processState[4] = "";
-                                                                                processState[5] = "";
-                                                                                processState[6] = "";
-                                                                                processState[7] = "";
-                                                                                processState[8] = "";
-                                                                                processState[9] = "";
-                                                                                processState[10] = "Downloading " + image_id.ToString() + extensionUrlMed + " (Meduim Image)";
-                                                                                backgroundWorker.ReportProgress(68, processState);
-
-                                                                                Thread.Sleep(10);
-
-
-                                                                                #endregion event ui
-
-                                                                                client.DownloadFile(newUrlMed.ToString(), responseMedFile.ToString());
-                                                                                Thread.Sleep(850);
-                                                                            }
-
-                                                                            #endregion dl med
-
-                                                                        }
-
-                                                                        if (inif.Read("Application", "dlOriginal") == "true")
-                                                                        {
-
-                                                                            #region dl org
-                                                                            string newUrlOrg = url_original.ToString().Replace(@"\", "");
-                                                                            string extensionUrlOrg = System.IO.Path.GetExtension(newUrlOrg).ToString();
-                                                                            string responseOrgFile = migration_folder_images_path_image.ToString() + image_id.ToString() + extensionUrlOrg.ToString();
-
-                                                                            using (WebClient client = new WebClient())
-                                                                            {
-
-                                                                                #region event ui
-                                                                                processState[0] = "event";
-                                                                                processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
-                                                                                processState[3] = "";
-                                                                                processState[4] = "";
-                                                                                processState[5] = "";
-                                                                                processState[6] = "";
-                                                                                processState[7] = "";
-                                                                                processState[8] = "";
-                                                                                processState[9] = "";
-                                                                                processState[10] = "Downloading " + image_id.ToString() + extensionUrlOrg + " (Original)";
-                                                                                backgroundWorker.ReportProgress(68, processState);
-
-
-
-                                                                                #endregion event ui
-
-                                                                                client.DownloadFile(newUrlOrg.ToString(), responseOrgFile.ToString());
-                                                                                Thread.Sleep(850);
-                                                                            }
-
-                                                                            #endregion dl org
-
-                                                                        }
-                                                                    
+                                                                        e.Cancel = true;
+                                                                        return;
+                                                                    }
 
                                                                     processState[0] = "event";
+                                                                    processState[1] = "Exporting " + galleryInnerNode.Value.ToString() + " Gallery";
                                                                     processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
                                                                     processState[3] = "";
                                                                     processState[4] = "";
@@ -1492,35 +1248,504 @@ namespace EnjinExportTool
                                                                     processState[10] = "";
                                                                     backgroundWorker.ReportProgress(68, processState);
 
-                                                                    }else{
+                                                                    galleryItemJsonRequestJSON = galleryItemJsonRequestReader.ReadToEnd();
+                                                                    galleryItemJsonRequestReader.Close();
+
+                                                                    // Write the string to a file.
+                                                                    System.IO.StreamWriter galleryItemJsonFile = new System.IO.StreamWriter(JsonFolderGalleryPath + galleryInnerNode.Name.ToString() + ".json");
+                                                                    galleryItemJsonFile.WriteLine(galleryItemJsonRequestJSON);
+                                                                    galleryItemJsonFile.Close();
+
+                                                                    Console.WriteLine("API Gallery Item Response: ----------------------- " + galleryItemJsonRequestJSON);
+
+                                                                    if (inif.Read("Application", "backupApiData") == "true")
+                                                                    {
+
+                                                                        System.IO.StreamWriter gallery_item_api_file = new System.IO.StreamWriter(migration_folder_json_path + "gallery_" + galleryInnerNode.Name.ToString() + ".json");
+                                                                        gallery_item_api_file.WriteLine(galleryItemJsonRequestJSON);
+                                                                        gallery_item_api_file.Close();
+
+                                                                    }
 
 
-                                                                        #region error ui
-                                                                        processState[0] = "error";
-                                                                        processState[1] = "Skipped Gallery Download ... Check your settings";
-                                                                        processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
-                                                                        backgroundWorker.ReportProgress(70, processState);
+                                                                    if (backgroundWorker.CancellationPending == true)
+                                                                    {
+                                                                        e.Cancel = true;
+                                                                        return;
+                                                                    }
 
-                                                                        Thread.Sleep(1000);
 
-                                                                        #endregion error ui
+                                                                    dynamic dynObj = JsonConvert.DeserializeObject(galleryItemJsonRequestJSON.ToString());
+                                                                    dynamic dynObj2 = JsonConvert.DeserializeObject(dynObj.result.images.ToString());
+                                                                    JArray jarray = JArray.Parse(dynObj2.ToString());
+
+
+                                                                    //setup folders for album
+                                                                    string migration_folder_images_path_gallery = migration_folder_path_root + @"media\images\galleries\" + galleryInnerNode.Name.ToString() + @"\";
+                                                                    if (!Directory.Exists(migration_folder_images_path_gallery)) Directory.CreateDirectory(migration_folder_images_path_gallery);
+
+
+                                                                    #region foreach
+
+                                                                    foreach (var item in jarray)
+                                                                    {
+
+                                                                        if (backgroundWorker.CancellationPending == true)
+                                                                        {
+                                                                            e.Cancel = true;
+                                                                            return;
+                                                                        }
+                                                                        /*
+                                                                        Json Rsponse
+                                                                
+                                                                        "image_id": "",
+                                                                        "preset_id": "",
+                                                                        "title": "",
+                                                                        "description": "",
+                                                                        "created": "",
+                                                                        "user_id": "",
+                                                                        "views": "",
+                                                                        "album_id": "",
+                                                                        "have_original": "",
+                                                                        "ordering": "",
+                                                                        "number_comments": "",
+                                                                        "comment_cid": "",
+                                                                        "url": "",
+                                                                        "url_full": "",
+                                                                        "url_original": "",
+                                                                        "can_modify": 
+                                                                 
+                                                                        */
+
+                                                                        string image_id = "";
+                                                                        string preset_id = "";
+                                                                        string title = "";
+                                                                        string description = "";
+                                                                        string created = "";
+                                                                        string user_id = "";
+                                                                        string views = "";
+                                                                        string album_id = "";
+                                                                        string have_original = "";
+                                                                        string ordering = "";
+                                                                        string number_comments = "";
+                                                                        string comment_cid = "";
+                                                                        string url = "";
+                                                                        string url_full = "";
+                                                                        string url_original = "";
+                                                                        string can_modify = "";
+
+                                                                        string migration_folder_images_path_thumb_image = "";
+                                                                        string migration_folder_images_path_image = "";
+                                                                        string migration_folder_images_path_original = "";
+
+                                                                        string responseThumbnailFile = "";
+                                                                        string responseMedFile = "";
+                                                                        string responseOrgFile = "";
+
+                                                                        string extensionUrlThumb = "";
+                                                                        string extensionUrlMed = "";
+                                                                        string extensionUrlOrg = "";
+
+                                                                        #region do foreach
+
+                                                                        JObject jObject = JObject.Parse(item.ToString());
+                                                                        foreach (var itemjObject in jObject)
+                                                                        {
+
+
+                                                                            if (backgroundWorker.CancellationPending == true)
+                                                                            {
+                                                                                e.Cancel = true;
+                                                                                return;
+                                                                            }
+
+                                                                            if (itemjObject.Key.ToString() == "image_id")
+                                                                            {
+
+                                                                                image_id = itemjObject.Value.ToString();
+
+                                                                                //setup images for album
+                                                                                migration_folder_images_path_thumb_image = migration_folder_images_path_gallery + image_id + @"\thumbnail\";
+                                                                                if (!Directory.Exists(migration_folder_images_path_thumb_image)) Directory.CreateDirectory(migration_folder_images_path_thumb_image);
+
+                                                                                //setup url_full for album
+                                                                                migration_folder_images_path_image = migration_folder_images_path_gallery + image_id + @"\image\";
+                                                                                if (!Directory.Exists(migration_folder_images_path_image)) Directory.CreateDirectory(migration_folder_images_path_image);
+
+                                                                                //setup url_full for album
+                                                                                migration_folder_images_path_original = migration_folder_images_path_gallery + image_id + @"\original\";
+                                                                                if (!Directory.Exists(migration_folder_images_path_original)) Directory.CreateDirectory(migration_folder_images_path_original);
+
+
+                                                                            };
+
+
+                                                                            if (itemjObject.Key.ToString() == "preset_id")
+                                                                            {
+                                                                                preset_id = itemjObject.Value.ToString();
+                                                                            };
+                                                                            if (itemjObject.Key.ToString() == "title")
+                                                                            {
+                                                                                title = itemjObject.Value.ToString();
+                                                                            };
+                                                                            if (itemjObject.Key.ToString() == "description")
+                                                                            {
+                                                                                description = itemjObject.Value.ToString();
+                                                                            };
+                                                                            if (itemjObject.Key.ToString() == "created")
+                                                                            {
+                                                                                created = itemjObject.Value.ToString();
+                                                                            };
+
+                                                                            //owner id
+                                                                            if (itemjObject.Key.ToString() == "user_id")
+                                                                            {
+                                                                                user_id = itemjObject.Value.ToString();
+                                                                            };
+                                                                            if (itemjObject.Key.ToString() == "views")
+                                                                            {
+                                                                                views = itemjObject.Value.ToString();
+                                                                            };
+                                                                            if (itemjObject.Key.ToString() == "album_id")
+                                                                            {
+                                                                                album_id = itemjObject.Value.ToString();
+                                                                            };
+                                                                            if (itemjObject.Key.ToString() == "have_original")
+                                                                            {
+                                                                                have_original = itemjObject.Value.ToString();
+                                                                            };
+                                                                            if (itemjObject.Key.ToString() == "ordering")
+                                                                            {
+                                                                                ordering = itemjObject.Value.ToString();
+                                                                            };
+                                                                            if (itemjObject.Key.ToString() == "number_comments")
+                                                                            {
+                                                                                number_comments = itemjObject.Value.ToString();
+                                                                            };
+
+                                                                            //commenst id link, if extracting comments api data
+                                                                            if (itemjObject.Key.ToString() == "comment_cid")
+                                                                            {
+                                                                                comment_cid = itemjObject.Value.ToString();
+                                                                            };
+
+                                                                            //images
+
+                                                                            //thumb
+                                                                            if (itemjObject.Key.ToString() == "url")
+                                                                            {
+
+                                                                                url = itemjObject.Value.ToString();
+
+                                                                            };
+
+                                                                            //meduim
+                                                                            if (itemjObject.Key.ToString() == "url_full")
+                                                                            {
+                                                                                url_full = itemjObject.Value.ToString();
+
+                                                                            };
+
+                                                                            //original
+                                                                            if (itemjObject.Key.ToString() == "url_original")
+                                                                            {
+                                                                                url_original = itemjObject.Value.ToString();
+                                                                            };
+
+
+                                                                            if (itemjObject.Key.ToString() == "can_modify")
+                                                                            {
+                                                                                can_modify = itemjObject.Value.ToString();
+                                                                            };
+
+                                                                            if (backgroundWorker.CancellationPending == true)
+                                                                            {
+                                                                                e.Cancel = true;
+                                                                                return;
+                                                                            }
+
+                                                                        }
+
+                                                                        #endregion foreach
+
+
+                                                                        #region do images work
+                                                                        //do checks here, but for now it works ....
+
+                                                                        if (backgroundWorker.CancellationPending == true)
+                                                                        {
+                                                                            e.Cancel = true;
+                                                                            return;
+                                                                        }
+
+                                                                        #region do if
+                                                                        if (inif.Read("Application", "dlOriginal") == "true" ||
+                                                                            inif.Read("Application", "dlThumbnails") == "true" ||
+                                                                            inif.Read("Application", "dlImages") == "true")
+                                                                        {
+
+
+                                                                            if (inif.Read("Application", "dlThumbnails") == "true")
+                                                                            {
+
+                                                                                #region dl thumb
+                                                                                string newUrlThumb = url.ToString().Replace(@"\", "");
+                                                                                extensionUrlThumb = System.IO.Path.GetExtension(newUrlThumb).ToString();
+                                                                                responseThumbnailFile = migration_folder_images_path_thumb_image.ToString() + image_id.ToString() + extensionUrlThumb.ToString();
+
+                                                                                using (WebClient client = new WebClient())
+                                                                                {
+
+                                                                                    #region event ui
+                                                                                    processState[0] = "event";
+                                                                                    processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                                                                    processState[3] = "";
+                                                                                    processState[4] = "";
+                                                                                    processState[5] = "";
+                                                                                    processState[6] = "";
+                                                                                    processState[7] = "";
+                                                                                    processState[8] = "";
+                                                                                    processState[9] = "";
+                                                                                    processState[10] = "Downloading " + image_id.ToString() + extensionUrlThumb + " (Thumbnail)";
+                                                                                    backgroundWorker.ReportProgress(68, processState);
+
+                                                                                    #endregion event ui
+
+                                                                                    client.DownloadFile(newUrlThumb.ToString(), responseThumbnailFile.ToString());
+                                                                                    
+
+                                                                                }
+
+                                                                                #endregion dl thumb
+
+                                                                                if (backgroundWorker.CancellationPending == true)
+                                                                                {
+                                                                                    e.Cancel = true;
+                                                                                    return;
+                                                                                }
+
+                                                                            }
+
+                                                                            if (inif.Read("Application", "dlImages") == "true")
+                                                                            {
+
+                                                                                #region dl med
+                                                                                string newUrlMed = url_full.ToString().Replace(@"\", "");
+                                                                                extensionUrlMed = System.IO.Path.GetExtension(newUrlMed).ToString();
+                                                                                responseMedFile = migration_folder_images_path_image.ToString() + image_id.ToString() + extensionUrlMed.ToString();
+
+                                                                                using (WebClient client = new WebClient())
+                                                                                {
+
+                                                                                    #region event ui
+                                                                                    processState[0] = "event";
+                                                                                    processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                                                                    processState[3] = "";
+                                                                                    processState[4] = "";
+                                                                                    processState[5] = "";
+                                                                                    processState[6] = "";
+                                                                                    processState[7] = "";
+                                                                                    processState[8] = "";
+                                                                                    processState[9] = "";
+                                                                                    processState[10] = "Downloading " + image_id.ToString() + extensionUrlMed + " (Meduim Image)";
+                                                                                    backgroundWorker.ReportProgress(68, processState);
+
+                                                                                    
+
+
+                                                                                    #endregion event ui
+
+                                                                                    client.DownloadFile(newUrlMed.ToString(), responseMedFile.ToString());
+                                                                                    
+                                                                                }
+
+                                                                                #endregion dl med
+
+                                                                                if (backgroundWorker.CancellationPending == true)
+                                                                                {
+                                                                                    e.Cancel = true;
+                                                                                    return;
+                                                                                }
+
+                                                                            }
+
+                                                                            if (inif.Read("Application", "dlOriginal") == "true")
+                                                                            {
+
+                                                                                #region dl org
+                                                                                string newUrlOrg = url_original.ToString().Replace(@"\", "");
+                                                                                extensionUrlOrg = System.IO.Path.GetExtension(newUrlOrg).ToString();
+                                                                                responseOrgFile = migration_folder_images_path_image.ToString() + image_id.ToString() + extensionUrlOrg.ToString();
+
+                                                                                using (WebClient client = new WebClient())
+                                                                                {
+
+                                                                                    #region event ui
+                                                                                    processState[0] = "event";
+                                                                                    processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                                                                    processState[3] = "";
+                                                                                    processState[4] = "";
+                                                                                    processState[5] = "";
+                                                                                    processState[6] = "";
+                                                                                    processState[7] = "";
+                                                                                    processState[8] = "";
+                                                                                    processState[9] = "";
+                                                                                    processState[10] = "Downloading " + image_id.ToString() + extensionUrlOrg + " (Original)";
+                                                                                    backgroundWorker.ReportProgress(68, processState);
+
+
+
+                                                                                    #endregion event ui
+
+                                                                                    client.DownloadFile(newUrlOrg.ToString(), responseOrgFile.ToString());
+                                                                                    
+                                                                                }
+
+                                                                                #endregion dl org
+
+                                                                                if (backgroundWorker.CancellationPending == true)
+                                                                                {
+                                                                                    e.Cancel = true;
+                                                                                    return;
+                                                                                }
+
+                                                                            }
+
+
+                                                                            processState[0] = "event";
+                                                                            processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                                                            processState[3] = "";
+                                                                            processState[4] = "";
+                                                                            processState[5] = "";
+                                                                            processState[6] = "";
+                                                                            processState[7] = "";
+                                                                            processState[8] = "";
+                                                                            processState[9] = "";
+                                                                            processState[10] = "";
+                                                                            backgroundWorker.ReportProgress(68, processState);
+
+                                                                            if (backgroundWorker.CancellationPending == true)
+                                                                            {
+                                                                                e.Cancel = true;
+                                                                                return;
+                                                                            }
+
+                                                                        }
+                                                                        else
+                                                                        {
+
+
+                                                                            #region error ui
+                                                                            processState[0] = "error";
+                                                                            processState[1] = "Skipped Gallery Download ... Check your settings";
+                                                                            processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                                                            backgroundWorker.ReportProgress(70, processState);
+
+                                                                            Thread.Sleep(1000);
+
+                                                                            #endregion error ui
+
+
+                                                                        }
+                                                                        #endregion do if
+
+                                                                        #endregion do images work
+
+
+                                                                        #region do GalleryItemModelList checks
+
+                                                                        //add to GalleryItemModelList after id checks
+                                                                        //image_id
+
+                                                                        if (GalleryCategoryItemModelList.Count() == 0 ||
+                                                                            GalleryCategoryItemModelList.Count() == null)
+                                                                        {
+                                                                            //empty UserModelList, add to Model
+                                                                            GalleryCategoryItemModelList.Add(new EnjinExportTool.ExportGalleryModels.GalleryItemModel()
+                                                                            {
+                                                                                image_id = image_id,
+                                                                                preset_id = preset_id,
+                                                                                title = title,
+                                                                                description = description,
+                                                                                created = created,
+                                                                                user_id = user_id,
+                                                                                views = views,
+                                                                                album_id = album_id,
+                                                                                have_original = have_original,
+                                                                                ordering = ordering,
+                                                                                number_comments = number_comments,
+                                                                                comment_cid = comment_cid,
+                                                                                url = url,
+                                                                                url_full = url_full,
+                                                                                url_original = url_original,
+                                                                                can_modify = false,
+                                                                                thumbImagePath = "media/images/galleries/" + album_id + "/" + image_id.ToString() + "/thumbnail/" + image_id.ToString() + extensionUrlThumb,
+                                                                                originalImagePath = "media/images/galleries/" + album_id + "/" + image_id.ToString() + "/original/" + image_id.ToString() + extensionUrlOrg,
+                                                                                meduimImagePath = "media/images/galleries/" + album_id + "/" + image_id.ToString() + "/image/" + image_id.ToString() + extensionUrlMed,
+                                                                                sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+                                                                            });
+                                                                        }
+                                                                        else
+                                                                        {
+
+                                                                            //GalleryCategoryItemModelList has data, check id match so we can skip or add ...
+                                                                            //this may get painful with large lists ...
+                                                                            var matchingId = GalleryCategoryItemModelList.FirstOrDefault(_Item => (_Item.image_id == image_id));
+                                                                            if (matchingId != null)
+                                                                            {
+                                                                                //match, lets skip ...
+                                                                            }
+                                                                            else
+                                                                            {
+
+                                                                                //nothing found, lets add new image...
+                                                                                GalleryCategoryItemModelList.Add(new EnjinExportTool.ExportGalleryModels.GalleryItemModel()
+                                                                                {
+                                                                                    image_id = image_id,
+                                                                                    preset_id = preset_id,
+                                                                                    title = title,
+                                                                                    description = description,
+                                                                                    created = created,
+                                                                                    user_id = user_id,
+                                                                                    views = views,
+                                                                                    album_id = album_id,
+                                                                                    have_original = have_original,
+                                                                                    ordering = ordering,
+                                                                                    number_comments = number_comments,
+                                                                                    comment_cid = comment_cid,
+                                                                                    url = url,
+                                                                                    url_full = url_full,
+                                                                                    url_original = url_original,
+                                                                                    can_modify = false,
+                                                                                    thumbImagePath = "media/images/galleries/" + album_id + "/" + image_id.ToString() + "/thumbnail/" + image_id.ToString() + extensionUrlThumb,
+                                                                                    originalImagePath = "media/images/galleries/" + album_id + "/" + image_id.ToString() + "/original/" + image_id.ToString() + extensionUrlOrg,
+                                                                                    meduimImagePath = "media/images/galleries/" + album_id + "/" + image_id.ToString() + "/image/" + image_id.ToString() + extensionUrlMed,
+                                                                                    sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+                                                                                });
+
+                                                                            }
+
+                                                                        }
+
+                                                                        #endregion do GalleryItemModelList checks
+
 
 
                                                                     }
 
 
+                                                                    #endregion foreach
+
+
                                                                 }
 
-                                                                #endregion foreach
 
+                                                                #endregion add to GalleryItemModelList model
+
+
+                                                                #endregion add to gallery model
 
                                                             }
-
-
-                                                            #endregion add to GalleryItemModelList model
-
-
-                                                            #endregion add to gallery model
 
                                                         }
 
@@ -1528,25 +1753,262 @@ namespace EnjinExportTool
 
                                                 }
 
+
+                                                #endregion do json response work
+
+                                                
+
+
                                             }
 
+                                            #endregion do api gallery inner region
 
-                                            #endregion do json response work
+                                            #region do model processing & checks
 
+                                            #region model valid items
+
+                                            if (GalleryCategoryModelList.Count() == 0 &&
+                                                GalleryCategoryItemModelList.Count() == 0)
+                                            {
+
+                                                //All list need at least 1 count on each ...
+                                                //Update UI with error message state
+
+
+
+                                            }
+                                            else
+                                            {
+
+                                                XmlWriter xmlWriter = XmlWriter.Create(migration_folder_xml_path + "galleries.xml");
+                                                xmlWriter.WriteStartDocument();
+                                                xmlWriter.WriteStartElement("galleries");
+
+                                                #region do xml writes for GalleryCategoryModelList items
+
+                                                xmlWriter.WriteStartElement("categories");
+
+                                                foreach (var GalleryCategoryModelListItem in GalleryCategoryModelList)
+                                                {
+
+                                                    xmlWriter.WriteStartElement("category");
+                                                    xmlWriter.WriteStartElement("id");
+                                                    xmlWriter.WriteString(GalleryCategoryModelListItem.id);
+                                                    xmlWriter.WriteEndElement();
+                                                    xmlWriter.WriteStartElement("name");
+                                                    xmlWriter.WriteString(GalleryCategoryModelListItem.name);
+                                                    xmlWriter.WriteEndElement();
+                                                    xmlWriter.WriteEndElement();
+                                                }
+
+                                                xmlWriter.WriteEndElement();
+
+                                                #endregion do xml writes for GalleryCategoryModelList items
+
+                                                #region do xml writes for GalleryCategoryItemModelList items
+
+                                                xmlWriter.WriteStartElement("images");
+
+                                                foreach (var GalleryCategoryItemModelListItem in GalleryCategoryItemModelList)
+                                                {
+
+
+                                                    /*
+                                                    Model Rsponse
+                                                                
+                                                    "image_id": "",
+                                                    "preset_id": "",
+                                                    "title": "",
+                                                    "description": "",
+                                                    "created": "",
+                                                    "user_id": "",
+                                                    "views": "",
+                                                    "album_id": "",
+                                                    "have_original": "",
+                                                    "ordering": "",
+                                                    "number_comments": "",
+                                                    "comment_cid": "",
+                                                    "url": "",
+                                                    "url_full": "",
+                                                    "url_original": "",
+                                                    "can_modify": 
+                                                                 
+                                                    */
+
+
+                                                    xmlWriter.WriteStartElement("image");
+
+                                                    xmlWriter.WriteStartElement("image_id");
+                                                    xmlWriter.WriteString(GalleryCategoryItemModelListItem.image_id);
+                                                    xmlWriter.WriteEndElement();
+
+                                                    xmlWriter.WriteStartElement("preset_id");
+                                                    xmlWriter.WriteString(GalleryCategoryItemModelListItem.preset_id);
+                                                    xmlWriter.WriteEndElement();
+
+                                                    xmlWriter.WriteStartElement("title");
+                                                    xmlWriter.WriteString(GalleryCategoryItemModelListItem.title);
+                                                    xmlWriter.WriteEndElement();
+
+                                                    xmlWriter.WriteStartElement("description");
+                                                    xmlWriter.WriteString(GalleryCategoryItemModelListItem.description);
+                                                    xmlWriter.WriteEndElement();
+
+                                                    xmlWriter.WriteStartElement("created");
+                                                    xmlWriter.WriteString(GalleryCategoryItemModelListItem.created);
+                                                    xmlWriter.WriteEndElement();
+
+                                                    xmlWriter.WriteStartElement("user_id");
+                                                    xmlWriter.WriteString(GalleryCategoryItemModelListItem.user_id);
+                                                    xmlWriter.WriteEndElement();
+
+                                                    xmlWriter.WriteStartElement("views");
+                                                    xmlWriter.WriteString(GalleryCategoryItemModelListItem.views);
+                                                    xmlWriter.WriteEndElement();
+
+                                                    xmlWriter.WriteStartElement("album_id");
+                                                    xmlWriter.WriteString(GalleryCategoryItemModelListItem.album_id);
+                                                    xmlWriter.WriteEndElement();
+
+                                                    xmlWriter.WriteStartElement("have_original");
+                                                    xmlWriter.WriteString(GalleryCategoryItemModelListItem.have_original);
+                                                    xmlWriter.WriteEndElement();
+
+                                                    xmlWriter.WriteStartElement("ordering");
+                                                    xmlWriter.WriteString(GalleryCategoryItemModelListItem.ordering);
+                                                    xmlWriter.WriteEndElement();
+
+                                                    xmlWriter.WriteStartElement("number_comments");
+                                                    xmlWriter.WriteString(GalleryCategoryItemModelListItem.number_comments);
+                                                    xmlWriter.WriteEndElement();
+
+                                                    xmlWriter.WriteStartElement("comment_cid");
+                                                    xmlWriter.WriteString(GalleryCategoryItemModelListItem.comment_cid);
+                                                    xmlWriter.WriteEndElement();
+
+                                                    xmlWriter.WriteStartElement("url");
+                                                    xmlWriter.WriteString(GalleryCategoryItemModelListItem.url);
+                                                    xmlWriter.WriteEndElement();
+
+                                                    xmlWriter.WriteStartElement("url_full");
+                                                    xmlWriter.WriteString(GalleryCategoryItemModelListItem.url_full);
+                                                    xmlWriter.WriteEndElement();
+
+                                                    xmlWriter.WriteStartElement("url_original");
+                                                    xmlWriter.WriteString(GalleryCategoryItemModelListItem.url_original);
+                                                    xmlWriter.WriteEndElement();
+
+                                                    xmlWriter.WriteStartElement("thumbImagePath");
+                                                    xmlWriter.WriteString(GalleryCategoryItemModelListItem.thumbImagePath);
+                                                    xmlWriter.WriteEndElement();
+
+                                                    xmlWriter.WriteStartElement("meduimImagePath");
+                                                    xmlWriter.WriteString(GalleryCategoryItemModelListItem.meduimImagePath);
+                                                    xmlWriter.WriteEndElement();
+
+                                                    xmlWriter.WriteStartElement("originalImagePath");
+                                                    xmlWriter.WriteString(GalleryCategoryItemModelListItem.originalImagePath);
+                                                    xmlWriter.WriteEndElement();
+
+                                                    xmlWriter.WriteEndElement();
+                                                }
+
+                                                xmlWriter.WriteEndElement();
+
+                                                #endregion do xml writes for GalleryCategoryItemModelList items
+
+
+                                                xmlWriter.WriteEndDocument();
+                                                xmlWriter.Close();
+
+
+
+                                            }
+
+                                            #endregion model valid items
+
+                                            #region do error model processing & checks
+                                            if (GalleryErrorEventModelList.Count() == 0)
+                                            {
+
+
+                                                //no errors reported ... hmmm...
+
+
+
+                                            }
+                                            else
+                                            {
+
+
+                                                XmlWriter xmlWriter = XmlWriter.Create(migration_folder_xml_path + "gallery_errors.xml");
+                                                xmlWriter.WriteStartDocument();
+                                                xmlWriter.WriteStartElement("errors");
+
+                                                #region do xml writes for GalleryErrorEventModelList items
+
+                                                xmlWriter.WriteStartElement("error");
+
+                                                foreach (var ErrorEventModelListItem in GalleryErrorEventModelList)
+                                                {
+
+                                                    xmlWriter.WriteStartElement("report");
+                                                    xmlWriter.WriteAttributeString("type", ErrorEventModelListItem.type);
+                                                    xmlWriter.WriteString(ErrorEventModelListItem.message);
+                                                    xmlWriter.WriteEndElement();
+
+                                                }
+
+                                                xmlWriter.WriteEndElement();
+
+
+                                                xmlWriter.WriteEndDocument();
+                                                xmlWriter.Close();
+
+
+
+                                            }
+                                                #endregion do error model processing & checks
+
+                                            #endregion do model processing & checks
+
+                                            #endregion do model processing & checks
+                                            
+
+                                        }
+                                        catch (Exception apiGalleryError)
+                                        {
+
+                                            #region error ui
+                                            processState[0] = "error";
+                                            processState[1] = "Export Gallery failed";
+                                            processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                            backgroundWorker.ReportProgress(100, processState);
+
+                                            backgroundWorker.CancelAsync();
+                                            backgroundWorker.Dispose();
+
+                                            if (backgroundWorker.CancellationPending == true)
+                                            {
+                                                e.Cancel = true;
+                                                return;
+                                            }
+
+                                            #endregion error ui
 
                                         }
 
-                                        #endregion do api gallery inner region
+                                        #endregion do try api gallery
 
                                     }
-                                    catch (Exception apiGalleryError)
+                                    else
                                     {
 
                                         #region error ui
                                         processState[0] = "error";
-                                        processState[1] = "Export Gallery failed";
+                                        processState[1] = "Gallery Preset ID invalid ... skipping ...";
                                         processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
-                                        backgroundWorker.ReportProgress(100, processState);
+                                        backgroundWorker.ReportProgress(80, processState);
 
                                         backgroundWorker.CancelAsync();
                                         backgroundWorker.Dispose();
@@ -1561,7 +2023,7 @@ namespace EnjinExportTool
 
                                     }
 
-                                    #endregion do try api gallery
+                                    #endregion do gallery work
 
                                 }
                                 else
@@ -1569,12 +2031,11 @@ namespace EnjinExportTool
 
                                     #region error ui
                                     processState[0] = "error";
-                                    processState[1] = "Gallery Preset ID invalid ... skipping ...";
+                                    processState[1] = "No Download Types configured";
                                     processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
-                                    backgroundWorker.ReportProgress(80, processState);
+                                    backgroundWorker.ReportProgress(70, processState);
 
-                                    backgroundWorker.CancelAsync();
-                                    backgroundWorker.Dispose();
+                                    Thread.Sleep(1200);
 
                                     if (backgroundWorker.CancellationPending == true)
                                     {
