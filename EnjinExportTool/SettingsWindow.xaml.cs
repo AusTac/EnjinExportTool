@@ -36,6 +36,7 @@ namespace EnjinExportTool
                     !string.IsNullOrEmpty(inif.Read("Application", "api_slug")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "tags_api_slug")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "site_id")) &&
+                    !string.IsNullOrEmpty(inif.Read("Application", "galley_preset_id")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "email")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "password"))  &&
                     !string.IsNullOrEmpty(inif.Read("Application", "migration_folder_path")) &&
@@ -47,6 +48,7 @@ namespace EnjinExportTool
                     api_slug.Text = inif.Read("Application", "api_slug");
                     tags_api_slug.Text = inif.Read("Application", "tags_api_slug");
                     site_id.Text = inif.Read("Application", "site_id");
+                    galley_preset_id.Text = inif.Read("Application", "galley_preset_id");
                     email.Text = inif.Read("Application", "email");
                     password.Password = inif.Read("Application", "password");
                     migrationFolder.Text = inif.Read("Application", "migration_folder_path");
@@ -60,6 +62,27 @@ namespace EnjinExportTool
 
 
                     if (inif.Read("Application", "galleryData") == "")
+                    {
+
+                        galleryData.IsChecked = false;
+
+                    }
+
+                    if (inif.Read("Application", "dlOriginal") == "")
+                    {
+
+                        galleryData.IsChecked = false;
+
+                    }
+
+                    if (inif.Read("Application", "dlThumbnails") == "")
+                    {
+
+                        galleryData.IsChecked = false;
+
+                    }
+
+                    if (inif.Read("Application", "dlImages") == "")
                     {
 
                         galleryData.IsChecked = false;
@@ -99,6 +122,7 @@ namespace EnjinExportTool
                     api_slug.Text = inif.Read("Application", "api_slug");
                     tags_api_slug.Text = inif.Read("Application", "tags_api_slug");
                     site_id.Text = inif.Read("Application", "site_id");
+                    galley_preset_id.Text = inif.Read("Application", "galley_preset_id");
                     email.Text = inif.Read("Application", "email");
                     password.Password = inif.Read("Application", "password");
                     migrationFolder.Text = inif.Read("Application", "migration_folder_path");
@@ -187,6 +211,7 @@ namespace EnjinExportTool
             inif.Write("Application", "api_slug", api_slug.Text.ToString());
             inif.Write("Application", "tags_api_slug", tags_api_slug.Text.ToString());
             inif.Write("Application", "site_id", site_id.Text.ToString());
+            inif.Write("Application", "galley_preset_id", galley_preset_id.Text.ToString());
             inif.Write("Application", "email", email.Text.ToString());
             inif.Write("Application", "password", password.Password.ToString());
             inif.Write("Application", "migration_folder_path", migrationFolder.Text.ToString());
@@ -235,6 +260,45 @@ namespace EnjinExportTool
 
             }
 
+            if (dlThumbnails.IsChecked == true)
+            {
+
+                inif.Write("Application", "dlThumbnails", "true");
+
+            }
+            else
+            {
+
+                inif.Write("Application", "dlThumbnails", "false");
+
+            }
+
+            if (dlImages.IsChecked == true)
+            {
+
+                inif.Write("Application", "dlImages", "true");
+
+            }
+            else
+            {
+
+                inif.Write("Application", "dlImages", "false");
+
+            }
+
+            if (dlOriginal.IsChecked == true)
+            {
+
+                inif.Write("Application", "dlOriginal", "true");
+
+            }
+            else
+            {
+
+                inif.Write("Application", "dlOriginal", "false");
+
+            }
+
             if (dlData.IsChecked == true)
             {
 
@@ -254,6 +318,7 @@ namespace EnjinExportTool
                     !string.IsNullOrEmpty(inif.Read("Application", "api_slug")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "tags_api_slug")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "site_id")) &&
+                    !string.IsNullOrEmpty(inif.Read("Application", "galley_preset_id")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "email")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "password")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "migration_folder_path")) &&
@@ -303,6 +368,9 @@ namespace EnjinExportTool
                     feedback.ToolTip = "Check you fields";
                     feedback.Foreground = new SolidColorBrush(Colors.Red);
 
+                    loaderToolbar.Visibility = Visibility.Collapsed;
+
+
                 }
 
             }
@@ -320,6 +388,10 @@ namespace EnjinExportTool
                 feedback.Text = "Check you fields";
                 feedback.ToolTip = "Check you fields";
                 feedback.Foreground = new SolidColorBrush(Colors.Red);
+
+
+                loaderToolbar.Visibility = Visibility.Collapsed;
+
 
             }
 

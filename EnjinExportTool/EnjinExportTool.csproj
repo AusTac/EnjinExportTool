@@ -99,6 +99,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="INIFile.cs" />
+    <Compile Include="Models\ExportGalleryModels.cs" />
     <Compile Include="Models\ExportModels.cs" />
     <Compile Include="SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>

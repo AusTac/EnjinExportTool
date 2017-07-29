@@ -69,6 +69,15 @@
                 </TextBlock.BitmapEffect>
             </TextBlock>
 
+            <TextBlock x:Name="feedbackMessage" Text="" Margin="0,-40,0,0" HorizontalAlignment="Stretch" TextAlignment="Center" VerticalAlignment="Center">
+                <TextBlock.Foreground>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
+                </TextBlock.Foreground>
+                <TextBlock.BitmapEffect>
+                    <DropShadowBitmapEffect Color="Black" Direction="320" ShadowDepth="10" Opacity=".5" Softness="9" />
+                </TextBlock.BitmapEffect>
+            </TextBlock>
+
             <Grid MinHeight="40" Grid.Row="2" Margin="0,-125,0,0" MinWidth="550" MaxWidth="550">
                 <Grid.Background>
                     <ImageBrush ImageSource="assets/images/footerShadow.png" Stretch="UniformToFill"/>

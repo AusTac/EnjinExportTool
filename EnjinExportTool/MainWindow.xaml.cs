@@ -56,6 +56,7 @@ namespace EnjinExportTool
                     !string.IsNullOrEmpty(inif.Read("Application", "api_slug")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "tags_api_slug")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "site_id")) &&
+                    !string.IsNullOrEmpty(inif.Read("Application", "galley_preset_id")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "email")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "password")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "migration_folder_path")) &&
@@ -158,12 +159,16 @@ namespace EnjinExportTool
                 string JsonFolderUsersPath = System.IO.Path.Combine(appfolder, JsonFolderPath + "/Users/");
                 if (!Directory.Exists(JsonFolderUsersPath)) Directory.CreateDirectory(JsonFolderUsersPath);
 
+                string JsonFolderGalleryPath = System.IO.Path.Combine(appfolder, JsonFolderPath + "/Galleries/");
+                if (!Directory.Exists(JsonFolderGalleryPath)) Directory.CreateDirectory(JsonFolderGalleryPath);
+
                 INIFile inif = new INIFile(ApplicationPath + @"\Settings.ini");
 
                 string base_enjin_url = "";
                 string base_api_slug = "";
                 string tags_api_slug = "api/get-tags";
                 string site_id = "";
+                string galley_preset_id = "";
                 string email = "";
                 string password = "";
                 string session_id = "";
@@ -183,6 +188,7 @@ namespace EnjinExportTool
                         !string.IsNullOrEmpty(inif.Read("Application", "api_slug")) &&
                         !string.IsNullOrEmpty(inif.Read("Application", "tags_api_slug")) &&
                         !string.IsNullOrEmpty(inif.Read("Application", "site_id")) &&
+                        !string.IsNullOrEmpty(inif.Read("Application", "galley_preset_id")) &&
                         !string.IsNullOrEmpty(inif.Read("Application", "email")) &&
                         !string.IsNullOrEmpty(inif.Read("Application", "password")) &&
                         !string.IsNullOrEmpty(inif.Read("Application", "migration_folder_path")) &&
@@ -194,6 +200,7 @@ namespace EnjinExportTool
                         base_api_slug = inif.Read("Application", "api_slug");
                         tags_api_slug = inif.Read("Application", "tags_api_slug");
                         site_id = inif.Read("Application", "site_id");
+                        galley_preset_id = inif.Read("Application", "galley_preset_id");
                         email = inif.Read("Application", "email");
                         password = inif.Read("Application", "password");
                         session_id = inif.Read("Application", "session_id");
@@ -273,6 +280,14 @@ namespace EnjinExportTool
                                         processState[0] = "event";
                                         processState[1] = "Validating execute script";
                                         processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                        processState[3] = "";
+                                        processState[4] = "";
+                                        processState[5] = "";
+                                        processState[6] = "";
+                                        processState[7] = "";
+                                        processState[8] = "";
+                                        processState[9] = "";
+                                        processState[10] = "";
                                         backgroundWorker.ReportProgress(25, processState);
 
                                         if (backgroundWorker.CancellationPending == true)
@@ -311,7 +326,7 @@ namespace EnjinExportTool
                                 {
 
                                     Console.WriteLine("error here ---------------------------------------------->>>>>>>>>>>>>>>>>>>>>");
-                                    //Throw FATAL as we done have access to the php
+                                    //Throw FATAL as we dont have access to the php, is it a resource or content item?
                                     #region error ui
                                     processState[0] = "error";
                                     processState[1] = "Error validating execute script";
@@ -334,7 +349,7 @@ namespace EnjinExportTool
                             }catch(Exception error) {
 
                                 Console.WriteLine(error);
-                                //Throw FATAL as we done have access to the php
+                                //Throw FATAL as we dont have access to the php, is it a resource or content item?
                                 #region error ui
                                 processState[0] = "error";
                                 processState[1] = "Error validating execute script";
@@ -367,6 +382,14 @@ namespace EnjinExportTool
                         processState[0] = "event";
                         processState[1] = "Connecting to Enjin ...";
                         processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                        processState[3] = "";
+                        processState[4] = "";
+                        processState[5] = "";
+                        processState[6] = "";
+                        processState[7] = "";
+                        processState[8] = "";
+                        processState[9] = "";
+                        processState[10] = "";
                         backgroundWorker.ReportProgress(5, processState);
 
                         string responseJSON = null;
@@ -432,6 +455,14 @@ namespace EnjinExportTool
                                 processState[0] = "event";
                                 processState[1] = "New Authenticating ...";
                                 processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                processState[3] = "";
+                                processState[4] = "";
+                                processState[5] = "";
+                                processState[6] = "";
+                                processState[7] = "";
+                                processState[8] = "";
+                                processState[9] = "";
+                                processState[10] = "";
                                 Thread.Sleep(1200);
 
                                 backgroundWorker.ReportProgress(10, processState);
@@ -497,6 +528,14 @@ namespace EnjinExportTool
                                         processState[0] = "event";
                                         processState[1] = "Session Authenticated...";
                                         processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                        processState[3] = "";
+                                        processState[4] = "";
+                                        processState[5] = "";
+                                        processState[6] = "";
+                                        processState[7] = "";
+                                        processState[8] = "";
+                                        processState[9] = "";
+                                        processState[10] = "";
                                         Thread.Sleep(1200);
 
 
@@ -601,6 +640,14 @@ namespace EnjinExportTool
                                     processState[0] = "event";
                                     processState[1] = "Authenticating Session...";
                                     processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                    processState[3] = "";
+                                    processState[4] = "";
+                                    processState[5] = "";
+                                    processState[6] = "";
+                                    processState[7] = "";
+                                    processState[8] = "";
+                                    processState[9] = "";
+                                    processState[10] = "";
                                     Thread.Sleep(1200);
 
                                     backgroundWorker.ReportProgress(10, processState);
@@ -635,6 +682,14 @@ namespace EnjinExportTool
                                                 processState[0] = "event";
                                                 processState[1] = "Session Authenticated...";
                                                 processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                                processState[3] = "";
+                                                processState[4] = "";
+                                                processState[5] = "";
+                                                processState[6] = "";
+                                                processState[7] = "";
+                                                processState[8] = "";
+                                                processState[9] = "";
+                                                processState[10] = "";
                                                 Thread.Sleep(1200);
 
                                             }
@@ -668,6 +723,14 @@ namespace EnjinExportTool
                                                     processState[0] = "event";
                                                     processState[1] = "New Authenticating ...";
                                                     processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                                    processState[3] = "";
+                                                    processState[4] = "";
+                                                    processState[5] = "";
+                                                    processState[6] = "";
+                                                    processState[7] = "";
+                                                    processState[8] = "";
+                                                    processState[9] = "";
+                                                    processState[10] = "";
                                                     Thread.Sleep(1200);
 
                                                     backgroundWorker.ReportProgress(10, processState);
@@ -733,6 +796,14 @@ namespace EnjinExportTool
                                                             processState[0] = "event";
                                                             processState[1] = "Session Authenticated...";
                                                             processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                                            processState[3] = "";
+                                                            processState[4] = "";
+                                                            processState[5] = "";
+                                                            processState[6] = "";
+                                                            processState[7] = "";
+                                                            processState[8] = "";
+                                                            processState[9] = "";
+                                                            processState[10] = "";
                                                             Thread.Sleep(1200);
 
 
@@ -890,12 +961,637 @@ namespace EnjinExportTool
 
                         #endregion session auth
 
-                        #region do api work
+                        #region do api session check
 
                         if (session_id != null)
                         {
 
-                            #region do api work
+                            #region do api gallery
+
+                            if (inif.Read("Application", "galleryData") == "true")
+                            {
+
+                                if (galley_preset_id != null)
+                                {
+
+                                    #region do try api gallery
+
+                                    try
+                                    {
+
+                                        #region do api gallery inner region
+
+                                        if (backgroundWorker.CancellationPending == true)
+                                        {
+                                            e.Cancel = true;
+                                            return;
+                                        }
+
+
+
+                                        JObject galleryJson =
+                                        new JObject(
+                                            new JProperty("jsonrpc", "2.0"),
+                                            new JProperty("id", "123456789"),
+                                            new JProperty("method", "Gallery.getAlbums"),
+                                            new JProperty("params",
+                                                new JObject(new JProperty("session_id", session_id.ToString())))
+                                            );
+
+                                        int galleryCount = 0;
+                                        string galleryJsonRequestJSON = null;
+                                        HttpWebRequest galleryJsonRequest = (HttpWebRequest)WebRequest.Create(base_enjin_url + base_api_slug);
+                                        galleryJsonRequest.CookieContainer = new CookieContainer();
+                                        galleryJsonRequest.Method = WebRequestMethods.Http.Post;
+                                        galleryJsonRequest.UserAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.121 Safari/535.2";
+                                        galleryJsonRequest.AllowWriteStreamBuffering = true;
+                                        galleryJsonRequest.ProtocolVersion = HttpVersion.Version11;
+                                        galleryJsonRequest.AllowAutoRedirect = true;
+                                        galleryJsonRequest.ContentType = "application/json";
+                                        galleryJsonRequest.KeepAlive = true;
+                                        byte[] galleryJsonRequestArray = Encoding.ASCII.GetBytes(galleryJson.ToString());
+                                        galleryJsonRequest.ContentLength = galleryJson.ToString().Length;
+                                        Stream galleryJsonRequestStream = galleryJsonRequest.GetRequestStream(); //open connection
+                                        galleryJsonRequestStream.Write(galleryJsonRequestArray, 0, galleryJson.ToString().Length); // Send the data.
+                                        galleryJsonRequestStream.Close();
+
+                                        HttpWebResponse galleryJsonRequestResponse = (HttpWebResponse)galleryJsonRequest.GetResponse();
+                                        using (StreamReader galleryJsonRequestReader = new StreamReader(galleryJsonRequestResponse.GetResponseStream()))
+                                        {
+
+
+                                            processState[0] = "event";
+                                            processState[1] = "Exporting Gallery API... ";
+                                            processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                            processState[3] = "";
+                                            processState[4] = "";
+                                            processState[5] = "";
+                                            processState[6] = "";
+                                            processState[7] = "";
+                                            processState[8] = "";
+                                            processState[9] = "";
+                                            processState[10] = "";
+                                            backgroundWorker.ReportProgress(60, processState);
+
+                                            galleryJsonRequestJSON = galleryJsonRequestReader.ReadToEnd();
+                                            galleryJsonRequestReader.Close();
+
+                                            // Write the string to a file.
+                                            System.IO.StreamWriter fileGalleryJson = new System.IO.StreamWriter(JsonFolderGalleryPath + "galleries" + ".json");
+                                            fileGalleryJson.WriteLine(galleryJsonRequestJSON);
+                                            fileGalleryJson.Close();
+
+                                            Console.WriteLine("API Gallery Response: ----------------------- " + galleryJsonRequestJSON);
+
+                                            if (inif.Read("Application", "backupApiData") == "true")
+                                            {
+
+                                                System.IO.StreamWriter gallery_api_file = new System.IO.StreamWriter(migration_folder_json_path + "galleries" + ".json");
+                                                gallery_api_file.WriteLine(galleryJsonRequestJSON);
+                                                gallery_api_file.Close();
+
+                                            }
+
+
+                                            if (backgroundWorker.CancellationPending == true)
+                                            {
+                                                e.Cancel = true;
+                                                return;
+                                            }
+
+
+                                            #region do json response work
+
+                                            List<EnjinExportTool.ExportGalleryModels.GalleryCategoryModel> GalleryCategoryModelList = new List<EnjinExportTool.ExportGalleryModels.GalleryCategoryModel>();
+                                            List<EnjinExportTool.ExportGalleryModels.GalleryItemModel> GalleryCategoryItemModelList = new List<EnjinExportTool.ExportGalleryModels.GalleryItemModel>();
+
+                                            string galleryJsonRequestJSONData = "[" + galleryJsonRequestJSON.ToString() + "]";
+                                            JArray galleryJsonRequestJSONArray = JArray.Parse(galleryJsonRequestJSONData);
+
+                                            foreach (JObject galleryJsonRequestJSONContent in galleryJsonRequestJSONArray.Children<JObject>())
+                                            {
+                                                foreach (JProperty galleryJsonRequestJSONNode in galleryJsonRequestJSONContent.Properties())
+                                                {
+
+                                                    foreach (JObject galleryJsonRequestJSONNodeContent in galleryJsonRequestJSONNode.Children<JObject>()["Pictures"])
+                                                    {
+                                                        foreach (JProperty galleryInnerNode in galleryJsonRequestJSONNodeContent.Properties())
+                                                        {
+
+                                                            //get Gallery ID
+                                                            Console.WriteLine(galleryInnerNode.Name.ToString());
+
+                                                            //get Gallery Category
+                                                            Console.WriteLine(galleryInnerNode.Value.ToString());
+
+                                                            #region add to gallery model
+
+                                                            #region do GalleryCatergoryModelList checks
+
+                                                            //add to UserModelList after id checks
+                                                            //user_id 
+                                                            //user_name
+
+                                                            if (GalleryCategoryModelList.Count() == 0 ||
+                                                                GalleryCategoryModelList.Count() == null)
+                                                            {
+                                                                //empty UserModelList, add to Model
+                                                                GalleryCategoryModelList.Add(new EnjinExportTool.ExportGalleryModels.GalleryCategoryModel()
+                                                                {
+                                                                    id = galleryInnerNode.Name.ToString(),
+                                                                    name = galleryInnerNode.Value.ToString(),
+                                                                    sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+                                                                });
+                                                            }
+                                                            else
+                                                            {
+
+                                                                //UserModelList has data, check forum id match so we can skip or add ...
+                                                                //this may get painful with large lists ...
+                                                                var matchingId = GalleryCategoryModelList.FirstOrDefault(_Item => (_Item.id == galleryInnerNode.Name.ToString()));
+                                                                if (matchingId != null)
+                                                                {
+                                                                    //match, lets skip ...
+                                                                }
+                                                                else
+                                                                {
+
+                                                                    //nothing found, lets add new forum top level category...
+                                                                    GalleryCategoryModelList.Add(new EnjinExportTool.ExportGalleryModels.GalleryCategoryModel()
+                                                                    {
+                                                                        id = galleryInnerNode.Name.ToString(),
+                                                                        name = galleryInnerNode.Value.ToString(),
+                                                                        sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
+                                                                    });
+
+                                                                }
+
+                                                            }
+
+                                                            #endregion do GalleryCatergoryModelList checks
+
+                                                            #region add to GalleryItemModelList model
+
+                                                            JObject galleryItemJson =
+                                                            new JObject(
+                                                                new JProperty("jsonrpc", "2.0"),
+                                                                new JProperty("id", "123456789"),
+                                                                new JProperty("method", "Gallery.getAlbum"),
+                                                                new JProperty("params",
+                                                                    new JObject(new JProperty("session_id", session_id.ToString()),
+                                                                        new JProperty("preset_id", galley_preset_id.ToString()),
+                                                                        new JProperty("album_id", galleryInnerNode.Name.ToString())))
+                                                                );
+
+                                                            int galleryItemCount = 0;
+                                                            string galleryItemJsonRequestJSON = null;
+                                                            HttpWebRequest galleryItemJsonRequest = (HttpWebRequest)WebRequest.Create(base_enjin_url + base_api_slug);
+                                                            galleryItemJsonRequest.CookieContainer = new CookieContainer();
+                                                            galleryItemJsonRequest.Method = WebRequestMethods.Http.Post;
+                                                            galleryItemJsonRequest.UserAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.121 Safari/535.2";
+                                                            galleryItemJsonRequest.AllowWriteStreamBuffering = true;
+                                                            galleryItemJsonRequest.ProtocolVersion = HttpVersion.Version11;
+                                                            galleryItemJsonRequest.AllowAutoRedirect = true;
+                                                            galleryItemJsonRequest.ContentType = "application/json";
+                                                            galleryItemJsonRequest.KeepAlive = true;
+                                                            byte[] galleryItemJsonRequestArray = Encoding.ASCII.GetBytes(galleryItemJson.ToString());
+                                                            galleryItemJsonRequest.ContentLength = galleryItemJson.ToString().Length;
+                                                            Stream galleryItemJsonRequestStream = galleryItemJsonRequest.GetRequestStream(); //open connection
+                                                            galleryItemJsonRequestStream.Write(galleryItemJsonRequestArray, 0, galleryItemJson.ToString().Length); // Send the data.
+                                                            galleryItemJsonRequestStream.Close();
+
+                                                            HttpWebResponse galleryItemJsonRequestResponse = (HttpWebResponse)galleryItemJsonRequest.GetResponse();
+                                                            using (StreamReader galleryItemJsonRequestReader = new StreamReader(galleryItemJsonRequestResponse.GetResponseStream()))
+                                                            {
+
+                                                                processState[0] = "event";
+                                                                processState[1] = "Exporting " + galleryInnerNode.Value.ToString() + " Gallery";
+                                                                processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                                                processState[3] = "";
+                                                                processState[4] = "";
+                                                                processState[5] = "";
+                                                                processState[6] = "";
+                                                                processState[7] = "";
+                                                                processState[8] = "";
+                                                                processState[9] = "";
+                                                                processState[10] = "";
+                                                                backgroundWorker.ReportProgress(68, processState);
+
+                                                                galleryItemJsonRequestJSON = galleryItemJsonRequestReader.ReadToEnd();
+                                                                galleryItemJsonRequestReader.Close();
+
+                                                                // Write the string to a file.
+                                                                System.IO.StreamWriter galleryItemJsonFile = new System.IO.StreamWriter(JsonFolderGalleryPath + galleryInnerNode.Name.ToString() + ".json");
+                                                                galleryItemJsonFile.WriteLine(galleryItemJsonRequestJSON);
+                                                                galleryItemJsonFile.Close();
+
+                                                                Console.WriteLine("API Gallery Item Response: ----------------------- " + galleryItemJsonRequestJSON);
+
+                                                                if (inif.Read("Application", "backupApiData") == "true")
+                                                                {
+
+                                                                    System.IO.StreamWriter gallery_item_api_file = new System.IO.StreamWriter(migration_folder_json_path + "gallery_" + galleryInnerNode.Name.ToString() + ".json");
+                                                                    gallery_item_api_file.WriteLine(galleryItemJsonRequestJSON);
+                                                                    gallery_item_api_file.Close();
+
+                                                                }
+
+
+                                                                if (backgroundWorker.CancellationPending == true)
+                                                                {
+                                                                    e.Cancel = true;
+                                                                    return;
+                                                                }
+
+
+                                                                dynamic dynObj = JsonConvert.DeserializeObject(galleryItemJsonRequestJSON.ToString());
+                                                                dynamic dynObj2 = JsonConvert.DeserializeObject(dynObj.result.images.ToString());
+                                                                JArray jarray = JArray.Parse(dynObj2.ToString());
+
+
+                                                                //setup folders for album
+                                                                string migration_folder_images_path_gallery = migration_folder_path_root + @"media\images\galleries\" + galleryInnerNode.Name.ToString() + @"\";
+                                                                if (!Directory.Exists(migration_folder_images_path_gallery)) Directory.CreateDirectory(migration_folder_images_path_gallery);
+
+
+                                                                #region foreach
+
+                                                                foreach (var item in jarray)
+                                                                {
+
+
+                                                                    /*
+                                                                    Json Rsponse
+                                                                
+                                                                    "image_id": "",
+				                                                    "preset_id": "",
+				                                                    "title": "",
+				                                                    "description": "",
+				                                                    "created": "",
+				                                                    "user_id": "",
+				                                                    "views": "",
+				                                                    "album_id": "",
+				                                                    "have_original": "",
+				                                                    "ordering": "",
+				                                                    "number_comments": "",
+				                                                    "comment_cid": "",
+				                                                    "url": "",
+				                                                    "url_full": "",
+				                                                    "url_original": "",
+				                                                    "can_modify": 
+                                                                 
+                                                                    */
+
+                                                                    string image_id =  "";
+                                                                    string preset_id = "";
+                                                                    string title = "";
+                                                                    string description = "";
+                                                                    string created = "";
+                                                                    string user_id = "";
+                                                                    string views = "";
+                                                                    string album_id = "";
+                                                                    string have_original = "";
+                                                                    string ordering = "";
+                                                                    string number_comments = "";
+                                                                    string comment_cid = "";
+                                                                    string url = "";
+                                                                    string url_full = "";
+                                                                    string url_original = "";
+                                                                    string can_modify = "";
+
+                                                                    string migration_folder_images_path_thumb_image = "";
+                                                                    string migration_folder_images_path_image = "";
+                                                                    string migration_folder_images_path_original = "";
+
+
+                                                                    #region do foreach
+
+                                                                    JObject jObject = JObject.Parse(item.ToString());
+                                                                    foreach (var itemjObject in jObject)
+                                                                    {
+
+                                                                        //Console.WriteLine(itemjObject.Value.ToString());
+
+                                                                        
+
+                                                                        if(itemjObject.Key.ToString() == "image_id"){
+                                                                                                                                                       
+                                                                            image_id = itemjObject.Value.ToString();
+
+                                                                            //setup images for album
+                                                                            migration_folder_images_path_thumb_image = migration_folder_images_path_gallery + image_id + @"\thumbnail\";
+                                                                            if (!Directory.Exists(migration_folder_images_path_thumb_image)) Directory.CreateDirectory(migration_folder_images_path_thumb_image);
+
+                                                                            //setup url_full for album
+                                                                            migration_folder_images_path_image = migration_folder_images_path_gallery + image_id + @"\image\";
+                                                                            if (!Directory.Exists(migration_folder_images_path_image)) Directory.CreateDirectory(migration_folder_images_path_image);
+
+                                                                            //setup url_full for album
+                                                                            migration_folder_images_path_original = migration_folder_images_path_gallery + image_id + @"\original\";
+                                                                            if (!Directory.Exists(migration_folder_images_path_original)) Directory.CreateDirectory(migration_folder_images_path_original);
+
+
+                                                                        };
+
+
+                                                                        if(itemjObject.Key.ToString() == "preset_id"){
+                                                                            preset_id = itemjObject.Value.ToString();
+                                                                        };
+                                                                        if(itemjObject.Key.ToString() == "title"){
+                                                                            title = itemjObject.Value.ToString();
+                                                                        };
+                                                                        if(itemjObject.Key.ToString() == "description"){
+                                                                            description = itemjObject.Value.ToString();
+                                                                        };
+                                                                        if(itemjObject.Key.ToString() == "created"){
+                                                                            created = itemjObject.Value.ToString();
+                                                                        };
+
+                                                                        //owner id
+                                                                        if(itemjObject.Key.ToString() == "user_id"){
+                                                                            user_id = itemjObject.Value.ToString();
+                                                                        };
+                                                                        if(itemjObject.Key.ToString() == "views"){
+                                                                            views = itemjObject.Value.ToString();
+                                                                        };
+                                                                        if(itemjObject.Key.ToString() == "album_id"){
+                                                                            album_id = itemjObject.Value.ToString();
+                                                                        };
+                                                                        if(itemjObject.Key.ToString() == "have_original"){
+                                                                            have_original = itemjObject.Value.ToString();
+                                                                        };
+                                                                        if(itemjObject.Key.ToString() == "ordering"){
+                                                                            ordering = itemjObject.Value.ToString();
+                                                                        };
+                                                                        if(itemjObject.Key.ToString() == "number_comments"){
+                                                                            number_comments = itemjObject.Value.ToString();
+                                                                        };
+
+                                                                        //commenst id link, if extracting comments api data
+                                                                        if(itemjObject.Key.ToString() == "comment_cid"){
+                                                                            comment_cid = itemjObject.Value.ToString();
+                                                                        };
+
+                                                                        //images
+
+                                                                        //thumb
+                                                                        if(itemjObject.Key.ToString() == "url"){
+
+                                                                            url = itemjObject.Value.ToString();
+
+                                                                        };
+
+                                                                        //meduim
+                                                                        if(itemjObject.Key.ToString() == "url_full"){
+                                                                            url_full = itemjObject.Value.ToString();
+
+                                                                        };
+
+                                                                        //original
+                                                                        if(itemjObject.Key.ToString() == "url_original"){
+                                                                            url_original = itemjObject.Value.ToString();
+                                                                        };
+
+
+                                                                        if(itemjObject.Key.ToString() == "can_modify") {
+                                                                            can_modify = itemjObject.Value.ToString();
+                                                                        }; 
+
+
+
+                                                                    }
+
+                                                                    #endregion foreach
+
+
+                                                                    //do checks here, but for now it works ....
+                                                                    if (inif.Read("Application", "dlOriginal") == "true" ||
+                                                                        inif.Read("Application", "dlThumbnails") == "true" ||
+                                                                        inif.Read("Application", "dlImages") == "true")
+                                                                    {
+
+
+                                                                        if (inif.Read("Application", "dlThumbnails") == "true")
+                                                                        {
+
+                                                                            #region dl thumb
+                                                                            string newUrlThumb = url.ToString().Replace(@"\", "");
+                                                                            string extensionUrlThumb = System.IO.Path.GetExtension(newUrlThumb).ToString();
+                                                                            string responseThumbnailFile = migration_folder_images_path_thumb_image.ToString() + image_id.ToString() + extensionUrlThumb.ToString();
+
+                                                                            using (WebClient client = new WebClient())
+                                                                            {
+
+                                                                                #region event ui
+                                                                                processState[0] = "event";
+                                                                                processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                                                                processState[3] = "";
+                                                                                processState[4] = "";
+                                                                                processState[5] = "";
+                                                                                processState[6] = "";
+                                                                                processState[7] = "";
+                                                                                processState[8] = "";
+                                                                                processState[9] = "";
+                                                                                processState[10] = "Downloading " + image_id.ToString() + extensionUrlThumb + " (Thumbnail)";
+                                                                                backgroundWorker.ReportProgress(68, processState);
+
+                                                                                #endregion event ui
+
+                                                                                client.DownloadFile(newUrlThumb.ToString(), responseThumbnailFile.ToString());
+                                                                                Thread.Sleep(850);
+
+                                                                            }
+
+                                                                            #endregion dl thumb
+
+                                                                        }
+
+                                                                        if (inif.Read("Application", "dlImages") == "true")
+                                                                        {
+
+                                                                            #region dl med
+                                                                            string newUrlMed = url_full.ToString().Replace(@"\", "");
+                                                                            string extensionUrlMed = System.IO.Path.GetExtension(newUrlMed).ToString();
+                                                                            string responseMedFile = migration_folder_images_path_image.ToString() + image_id.ToString() + extensionUrlMed.ToString();
+
+                                                                            using (WebClient client = new WebClient())
+                                                                            {
+
+                                                                                #region event ui
+                                                                                processState[0] = "event";
+                                                                                processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                                                                processState[3] = "";
+                                                                                processState[4] = "";
+                                                                                processState[5] = "";
+                                                                                processState[6] = "";
+                                                                                processState[7] = "";
+                                                                                processState[8] = "";
+                                                                                processState[9] = "";
+                                                                                processState[10] = "Downloading " + image_id.ToString() + extensionUrlMed + " (Meduim Image)";
+                                                                                backgroundWorker.ReportProgress(68, processState);
+
+                                                                                Thread.Sleep(10);
+
+
+                                                                                #endregion event ui
+
+                                                                                client.DownloadFile(newUrlMed.ToString(), responseMedFile.ToString());
+                                                                                Thread.Sleep(850);
+                                                                            }
+
+                                                                            #endregion dl med
+
+                                                                        }
+
+                                                                        if (inif.Read("Application", "dlOriginal") == "true")
+                                                                        {
+
+                                                                            #region dl org
+                                                                            string newUrlOrg = url_original.ToString().Replace(@"\", "");
+                                                                            string extensionUrlOrg = System.IO.Path.GetExtension(newUrlOrg).ToString();
+                                                                            string responseOrgFile = migration_folder_images_path_image.ToString() + image_id.ToString() + extensionUrlOrg.ToString();
+
+                                                                            using (WebClient client = new WebClient())
+                                                                            {
+
+                                                                                #region event ui
+                                                                                processState[0] = "event";
+                                                                                processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                                                                processState[3] = "";
+                                                                                processState[4] = "";
+                                                                                processState[5] = "";
+                                                                                processState[6] = "";
+                                                                                processState[7] = "";
+                                                                                processState[8] = "";
+                                                                                processState[9] = "";
+                                                                                processState[10] = "Downloading " + image_id.ToString() + extensionUrlOrg + " (Original)";
+                                                                                backgroundWorker.ReportProgress(68, processState);
+
+
+
+                                                                                #endregion event ui
+
+                                                                                client.DownloadFile(newUrlOrg.ToString(), responseOrgFile.ToString());
+                                                                                Thread.Sleep(850);
+                                                                            }
+
+                                                                            #endregion dl org
+
+                                                                        }
+                                                                    
+
+                                                                    processState[0] = "event";
+                                                                    processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                                                    processState[3] = "";
+                                                                    processState[4] = "";
+                                                                    processState[5] = "";
+                                                                    processState[6] = "";
+                                                                    processState[7] = "";
+                                                                    processState[8] = "";
+                                                                    processState[9] = "";
+                                                                    processState[10] = "";
+                                                                    backgroundWorker.ReportProgress(68, processState);
+
+                                                                    }else{
+
+
+                                                                        #region error ui
+                                                                        processState[0] = "error";
+                                                                        processState[1] = "Skipped Gallery Download ... Check your settings";
+                                                                        processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                                                        backgroundWorker.ReportProgress(70, processState);
+
+                                                                        Thread.Sleep(1000);
+
+                                                                        #endregion error ui
+
+
+                                                                    }
+
+
+                                                                }
+
+                                                                #endregion foreach
+
+
+                                                            }
+
+
+                                                            #endregion add to GalleryItemModelList model
+
+
+                                                            #endregion add to gallery model
+
+                                                        }
+
+                                                    }
+
+                                                }
+
+                                            }
+
+
+                                            #endregion do json response work
+
+
+                                        }
+
+                                        #endregion do api gallery inner region
+
+                                    }
+                                    catch (Exception apiGalleryError)
+                                    {
+
+                                        #region error ui
+                                        processState[0] = "error";
+                                        processState[1] = "Export Gallery failed";
+                                        processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                        backgroundWorker.ReportProgress(100, processState);
+
+                                        backgroundWorker.CancelAsync();
+                                        backgroundWorker.Dispose();
+
+                                        if (backgroundWorker.CancellationPending == true)
+                                        {
+                                            e.Cancel = true;
+                                            return;
+                                        }
+
+                                        #endregion error ui
+
+                                    }
+
+                                    #endregion do try api gallery
+
+                                }
+                                else
+                                {
+
+                                    #region error ui
+                                    processState[0] = "error";
+                                    processState[1] = "Gallery Preset ID invalid ... skipping ...";
+                                    processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                    backgroundWorker.ReportProgress(80, processState);
+
+                                    backgroundWorker.CancelAsync();
+                                    backgroundWorker.Dispose();
+
+                                    if (backgroundWorker.CancellationPending == true)
+                                    {
+                                        e.Cancel = true;
+                                        return;
+                                    }
+
+                                    #endregion error ui
+
+                                }
+
+                            }
+
+
+                            #endregion do api gallery
+                            
+                            #region do api user posts work
 
                             if (backgroundWorker.CancellationPending == true)
                             {
@@ -909,6 +1605,7 @@ namespace EnjinExportTool
                             using (StreamReader pageresponseData = new StreamReader(pageresponse.GetResponseStream()))
                             {
                                 _usersJson = pageresponseData.ReadToEnd();
+                                pageresponseData.Close();
 
                                 System.IO.StreamWriter file = new System.IO.StreamWriter(ApplicationPath + "/users.json");
                                 file.WriteLine(_usersJson);
@@ -933,6 +1630,14 @@ namespace EnjinExportTool
                                 processState[0] = "event";
                                 processState[1] = usersCount + " Users to process";
                                 processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                processState[3] = "";
+                                processState[4] = "";
+                                processState[5] = "";
+                                processState[6] = "";
+                                processState[7] = "";
+                                processState[8] = "";
+                                processState[9] = "";
+                                processState[10] = "";
                                 backgroundWorker.ReportProgress(12, processState);
                                 Thread.Sleep(2500);
 
@@ -1115,6 +1820,14 @@ namespace EnjinExportTool
                                                         processState[0] = "event";
                                                         processState[1] = "Exporting Data for " + userName + " (" + userCount.ToString() + " / " + usersCount + ") ... ";
                                                         processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                                        processState[3] = "";
+                                                        processState[4] = "";
+                                                        processState[5] = "";
+                                                        processState[6] = "";
+                                                        processState[7] = "";
+                                                        processState[8] = "";
+                                                        processState[9] = "";
+                                                        processState[10] = "";
                                                         backgroundWorker.ReportProgress(20, processState);
 
                                                         userPostsJsonRequestJSON = userPostsJsonRequestReader.ReadToEnd();
@@ -1242,60 +1955,60 @@ namespace EnjinExportTool
 
                                                                                                         #region result
 
-                                                                                                        /*
+                                                                                                            /*
                                                                                             
-                                                                                                    string preset_id = "";
-                                                                                                    string is_thread = "";
-                                                                                                    string post_content = "";
-                                                                                                    string post_time = "";
-                                                                                                    string post_votes = "";
-                                                                                                    string post_id = "";
-                                                                                                    string total_posts = "";
-                                                                                                    string thread_id = "";
-                                                                                                    string thread_subject = "";
-                                                                                                    string forum_id = "";
-                                                                                                    string thread_user_id = "";
-                                                                                                    string enable_voting = "";
-                                                                                                    string site_id = "";
-                                                                                                    string name = "";
-                                                                                                    string forum_name = "";
-                                                                                                    string disable_voting = "";
-                                                                                                    string users_see_own_threads = "";
-                                                                                                    string forum_preset_id = "";
-                                                                                                    string category_id = "";
-                                                                                                    string category_name = "";
-                                                                                                    string domain = "";
-                                                                                                    string page = "";
-                                                                                                    string url = "";
+                                                                                                                    string preset_id = "";
+                                                                                                                    string is_thread = "";
+                                                                                                                    string post_content = "";
+                                                                                                                    string post_time = "";
+                                                                                                                    string post_votes = "";
+                                                                                                                    string post_id = "";
+                                                                                                                    string total_posts = "";
+                                                                                                                    string thread_id = "";
+                                                                                                                    string thread_subject = "";
+                                                                                                                    string forum_id = "";
+                                                                                                                    string thread_user_id = "";
+                                                                                                                    string enable_voting = "";
+                                                                                                                    string site_id = "";
+                                                                                                                    string name = "";
+                                                                                                                    string forum_name = "";
+                                                                                                                    string disable_voting = "";
+                                                                                                                    string users_see_own_threads = "";
+                                                                                                                    string forum_preset_id = "";
+                                                                                                                    string category_id = "";
+                                                                                                                    string category_name = "";
+                                                                                                                    string domain = "";
+                                                                                                                    string page = "";
+                                                                                                                    string url = "";
                                                                                             
-                                                                                                    if(itemjObject.Key.ToString() == "preset_id"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "is_thread"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "post_content"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "post_time"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "post_votes"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "post_id"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "total_posts"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "thread_id"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "thread_subject"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "forum_id"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "thread_user_id"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "enable_voting"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "site_id"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "name"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "forum_name"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "disable_voting"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "users_see_own_threads"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "forum_preset_id"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "category_id"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "category_name"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "domain"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "page"){
-                                                                                                    }else if(itemjObject.Key.ToString() == "url"){
-                                                                                                    }
+                                                                                                                    if(itemjObject.Key.ToString() == "preset_id"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "is_thread"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "post_content"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "post_time"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "post_votes"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "post_id"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "total_posts"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "thread_id"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "thread_subject"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "forum_id"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "thread_user_id"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "enable_voting"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "site_id"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "name"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "forum_name"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "disable_voting"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "users_see_own_threads"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "forum_preset_id"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "category_id"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "category_name"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "domain"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "page"){
+                                                                                                                    }else if(itemjObject.Key.ToString() == "url"){
+                                                                                                                    }
                                                                                             
-                                                                                                */
+                                                                                                                */
 
-                                                                                                        /* 
+                                                                                                                /* 
                                                                                                                 preset_id
                                                                                                                 1148623
                                                                                                                 is_thread
@@ -1776,7 +2489,7 @@ namespace EnjinExportTool
 
                                                                                                     /*
                                                                                                     {
-                                                                                                             "id":"123456789",
+                                                                                                             "id="123456789",
                                                                                                              "jsonrpc":"2.0",
                                                                                                              "method":"Profile.getPosts",
                                                                                                              "params" : {
@@ -3032,6 +3745,14 @@ namespace EnjinExportTool
                                                             processState[0] = "event";
                                                             processState[1] = "Error processing ID " + prop.Name + " ... ";
                                                             processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                                                            processState[3] = "";
+                                                            processState[4] = "";
+                                                            processState[5] = "";
+                                                            processState[6] = "";
+                                                            processState[7] = "";
+                                                            processState[8] = "";
+                                                            processState[9] = "";
+                                                            processState[10] = "";
                                                             backgroundWorker.ReportProgress(20, processState);
 
                                                             ErrorEventModelList.Add(new EnjinExportTool.ExportModels.ErrorEventModel()
@@ -3059,6 +3780,8 @@ namespace EnjinExportTool
 
                                                     //missed user exporting .. not good really.
                                                     //do UI update error message - FATAL
+
+
                                                 }
 
 
@@ -3070,7 +3793,6 @@ namespace EnjinExportTool
 
                                     }
                                     #endregion foreach user
-
 
                                     #region do model processing & checks
 
@@ -3334,7 +4056,7 @@ namespace EnjinExportTool
                                     {
 
                                        
-                                        //no errors reported ... hmmm.
+                                        //no errors reported ... hmmm...
 
 
 
@@ -3376,10 +4098,13 @@ namespace EnjinExportTool
 
                                     #endregion do model processing & checks
 
+
                                 }
                             }
 
-                            #endregion do api work
+                            #endregion do api user posts work
+
+                            
 
                         }
                         else
@@ -3404,7 +4129,7 @@ namespace EnjinExportTool
 
                         }
 
-                        #endregion do api work
+                        #endregion do api session check
 
 
 
@@ -3413,6 +4138,14 @@ namespace EnjinExportTool
                         processState[0] = "event";
                         processState[1] = "Validating processed data";
                         processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                        processState[3] = "";
+                        processState[4] = "";
+                        processState[5] = "";
+                        processState[6] = "";
+                        processState[7] = "";
+                        processState[8] = "";
+                        processState[9] = "";
+                        processState[10] = "";
                         backgroundWorker.ReportProgress(25, processState);
 
                         if (backgroundWorker.CancellationPending == true)
@@ -3428,6 +4161,14 @@ namespace EnjinExportTool
                         processState[0] = "event";
                         processState[1] = "Validating processed data .";
                         processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                        processState[3] = "";
+                        processState[4] = "";
+                        processState[5] = "";
+                        processState[6] = "";
+                        processState[7] = "";
+                        processState[8] = "";
+                        processState[9] = "";
+                        processState[10] = "";
                         backgroundWorker.ReportProgress(45, processState);
 
                         if (backgroundWorker.CancellationPending == true)
@@ -3441,6 +4182,14 @@ namespace EnjinExportTool
                         processState[0] = "event";
                         processState[1] = "Validating processed data ..";
                         processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                        processState[3] = "";
+                        processState[4] = "";
+                        processState[5] = "";
+                        processState[6] = "";
+                        processState[7] = "";
+                        processState[8] = "";
+                        processState[9] = "";
+                        processState[10] = "";
                         backgroundWorker.ReportProgress(65, processState);
 
                         if (backgroundWorker.CancellationPending == true)
@@ -3454,6 +4203,14 @@ namespace EnjinExportTool
                         processState[0] = "event";
                         processState[1] = "Validated processed data ...";
                         processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                        processState[3] = "";
+                        processState[4] = "";
+                        processState[5] = "";
+                        processState[6] = "";
+                        processState[7] = "";
+                        processState[8] = "";
+                        processState[9] = "";
+                        processState[10] = "";
                         backgroundWorker.ReportProgress(98, processState);
 
                         if (backgroundWorker.CancellationPending == true)
@@ -3467,6 +4224,14 @@ namespace EnjinExportTool
                         processState[0] = "event";
                         processState[1] = "Cleaning up ..";
                         processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                        processState[3] = "";
+                        processState[4] = "";
+                        processState[5] = "";
+                        processState[6] = "";
+                        processState[7] = "";
+                        processState[8] = "";
+                        processState[9] = "";
+                        processState[10] = "";
                         backgroundWorker.ReportProgress(99, processState);
 
                         if (backgroundWorker.CancellationPending == true)
@@ -3480,6 +4245,14 @@ namespace EnjinExportTool
                         processState[0] = "event";
                         processState[1] = "Cleaning up ...";
                         processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                        processState[3] = "";
+                        processState[4] = "";
+                        processState[5] = "";
+                        processState[6] = "";
+                        processState[7] = "";
+                        processState[8] = "";
+                        processState[9] = "";
+                        processState[10] = "";
                         backgroundWorker.ReportProgress(99, processState);
 
                         if (backgroundWorker.CancellationPending == true)
@@ -3493,6 +4266,14 @@ namespace EnjinExportTool
                         processState[0] = "event";
                         processState[1] = "Cleaning up ....";
                         processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
+                        processState[3] = "";
+                        processState[4] = "";
+                        processState[5] = "";
+                        processState[6] = "";
+                        processState[7] = "";
+                        processState[8] = "";
+                        processState[9] = "";
+                        processState[10] = "";
                         backgroundWorker.ReportProgress(99, processState);
 
                         if (backgroundWorker.CancellationPending == true)
@@ -3655,7 +4436,10 @@ namespace EnjinExportTool
                 {
 
                     //feedback.Foreground = new SolidColorBrush(Colors.Orange);
-
+                    if (results[10].ToString() != null)
+                    {
+                        feedbackMessage.Text = results[10].ToString();
+                    }
                 }
 
 
