@@ -21,7 +21,7 @@ Please fork if required once support has discontinued and the Enjin API has chan
 
 # Using the Tool
 
-Launch the application using the debug exe located in the  bin\Debug\ folder. Enter the required fields to be able to process successfully (*currently wont actually do anything*).
+Launch the application using the debug exe located in the  bin\Debug\ folder. Enter the required fields to be able to process successfully (*currently will only process forums/posts to migration path*).
 
 # Screenshots
 
@@ -43,3 +43,6 @@ Launch the application using the debug exe located in the  bin\Debug\ folder. En
 - MahApps UI - https://github.com/MahApps/MahApps.Metro
 - Material Design UI for WPF - https://github.com/ButchersBoy/MaterialDesignInXamlToolkit
 - Ookii Dialogs - https://www.nuget.org/packages/Ookii.Dialogs/
+- NewtonSoft - http://www.newtonsoft.com/json
+- HTMLAgility - https://www.nuget.org/packages/HtmlAgilityPack
+
