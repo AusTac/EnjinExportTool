@@ -34,9 +34,10 @@ Launch the application using the debug exe located in the  bin\Debug\ folder. En
 
 # Development List
 
-~~- Export User Posts API~~
-~~- Export Gallery API~~
-~~- Generate Migration folder(s)~~
+- ~~Export User Posts API~~
+- ~~Export Gallery API~~
+- ~~Generate Migration folder(s)~~
+- Export to Excel
 
 # Used Libraries
 
