@@ -21,7 +21,7 @@ Please fork if required once support has discontinued and the Enjin API has chan
 
 # Using the Tool
 
-Launch the application using the debug exe located in the  bin\Debug\ folder. Enter the required fields to be able to process successfully (*currently will only process forums/posts to migration path*).
+Launch the application using the debug exe located in the  bin\Debug\ folder. Enter the required fields to be able to process successfully.
 
 # Screenshots
 
