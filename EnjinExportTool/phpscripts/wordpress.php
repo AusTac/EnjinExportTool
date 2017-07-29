@@ -1,7 +1,20 @@
 ﻿<!DOCTYPE html>
 <html>
   <head>
-    <style>
+  
+  	  <title>Enjin Export Tool - Report</title>
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+    	<style>
+    	
+    	
+    	
+    	
+    	
       table {
       font-family: arial, sans-serif;
       border-collapse: collapse;
@@ -34,11 +47,33 @@
       }
 
     </style>
+
   </head>
+  <?php 
+  
+  $param = $_GET["view"];
+  
+  ?>
+  
+  
   <body>
 
     <div class="wrapper">
-      <div class="content">
+    <div class="container" style="margin-top:50px">
+      
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+	  <div class="container">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="index.php?view=">Enjin Export Tool</a>
+	    </div>
+	    <ul class="nav navbar-nav">
+	      <li class="<?php if($param == '' || $param == 'users'){ echo 'active';};?> " ><a href="index.php?view=users">Users</a></li>
+	      <li class="<?php if($param == 'forum_categories'){ echo 'active';};?> "><a href="index.php?view=forum_categories">Forum Caterories</a></li>
+	      <li class="<?php if($param == 'forum_threads'){ echo 'active';};?> "><a href="index.php?view=forum_threads">Forum Threads</a></li>
+	      <li class="<?php if($param == 'gallery'){ echo 'active';};?> "><a href="index.php?view=gallery">Gallery</a></li>
+	    </ul>
+	  </div>
+	</nav>
 
         <?php
 
@@ -71,6 +106,7 @@ $galleryToProcessContent = file_get_contents($galleryToProcess);
 //foreach on xml > export > categories
 try {
 
+	if($param == 'forum_categories'){
 	//html table
 	echo '<table class="tableCategories">
 	  <tr>
@@ -97,6 +133,9 @@ try {
 	
 	echo '</table>';
 	
+	}
+	
+	if($param == 'forum_threads'){
 	//html table
 	echo '<table class="tableForums">
 	  <tr>
@@ -124,6 +163,8 @@ try {
 	}
 	
 	echo '</table>';
+	
+	
 	
 	//html table
 	echo '<table class="threadsForums">
@@ -154,6 +195,10 @@ try {
 	
 	echo '</table>';
 	
+	}
+	
+	
+	if($param == '' || $param == 'users'){
 	//html table
 	echo '<table class="usersForums">
 	  <tr>
@@ -202,8 +247,11 @@ try {
 	}
 	
 	echo '</table>';
+	
+	}
   
-  //html table
+  	if($param == 'gallery'){
+  	//html table
 	echo '<table class="tableGalleryCategories">
 	  <tr>
 	    <th>Gallery Name</th>
@@ -227,29 +275,58 @@ try {
 	   
 	}
 	
+	
 	echo '</table>';
+	
+		echo '<table class="tableGalleryCategories">
+		  <tr>
+		    <th>Image</th>
+		    <th>Image Title</th>
+		    <th>Gallery Catergory</th>
+		    <th>Sync Name</th>
+		  </tr>';
+            
+           foreach($categoriesGallery->images as $image) {
+	   
+	   
+			   foreach($image->image as $imageItem) {
+			   	$catName = '';
+			   	
+			   	foreach($categoriesGallery->categories as $category) {
+						foreach($category->category as $categoryItem) {
+					   		
+					   		if($imageItem->album_id == $categoryItem->id) {
+								
+								$catName = $categoryItem->name;
+								
+							}
+					   }
+					   	
+	              }
+	              
+	                echo '<tr>';
+			   		echo '<td><img style="width: 100px;" src="'.$imageItem->thumbImagePath.'"></td>';
+			   		echo '<td>'.$imageItem->title.'</td>';
+			   		echo '<td>'.$catName.' ('.$imageItem->album_id.')</td>';
+			   		echo '<td>--</td>';
+			   		
+			   		echo '</tr>';
+			   
+			   }
+	   
+		} 
+            
+        echo '</table>';
   
-  
+  }
 
 }catch(Exception $error) {
 
 
 }
 
-//foreach on xml > export > forums
-
-
-//foreach on xml > export > threads
-
-
-//foreach on xml > export > users > user > post
-
-
-
-
 ?>
       </div>
     </div>
-
   </body>
 </html>
