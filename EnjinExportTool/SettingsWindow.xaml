@@ -18,7 +18,7 @@
                       WindowStartupLocation="CenterScreen" 
                       SaveWindowPosition="True" 
                       ShowSystemMenuOnRightClick="False" 
-                      TitleCaps="True" 
+                      TitleCaps="True"
                       TitleCharacterCasing="Upper">
     <Grid>
 

@@ -24,6 +24,8 @@ namespace EnjinExportTool
         {
             InitializeComponent();
 
+
+
             string appfolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             string ApplicationPath = System.IO.Path.Combine(appfolder, "EnjinExportTool/Application");
             if (!Directory.Exists(ApplicationPath)) Directory.CreateDirectory(ApplicationPath);
@@ -38,7 +40,7 @@ namespace EnjinExportTool
                     !string.IsNullOrEmpty(inif.Read("Application", "site_id")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "galley_preset_id")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "email")) &&
-                    !string.IsNullOrEmpty(inif.Read("Application", "password"))  &&
+                    !string.IsNullOrEmpty(inif.Read("Application", "password")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "migration_folder_path")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "exportType")) &&
                     Directory.Exists(inif.Read("Application", "migration_folder_path")))
@@ -53,48 +55,94 @@ namespace EnjinExportTool
                     password.Password = inif.Read("Application", "password");
                     migrationFolder.Text = inif.Read("Application", "migration_folder_path");
 
-                    if (inif.Read("Application", "forumData") == "")
+
+                    //forumData
+                    if (inif.Read("Application", "forumData") == "true")
                     {
 
+                        forumData.IsChecked = true;
+
+                    }
+                    else
+                    {
                         forumData.IsChecked = false;
 
                     }
 
 
-                    if (inif.Read("Application", "galleryData") == "")
+
+                    //galleryData
+                    if (inif.Read("Application", "galleryData") == "true")
                     {
 
+                        galleryData.IsChecked = true;
+
+                    }
+                    else
+                    {
                         galleryData.IsChecked = false;
 
                     }
 
-                    if (inif.Read("Application", "dlOriginal") == "")
+
+                    //dlOrg.
+                    if (inif.Read("Application", "dlOriginal") == "true")
                     {
 
-                        galleryData.IsChecked = false;
+                        dlOriginal.IsChecked = true;
+
+                    }
+                    else
+                    {
+                        dlOriginal.IsChecked = false;
 
                     }
 
-                    if (inif.Read("Application", "dlThumbnails") == "")
+
+
+                    //dlThumb.
+                    if (inif.Read("Application", "dlThumbnails") == "true")
                     {
 
-                        galleryData.IsChecked = false;
+                        dlThumbnails.IsChecked = true;
+
+                    }
+                    else
+                    {
+                        dlThumbnails.IsChecked = false;
 
                     }
 
-                    if (inif.Read("Application", "dlImages") == "")
+
+
+
+                    //dlImg.
+                    if (inif.Read("Application", "dlImages") == "true")
                     {
 
-                        galleryData.IsChecked = false;
+                        dlImages.IsChecked = true;
+
+                    }
+                    else
+                    {
+                        dlImages.IsChecked = false;
 
                     }
 
+
+                    //backup.
                     if (inif.Read("Application", "backupApiData") == "true")
                     {
 
                         dlData.IsChecked = true;
 
                     }
+                    else
+                    {
+                        dlData.IsChecked = false;
+
+                    }
+
 
                     if (inif.Read("Application", "exportType") == "xml")
                     {
@@ -139,6 +187,7 @@ namespace EnjinExportTool
             }
 
                 
+
 
 
         }
@@ -243,7 +292,7 @@ namespace EnjinExportTool
             else
             {
 
-                inif.Write("Application", "forumData", "false");
+                inif.Write("Application", "forumData", "");
 
             }
 
@@ -256,7 +305,7 @@ namespace EnjinExportTool
             else
             {
 
-                inif.Write("Application", "galleryData", "false");
+                inif.Write("Application", "galleryData", "");
 
             }
 
@@ -269,7 +318,7 @@ namespace EnjinExportTool
             else
             {
 
-                inif.Write("Application", "dlThumbnails", "false");
+                inif.Write("Application", "dlThumbnails", "");
 
             }
 
@@ -282,7 +331,7 @@ namespace EnjinExportTool
             else
             {
 
-                inif.Write("Application", "dlImages", "false");
+                inif.Write("Application", "dlImages", "");
 
             }
 
@@ -295,7 +344,7 @@ namespace EnjinExportTool
             else
             {
 
-                inif.Write("Application", "dlOriginal", "false");
+                inif.Write("Application", "dlOriginal", "");
 
             }
 
@@ -303,6 +352,12 @@ namespace EnjinExportTool
             {
 
                 inif.Write("Application", "backupApiData", "true");
+
+            }
+            else
+            {
+
+                inif.Write("Application", "backupApiData", "");
 
             }
 
@@ -442,5 +497,6 @@ namespace EnjinExportTool
 
 
         }
+
     }
 }
