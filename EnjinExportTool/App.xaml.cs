@@ -31,8 +31,12 @@ namespace EnjinExportTool
                     !string.IsNullOrEmpty(inif.Read("Application", "api_slug")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "tags_api_slug")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "site_id")) &&
+                    !string.IsNullOrEmpty(inif.Read("Application", "galley_preset_id")) &&
                     !string.IsNullOrEmpty(inif.Read("Application", "email")) &&
-                    !string.IsNullOrEmpty(inif.Read("Application", "password")))
+                    !string.IsNullOrEmpty(inif.Read("Application", "password")) &&
+                    !string.IsNullOrEmpty(inif.Read("Application", "migration_folder_path")) &&
+                    !string.IsNullOrEmpty(inif.Read("Application", "exportType")) &&
+                    Directory.Exists(inif.Read("Application", "migration_folder_path")))
                 {
 
                     Application curApp = Application.Current;

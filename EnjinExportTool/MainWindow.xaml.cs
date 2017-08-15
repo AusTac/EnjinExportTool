@@ -136,10 +136,6 @@ namespace EnjinExportTool
                 //string forumProcessing = (string)arg[1];
                 //string galleryProcessing = (string)arg[2];
 
-
-
-
-
                 string start_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
 
 
@@ -161,6 +157,9 @@ namespace EnjinExportTool
 
                 string JsonFolderGalleryPath = System.IO.Path.Combine(appfolder, JsonFolderPath + "/Galleries/");
                 if (!Directory.Exists(JsonFolderGalleryPath)) Directory.CreateDirectory(JsonFolderGalleryPath);
+
+                string LogPath = System.IO.Path.Combine(appfolder, "EnjinExportTool/Logging");
+                if (!Directory.Exists(LogPath)) Directory.CreateDirectory(LogPath);
 
                 INIFile inif = new INIFile(ApplicationPath + @"\Settings.ini");
 
@@ -319,6 +318,32 @@ namespace EnjinExportTool
 
                                         #endregion error ui
 
+                                        #region logging
+
+                                        try
+                                        {
+
+
+                                            //Logging                        
+
+                                            using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                            {
+                                                string time = DateTime.Now.ToString();
+                                                sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                                sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                                sw.WriteLine("LogType NullRef");
+                                                sw.WriteLine("LogMessage Could not validate the php execute script.");
+                                                sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                            }
+                                        }
+                                        catch (Exception log_error)
+                                        {
+                                            //super fail
+
+                                        }
+
+                                        #endregion logging
+
                                     }
 
                                 }
@@ -344,6 +369,33 @@ namespace EnjinExportTool
 
                                     #endregion error ui
 
+                                    #region logging
+
+                                    try
+                                    {
+
+
+                                        //Logging                        
+
+                                        using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                        {
+                                            string time = DateTime.Now.ToString();
+                                            sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                            sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                            sw.WriteLine("LogType NullRef");
+                                            sw.WriteLine("LogMessage Could not validate the php execute script. Might not be added as a resource during build/compile time.");
+                                            sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                        }
+                                    }
+                                    catch (Exception log_error)
+                                    {
+                                        //super fail
+
+                                    }
+
+                                    #endregion logging
+
+
                                 }
 
                             }catch(Exception error) {
@@ -366,6 +418,32 @@ namespace EnjinExportTool
                                 }
 
                                 #endregion error ui
+
+                                #region logging
+
+                                try
+                                {
+
+
+                                    //Logging                        
+
+                                    using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                    {
+                                        string time = DateTime.Now.ToString();
+                                        sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                        sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                        sw.WriteLine("LogType Exception");
+                                        sw.WriteLine("LogMessage " + error);
+                                        sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                    }
+                                }
+                                catch (Exception log_error)
+                                {
+                                    //super fail
+
+                                }
+
+                                #endregion logging
 
 
                             }
@@ -491,6 +569,32 @@ namespace EnjinExportTool
 
                                 #endregion error ui
 
+                                #region logging
+
+                                try
+                                {
+
+
+                                    //Logging                        
+
+                                    using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                    {
+                                        string time = DateTime.Now.ToString();
+                                        sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                        sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                        sw.WriteLine("LogType Exception");
+                                        sw.WriteLine("LogMessage Authentication failed the handshake between the enjin platform and your user details");
+                                        sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                    }
+                                }
+                                catch (Exception log_error)
+                                {
+                                    //super fail
+
+                                }
+
+                                #endregion logging
+
                             }
                             else
                             {
@@ -553,7 +657,7 @@ namespace EnjinExportTool
 
                                         #region error ui
                                         processState[0] = "error";
-                                        processState[1] = EnjinErrorModel[0].message.ToString();
+                                        processState[1] = "Error processing the API";
                                         processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
                                         backgroundWorker.ReportProgress(100, processState);
 
@@ -567,6 +671,32 @@ namespace EnjinExportTool
                                         }
 
                                         #endregion error ui
+
+                                        #region logging
+
+                                        try
+                                        {
+
+
+                                            //Logging                        
+
+                                            using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                            {
+                                                string time = DateTime.Now.ToString();
+                                                sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                                sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                                sw.WriteLine("LogType Exception");
+                                                sw.WriteLine("LogMessage " + error);
+                                                sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                            }
+                                        }
+                                        catch (Exception log_error)
+                                        {
+                                            //super fail
+
+                                        }
+
+                                        #endregion logging
 
 
                                     }
@@ -597,6 +727,32 @@ namespace EnjinExportTool
                                     }
 
                                     #endregion error ui
+
+                                    #region logging
+
+                                    try
+                                    {
+
+
+                                        //Logging                        
+
+                                        using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                        {
+                                            string time = DateTime.Now.ToString();
+                                            sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                            sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                            sw.WriteLine("LogType Exception");
+                                            sw.WriteLine("LogMessage " + errorJSONParse);
+                                            sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                        }
+                                    }
+                                    catch (Exception log_error)
+                                    {
+                                        //super fail
+
+                                    }
+
+                                    #endregion logging
 
                                 }
 
@@ -759,6 +915,32 @@ namespace EnjinExportTool
 
                                                     #endregion error ui
 
+                                                    #region logging
+
+                                                    try
+                                                    {
+
+
+                                                        //Logging                        
+
+                                                        using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                                        {
+                                                            string time = DateTime.Now.ToString();
+                                                            sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                                            sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                                            sw.WriteLine("LogType Exception");
+                                                            sw.WriteLine("LogMessage Could not authenticate the user");
+                                                            sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                                        }
+                                                    }
+                                                    catch (Exception log_error)
+                                                    {
+                                                        //super fail
+
+                                                    }
+
+                                                    #endregion logging
+
                                                 }
                                                 else
                                                 {
@@ -836,6 +1018,32 @@ namespace EnjinExportTool
 
                                                             #endregion error ui
 
+                                                            #region logging
+
+                                                            try
+                                                            {
+
+
+                                                                //Logging                        
+
+                                                                using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                                                {
+                                                                    string time = DateTime.Now.ToString();
+                                                                    sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                                                    sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                                                    sw.WriteLine("LogType Exception");
+                                                                    sw.WriteLine("LogMessage " + error);
+                                                                    sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                                                }
+                                                            }
+                                                            catch (Exception log_error)
+                                                            {
+                                                                //super fail
+
+                                                            }
+
+                                                            #endregion logging
+
 
                                                         }
 
@@ -865,6 +1073,32 @@ namespace EnjinExportTool
                                                         }
 
                                                         #endregion error ui
+
+                                                        #region logging
+
+                                                        try
+                                                        {
+
+
+                                                            //Logging                        
+
+                                                            using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                                            {
+                                                                string time = DateTime.Now.ToString();
+                                                                sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                                                sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                                                sw.WriteLine("LogType Exception");
+                                                                sw.WriteLine("LogMessage " + errorJSONParse);
+                                                                sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                                            }
+                                                        }
+                                                        catch (Exception log_error)
+                                                        {
+                                                            //super fail
+
+                                                        }
+
+                                                        #endregion logging
 
                                                     }
 
@@ -903,6 +1137,32 @@ namespace EnjinExportTool
 
                                             #endregion error ui
 
+                                            #region logging
+
+                                            try
+                                            {
+
+
+                                                //Logging                        
+
+                                                using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                                {
+                                                    string time = DateTime.Now.ToString();
+                                                    sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                                    sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                                    sw.WriteLine("LogType Exception");
+                                                    sw.WriteLine("LogMessage " + error);
+                                                    sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                                }
+                                            }
+                                            catch (Exception log_error)
+                                            {
+                                                //super fail
+
+                                            }
+
+                                            #endregion logging
+
 
                                         }
 
@@ -928,6 +1188,33 @@ namespace EnjinExportTool
                                         }
 
                                         #endregion error ui
+
+                                        #region logging
+
+                                        try
+                                        {
+
+
+                                            //Logging                        
+
+                                            using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                            {
+                                                string time = DateTime.Now.ToString();
+                                                sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                                sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                                sw.WriteLine("LogType Exception");
+                                                sw.WriteLine("LogMessage " + error);
+                                                sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                            }
+                                        }
+                                        catch (Exception log_error)
+                                        {
+                                            //super fail
+
+                                        }
+
+                                        #endregion logging
+
                                     }
 
 
@@ -951,6 +1238,32 @@ namespace EnjinExportTool
                                     }
 
                                     #endregion error ui
+
+                                    #region logging
+
+                                    try
+                                    {
+
+
+                                        //Logging                        
+
+                                        using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                        {
+                                            string time = DateTime.Now.ToString();
+                                            sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                            sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                            sw.WriteLine("LogType Exception");
+                                            sw.WriteLine("LogMessage Authentication failed");
+                                            sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                        }
+                                    }
+                                    catch (Exception log_error)
+                                    {
+                                        //super fail
+
+                                    }
+
+                                    #endregion logging
 
 
                                 }
@@ -1645,6 +1958,32 @@ namespace EnjinExportTool
 
                                                                             #endregion error ui
 
+                                                                            #region logging
+
+                                                                            try
+                                                                            {
+
+
+                                                                                //Logging                        
+
+                                                                                using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                                                                {
+                                                                                    string time = DateTime.Now.ToString();
+                                                                                    sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                                                                    sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                                                                    sw.WriteLine("LogType Skip");
+                                                                                    sw.WriteLine("LogMessage Skipped Gallery Export due to settings");
+                                                                                    sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                                                                }
+                                                                            }
+                                                                            catch (Exception log_error)
+                                                                            {
+                                                                                //super fail
+
+                                                                            }
+
+                                                                            #endregion logging
+
 
                                                                         }
                                                                         #endregion do if
@@ -1773,7 +2112,31 @@ namespace EnjinExportTool
 
                                                 //All list need at least 1 count on each ...
                                                 //Update UI with error message state
+                                                #region logging
 
+                                                try
+                                                {
+
+
+                                                    //Logging                        
+
+                                                    using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                                    {
+                                                        string time = DateTime.Now.ToString();
+                                                        sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                                        sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                                        sw.WriteLine("LogType Exception");
+                                                        sw.WriteLine("LogMessage Gallery Catergory Model Lists are empty");
+                                                        sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                                    }
+                                                }
+                                                catch (Exception log_error)
+                                                {
+                                                    //super fail
+
+                                                }
+
+                                                #endregion logging
 
 
                                             }
@@ -1933,7 +2296,31 @@ namespace EnjinExportTool
 
 
                                                 //no errors reported ... hmmm...
+                                                #region logging
 
+                                                try
+                                                {
+
+
+                                                    //Logging                        
+
+                                                    using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                                    {
+                                                        string time = DateTime.Now.ToString();
+                                                        sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                                        sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                                        sw.WriteLine("LogType Exception");
+                                                        sw.WriteLine("LogMessage No errors reported when exporting the gallery");
+                                                        sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                                    }
+                                                }
+                                                catch (Exception log_error)
+                                                {
+                                                    //super fail
+
+                                                }
+
+                                                #endregion logging
 
 
                                             }
@@ -1996,6 +2383,32 @@ namespace EnjinExportTool
 
                                             #endregion error ui
 
+                                            #region logging
+
+                                            try
+                                            {
+
+
+                                                //Logging                        
+
+                                                using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                                {
+                                                    string time = DateTime.Now.ToString();
+                                                    sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                                    sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                                    sw.WriteLine("LogType Exception");
+                                                    sw.WriteLine("LogMessage " + apiGalleryError);
+                                                    sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                                }
+                                            }
+                                            catch (Exception log_error)
+                                            {
+                                                //super fail
+
+                                            }
+
+                                            #endregion logging
+
                                         }
 
                                         #endregion do try api gallery
@@ -2021,6 +2434,32 @@ namespace EnjinExportTool
 
                                         #endregion error ui
 
+                                        #region logging
+
+                                        try
+                                        {
+
+
+                                            //Logging                        
+
+                                            using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                            {
+                                                string time = DateTime.Now.ToString();
+                                                sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                                sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                                sw.WriteLine("LogType Exception");
+                                                sw.WriteLine("LogMessage Gallery failed ...");
+                                                sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                            }
+                                        }
+                                        catch (Exception log_error)
+                                        {
+                                            //super fail
+
+                                        }
+
+                                        #endregion logging
+
                                     }
 
                                     #endregion do gallery work
@@ -2044,6 +2483,32 @@ namespace EnjinExportTool
                                     }
 
                                     #endregion error ui
+
+                                    #region logging
+
+                                    try
+                                    {
+
+
+                                        //Logging                        
+
+                                        using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                        {
+                                            string time = DateTime.Now.ToString();
+                                            sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                            sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                            sw.WriteLine("LogType Exception");
+                                            sw.WriteLine("LogMessage Gallery failed ...");
+                                            sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                        }
+                                    }
+                                    catch (Exception log_error)
+                                    {
+                                        //super fail
+
+                                    }
+
+                                    #endregion logging
 
                                 }
 
@@ -2127,6 +2592,32 @@ namespace EnjinExportTool
                                     }
 
                                     #endregion error ui
+
+                                    #region logging
+
+                                    try
+                                    {
+
+
+                                        //Logging                        
+
+                                        using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                        {
+                                            string time = DateTime.Now.ToString();
+                                            sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                            sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                            sw.WriteLine("LogType Exception");
+                                            sw.WriteLine("LogMessage User count was 0");
+                                            sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                        }
+                                    }
+                                    catch (Exception log_error)
+                                    {
+                                        //super fail
+
+                                    }
+
+                                    #endregion logging
 
                                 }
                                 else
@@ -4166,9 +4657,37 @@ namespace EnjinExportTool
 
                                                                                         });
 
+
+                                                                                        #region logging
+
+                                                                                        try
+                                                                                        {
+
+
+                                                                                            //Logging                        
+
+                                                                                            using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                                                                            {
+                                                                                                string time = DateTime.Now.ToString();
+                                                                                                sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                                                                                sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                                                                                sw.WriteLine("LogType Exception");
+                                                                                                sw.WriteLine("LogMessage " + error);
+                                                                                                sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                                                                            }
+                                                                                        }
+                                                                                        catch (Exception log_error)
+                                                                                        {
+                                                                                            //super fail
+
+                                                                                        }
+
+                                                                                        #endregion logging
+
+
                                                                                     }
 
-
+                                                                                    
 
 
 
@@ -4187,6 +4706,34 @@ namespace EnjinExportTool
                                                                                         sync_time = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now)
 
                                                                                     });
+
+
+                                                                                    #region logging
+
+                                                                                    try
+                                                                                    {
+
+
+                                                                                        //Logging                        
+
+                                                                                        using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                                                                        {
+                                                                                            string time = DateTime.Now.ToString();
+                                                                                            sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                                                                            sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                                                                            sw.WriteLine("LogType Exception");
+                                                                                            sw.WriteLine("LogMessage " + error);
+                                                                                            sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                                                                        }
+                                                                                    }
+                                                                                    catch (Exception log_error)
+                                                                                    {
+                                                                                        //super fail
+
+                                                                                    }
+
+                                                                                    #endregion logging
+
 
                                                                                 }
 
@@ -4227,6 +4774,34 @@ namespace EnjinExportTool
                                                             });
 
 
+
+                                                            #region logging
+
+                                                            try
+                                                            {
+
+
+                                                                //Logging                        
+
+                                                                using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                                                {
+                                                                    string time = DateTime.Now.ToString();
+                                                                    sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                                                    sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                                                    sw.WriteLine("LogType Exception");
+                                                                    sw.WriteLine("LogMessage " + error);
+                                                                    sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                                                }
+                                                            }
+                                                            catch (Exception log_error)
+                                                            {
+                                                                //super fail
+
+                                                            }
+
+                                                            #endregion logging
+
+
                                                         }
 
 
@@ -4241,7 +4816,31 @@ namespace EnjinExportTool
 
                                                     //missed user exporting .. not good really.
                                                     //do UI update error message - FATAL
+                                                    #region logging
 
+                                                    try
+                                                    {
+
+
+                                                        //Logging                        
+
+                                                        using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                                        {
+                                                            string time = DateTime.Now.ToString();
+                                                            sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                                            sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                                            sw.WriteLine("LogType Exception");
+                                                            sw.WriteLine("LogMessage missed user exporting .. not good really");
+                                                            sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                                        }
+                                                    }
+                                                    catch (Exception log_error)
+                                                    {
+                                                        //super fail
+
+                                                    }
+
+                                                    #endregion logging
 
                                                 }
 
@@ -4268,7 +4867,31 @@ namespace EnjinExportTool
 
                                         //All list need at least 1 count on each ...
                                         //Update UI with error message state
+                                        #region logging
 
+                                        try
+                                        {
+
+
+                                            //Logging                        
+
+                                            using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                            {
+                                                string time = DateTime.Now.ToString();
+                                                sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                                sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                                sw.WriteLine("LogType Exception");
+                                                sw.WriteLine("LogMessage User API List were empty");
+                                                sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                            }
+                                        }
+                                        catch (Exception log_error)
+                                        {
+                                            //super fail
+
+                                        }
+
+                                        #endregion logging
 
 
                                     }else
@@ -4519,7 +5142,31 @@ namespace EnjinExportTool
                                        
                                         //no errors reported ... hmmm...
 
+                                        #region logging
 
+                                        try
+                                        {
+
+
+                                            //Logging                        
+
+                                            using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                            {
+                                                string time = DateTime.Now.ToString();
+                                                sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                                sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                                sw.WriteLine("LogType Exception");
+                                                sw.WriteLine("LogMessage no errors report during user api export");
+                                                sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                            }
+                                        }
+                                        catch (Exception log_error)
+                                        {
+                                            //super fail
+
+                                        }
+
+                                        #endregion logging
 
                                     }
                                     else
@@ -4587,6 +5234,32 @@ namespace EnjinExportTool
                             }
 
                             #endregion error ui
+
+                            #region logging
+
+                            try
+                            {
+
+
+                                //Logging                        
+
+                                using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                                {
+                                    string time = DateTime.Now.ToString();
+                                    sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                    sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                    sw.WriteLine("LogType Exception");
+                                    sw.WriteLine("LogMessage Session ID was null ...");
+                                    sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                                }
+                            }
+                            catch (Exception log_error)
+                            {
+                                //super fail
+
+                            }
+
+                            #endregion logging
 
                         }
 
@@ -4759,6 +5432,32 @@ namespace EnjinExportTool
                         }
 
 
+                        #region logging
+
+                        try
+                        {
+
+
+                            //Logging                        
+
+                            using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                            {
+                                string time = DateTime.Now.ToString();
+                                sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                sw.WriteLine("LogType Success");
+                                sw.WriteLine("LogMessage Export process completed successfully");
+                                sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                            }
+                        }
+                        catch (Exception log_error)
+                        {
+                            //super fail
+
+                        }
+
+                        #endregion logging
+
 
                     }
                     catch (Exception error)
@@ -4785,6 +5484,32 @@ namespace EnjinExportTool
 
                         #endregion error ui
 
+                        #region logging
+
+                        try
+                        {
+
+
+                            //Logging                        
+
+                            using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                            {
+                                string time = DateTime.Now.ToString();
+                                sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                sw.WriteLine("LogType Exception");
+                                sw.WriteLine("LogMessage " + error);
+                                sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                            }
+                        }
+                        catch (Exception log_error)
+                        {
+                            //super fail
+
+                        }
+
+                        #endregion logging
+
                     }
                     #endregion try login
 
@@ -4792,7 +5517,7 @@ namespace EnjinExportTool
 
                         #region error ui
                         processState[0] = "error";
-                        processState[1] = "processing failed";
+                        processState[1] = "Error - Could not validate directories";
                         processState[2] = string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now);
                         backgroundWorker.ReportProgress(100, processState);
 
@@ -4806,6 +5531,33 @@ namespace EnjinExportTool
                         }
 
                         #endregion error ui
+
+                        #region logging
+
+                        try
+                        {
+
+
+                            //Logging                        
+
+                            using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                            {
+                                string time = DateTime.Now.ToString();
+                                sw.WriteLine("LogStart -------------------------------------------------------------------");
+                                sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                                sw.WriteLine("LogType Exception");
+                                sw.WriteLine("LogMessage could not locate the path params passed. Check directories exist.");
+                                sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                            }
+                        }
+                        catch (Exception log_error)
+                        {
+                            //super fail
+
+                        }
+
+                        #endregion logging
+
 
                     }
 
@@ -4829,6 +5581,32 @@ namespace EnjinExportTool
                     }
 
                     #endregion error ui
+
+                    #region logging
+
+                    try
+                    {
+
+
+                        //Logging                        
+
+                        using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                        {
+                            string time = DateTime.Now.ToString();
+                            sw.WriteLine("LogStart -------------------------------------------------------------------");
+                            sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                            sw.WriteLine("LogType Exception");
+                            sw.WriteLine("LogMessage " + errorChecks);
+                            sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                        }
+                    }
+                    catch (Exception log_error)
+                    {
+                        //super fail
+
+                    }
+
+                    #endregion logging
 
                 }
 
@@ -4859,7 +5637,34 @@ namespace EnjinExportTool
 
                 #endregion error ui
 
+                #region logging
 
+                try
+                {
+
+
+                    //Logging
+                    string appfolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                    string LogPath = System.IO.Path.Combine(appfolder, "EnjinExportTool/Logging");
+                    if (!Directory.Exists(LogPath)) Directory.CreateDirectory(LogPath);
+
+                    using (StreamWriter sw = File.AppendText(LogPath + "/log.txt"))
+                    {
+                        string time = DateTime.Now.ToString();
+                        sw.WriteLine("LogStart -------------------------------------------------------------------");
+                        sw.WriteLine("LogEventTimestamp " + string.Format("{0:yyyy-MM-dd H:m:s}", DateTime.Now));
+                        sw.WriteLine("LogType Exception");
+                        sw.WriteLine("LogMessage " + error);
+                        sw.WriteLine("LogEnd -------------------------------------------------------------------");
+                    }
+                }
+                catch (Exception log_error)
+                {
+                    //super fail
+
+                }
+
+                #endregion logging
 
 
             }
