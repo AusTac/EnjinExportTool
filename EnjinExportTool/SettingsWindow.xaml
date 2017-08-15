@@ -79,7 +79,7 @@
 
                         </TextBox>
 
-                        <Label Content="Base Url" Grid.Column="0" Grid.Row="1" Padding="1" Margin="0,5,0,10"/>
+                        <Label Content="Base Url (requires end slash)" Grid.Column="0" Grid.Row="1" Padding="1" Margin="0,5,0,10"/>
                         <Label Content="API V1 Slug" Margin="0,5,0,10" Grid.Column="1" Grid.Row="1" Padding="1"/>
                         <Label Content="API Tags Slug" Margin="0,5,0,10" Grid.Column="2" Grid.Row="1" Padding="1"/>
 
